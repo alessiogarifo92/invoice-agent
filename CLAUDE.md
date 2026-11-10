@@ -18,4 +18,4 @@ Run / preview (manual gate): to be defined in ticket 0 (Docker compose + Postgre
 
 Repo visibility: public (check: `gh api repos/<owner>/<repo> --jq .private`). Private means finite GitHub Actions minutes: `npm run verify` / `make verify` locally is the push gate, and a CI job that never starts follows `test-verification`'s billing fallback.
 
-Needed environment variables / connectors for this project: `ANTHROPIC_API_KEY` (CI and hosting secret only, never in the repo); further variables are added by the tickets that introduce them. No `.mcp.json`.
+Needed environment variables / connectors for this project: `GEMINI_API_KEY` (primary LLM, free tier), `GROQ_API_KEY` (optional free fallback), `ANTHROPIC_API_KEY` (optional, off by default) — all CI and hosting secrets only, never in the repo (see the phase 2 amendment in `docs/decisions.md`); further variables are added by the tickets that introduce them. No `.mcp.json`.

@@ -36,6 +36,30 @@ Licenses: all dependencies MIT / Apache-2.0 / BSD; psycopg LGPL-3.0 used unmodif
 
 Risks: Render + Neon cold start (loading page in the UI); Neon 0.5 GB (PDFs stay out of the DB — superseded in phase 3); one awake Render service only, no keep-alive pinger; Haiku prompts < 100k tokens (price 5x above).
 
+## Phase 2 amendment — free LLM providers (confirmed 2026-11-10)
+
+The user asked for $0 LLM spend and confirmed this change. It supersedes the "LLM" row of phase 2 and the Anthropic-specific parts of phase 3. A Claude subscription cannot power the app: Anthropic's terms reserve subscription OAuth for Anthropic's own products.
+
+| Role | Provider | Free tier (checked 2026-11-10) | Notes |
+|---|---|---|---|
+| Primary (extraction + triage agent) | Google Gemini API, Flash / Flash-Lite models (AI Studio key) | Free of charge, no card; daily request quota, recently reduced | Free-tier content is used by Google to improve its products. Acceptable only because every invoice is synthetic, and uploads stay behind the demo token. |
+| Fallback | Groq (open models: gpt-oss, Llama, Qwen) | Free, no card; ~30 RPM, ~1K requests/day per model | Text only: it receives the pdfplumber text, never the PDF. |
+| Optional | Anthropic Claude (Haiku / Sonnet) | Paid per use, Console spend limit | Off by default; one setting turns it on. Kept for the eval comparison and for the portfolio. |
+
+Rejected: Cloudflare Workers AI (hard stop, good; but smaller models, weaker on structured extraction); a local Ollama (it cannot run on Render Free).
+
+What changes in phase 3:
+- `llm` becomes a provider-agnostic gateway. A `Provider` interface has `complete_structured()` (Pydantic schema) and `run_tools()`, with one adapter each for Gemini, Groq and Anthropic. The provider and model are set from env (`LLM_PROVIDER`, `LLM_MODEL_EXTRACT`, `LLM_MODEL_AGENT`). `processing_runs` records the provider too.
+- Extraction keeps the pdfplumber text as its input for every provider, so the grounding check and the hidden-text rules stay identical. Gemini's native PDF input is not used in v1.
+- **Spend control becomes quota control.** A daily-quota 429 (or a provider's equivalent) is never retried. It falls through to the fallback provider once; if the fallback is also exhausted, the invoice goes to `awaiting_quota` and the UI shows the "demo budget used, back tomorrow" banner. A per-minute 429 with `retry-after` is retried. The ledger counts calls and tokens per provider per day, with a daily soft cap below the free quota. The Anthropic $9/$10 caps apply only when Claude is turned on.
+- The policy gate, strict read-only tools, the 8-call limit, the evidence_ref check and the injection defence are unchanged and provider-independent. `tool_choice` and thinking settings become adapter details.
+- CI uses its own free keys (a separate Google Cloud project, and a separate Groq key), so CI never eats the demo's daily quota. Layer 2 and Layer 3 evals cost $0 but are capped by quota: Layer 3 stays on demand.
+- Observability: OTel GenAI spans from our gateway; provider SDK auto-instrumentation where available.
+
+Cost profile: fixed $0, LLM $0. The new risk is quota, not money: at 10x volume (~3,000 invoices/month, ~100/day) the free quotas still fit, with the fallback provider as the margin.
+
+Environment variables: `GEMINI_API_KEY`, `GROQ_API_KEY` (optional fallback), `ANTHROPIC_API_KEY` (optional, off by default). All three are CI/hosting secrets only.
+
 ## Phase 3 — Architecture
 
 Confirmed by the user on 2026-11-10, after one `architect` proposal and one `critic` review (cross-verification Mode A). The user accepted every recommendation below.
