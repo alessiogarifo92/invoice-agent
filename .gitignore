@@ -19,3 +19,4 @@ dist/
 
 # Generated synthetic data
 data/generated/
+.claude/worktrees/
