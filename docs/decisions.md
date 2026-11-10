@@ -183,4 +183,12 @@ The Vue app is static on Cloudflare Pages and calls the API through a CORS allow
 
 ## Phase 3.5 — Design UI/UX
 
-_Not started._
+**Decided 2026-11-10: direction C "Case File".** Full tokens in [`DESIGN.md`](../DESIGN.md).
+
+- Compared on one canvas (private, owner-only): https://claude.ai/artifact/KzzVogMqmcH6MgwDzg9pFP. Three directions, each drawn on the same two screens (Inbox, Invoice review):
+  - A "Ledger": dense table, footnote markers on the PDF.
+  - B "Control Room": dark console, lanes per action, three-pane review.
+  - C "Case File": white, narrative single column, one case per invoice explained in a sentence.
+- Why C: the reviewer and a portfolio visitor read each case top to bottom: verdict, evidence, how the action was set (rule floor vs agent), agent rationale, decision, audit chain. The anomaly is understandable without decoding a table or a dashboard.
+- Kept from the other directions: numbered evidence markers on the PDF (A). They link the PDF drawer to the evidence section.
+- UI copy never names models; the "server waking up" and "demo budget used" states are first-class banners, not errors.
