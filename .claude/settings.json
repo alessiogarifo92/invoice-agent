@@ -1,0 +1,25 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/session-start-hook.sh\""
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "for f in \"$HOME/.claude/hooks/careful-guard.sh\" /home/user/claude-skills/scripts/careful-guard.sh \"$HOME/claude-skills/scripts/careful-guard.sh\" \"$HOME/.claude-skills-repo/scripts/careful-guard.sh\"; do [ -f \"$f\" ] && exec bash \"$f\"; done; exit 0"
+          }
+        ]
+      }
+    ]
+  }
+}
