@@ -1,0 +1,58 @@
+{
+  "invoice_id": "INV-SEED-049",
+  "file": "INV-SEED-049.pdf",
+  "fields": {
+    "vendor_name": "Reynaud Electrical Synthetica SARL",
+    "vendor_vat_id": "FR99996268292",
+    "vendor_country": "FR",
+    "vendor_address": "83, avenue André Dijoux, 38193 Lagarde-sur-Mer, France",
+    "invoice_number": "F-2026-0117",
+    "issue_date": "2026-08-02",
+    "due_date": "2026-10-01",
+    "currency": "EUR",
+    "po_number": "PO-2026-0047",
+    "iban": "FR79QQZX5978002126928647224",
+    "lines": [
+      {
+        "line_no": 1,
+        "sku": "SKU-032",
+        "description": "Cable ties 300 mm, bag of 100",
+        "quantity": "50",
+        "unit_price": "5.46",
+        "line_total": "273.00"
+      },
+      {
+        "line_no": 2,
+        "sku": "SKU-030",
+        "description": "Installation cable 3G1.5, 100 m",
+        "quantity": "5",
+        "unit_price": "78.18",
+        "line_total": "390.90"
+      },
+      {
+        "line_no": 3,
+        "sku": "SKU-029",
+        "description": "LED panel 60x60 cm, 36 W",
+        "quantity": "58",
+        "unit_price": "38.61",
+        "line_total": "2239.38"
+      },
+      {
+        "line_no": 4,
+        "sku": "SKU-031",
+        "description": "Circuit breaker C16, 1 pole",
+        "quantity": "95",
+        "unit_price": "6.58",
+        "line_total": "625.10"
+      }
+    ],
+    "subtotal": "3528.38",
+    "vat_rate": "20.00",
+    "vat_amount": "705.68",
+    "total": "4234.06"
+  },
+  "anomalies": [],
+  "expected_action": "approve",
+  "duplicate_of": null,
+  "notes": "Clean invoice: matches its PO, the contract prices and the vendor master data."
+}

@@ -1,0 +1,42 @@
+{
+  "invoice_id": "INV-SEED-045",
+  "file": "INV-SEED-045.pdf",
+  "fields": {
+    "vendor_name": "Mannoia Packaging Synthetica S.r.l.",
+    "vendor_vat_id": "IT99552853588",
+    "vendor_country": "IT",
+    "vendor_address": "Canale Palombi, 492, 31015 Sant'Eustachio, Italy",
+    "invoice_number": "INV-0091",
+    "issue_date": "2026-07-25",
+    "due_date": "2026-09-08",
+    "currency": "EUR",
+    "po_number": "PO-2026-0041",
+    "iban": "IT60ZQZX8259763297832234114",
+    "lines": [
+      {
+        "line_no": 1,
+        "sku": "SKU-003",
+        "description": "Packing tape 50 mm x 66 m",
+        "quantity": "393",
+        "unit_price": "2.30",
+        "line_total": "903.90"
+      },
+      {
+        "line_no": 2,
+        "sku": "SKU-002",
+        "description": "Pallet stretch film 23 micron",
+        "quantity": "21",
+        "unit_price": "22.66",
+        "line_total": "475.86"
+      }
+    ],
+    "subtotal": "1379.76",
+    "vat_rate": "22.00",
+    "vat_amount": "303.55",
+    "total": "1683.31"
+  },
+  "anomalies": [],
+  "expected_action": "approve",
+  "duplicate_of": null,
+  "notes": "Clean invoice: matches its PO, the contract prices and the vendor master data."
+}

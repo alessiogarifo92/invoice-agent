@@ -1,0 +1,42 @@
+{
+  "invoice_id": "INV-SEED-030",
+  "file": "INV-SEED-030.pdf",
+  "fields": {
+    "vendor_name": "Mannoia Packaging Synthetica S.r.l.",
+    "vendor_vat_id": "IT99552853588",
+    "vendor_country": "IT",
+    "vendor_address": "Canale Palombi, 492, 31015 Sant'Eustachio, Italy",
+    "invoice_number": "INV-0085",
+    "issue_date": "2026-06-08",
+    "due_date": "2026-07-23",
+    "currency": "EUR",
+    "po_number": "PO-2026-0029",
+    "iban": "IT60ZQZX8259763297832234114",
+    "lines": [
+      {
+        "line_no": 1,
+        "sku": "SKU-002",
+        "description": "Pallet stretch film 23 micron",
+        "quantity": "33",
+        "unit_price": "22.66",
+        "line_total": "747.78"
+      },
+      {
+        "line_no": 2,
+        "sku": "SKU-001",
+        "description": "Corrugated box 40x30x20 cm",
+        "quantity": "591",
+        "unit_price": "2.01",
+        "line_total": "1187.91"
+      }
+    ],
+    "subtotal": "1935.69",
+    "vat_rate": "22.00",
+    "vat_amount": "425.85",
+    "total": "2361.54"
+  },
+  "anomalies": [],
+  "expected_action": "approve",
+  "duplicate_of": null,
+  "notes": "Clean invoice: matches its PO, the contract prices and the vendor master data."
+}

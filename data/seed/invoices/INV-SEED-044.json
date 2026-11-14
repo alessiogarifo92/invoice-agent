@@ -1,0 +1,60 @@
+{
+  "invoice_id": "INV-SEED-044",
+  "file": "INV-SEED-044.pdf",
+  "fields": {
+    "vendor_name": "Lacroix Fasteners Synthetica SARL",
+    "vendor_vat_id": "FR99762737040",
+    "vendor_country": "FR",
+    "vendor_address": "46, rue de Samson, 31545 Schmitt, France",
+    "invoice_number": "F-2026-0307",
+    "issue_date": "2026-07-22",
+    "due_date": "2026-09-20",
+    "currency": "EUR",
+    "po_number": "PO-2026-0043",
+    "iban": "FR26XZXZ6078323561710186335",
+    "lines": [
+      {
+        "line_no": 1,
+        "sku": "SKU-009",
+        "description": "Hex bolt M8 x 40, box of 100",
+        "quantity": "73",
+        "unit_price": "11.87",
+        "line_total": "866.51"
+      },
+      {
+        "line_no": 2,
+        "sku": "SKU-010",
+        "description": "Stainless washer M8, box of 200",
+        "quantity": "72",
+        "unit_price": "7.42",
+        "line_total": "534.24"
+      },
+      {
+        "line_no": 3,
+        "sku": "SKU-011",
+        "description": "Wall anchor 10 mm, box of 50",
+        "quantity": "19",
+        "unit_price": "10.58",
+        "line_total": "201.02"
+      },
+      {
+        "line_no": 4,
+        "sku": "SKU-012",
+        "description": "Threaded rod M10 x 1 m",
+        "quantity": "18",
+        "unit_price": "3.19",
+        "line_total": "57.42"
+      }
+    ],
+    "subtotal": "1659.19",
+    "vat_rate": "5.50",
+    "vat_amount": "91.26",
+    "total": "1750.45"
+  },
+  "anomalies": [
+    "wrong_vat"
+  ],
+  "expected_action": "clarify",
+  "duplicate_of": null,
+  "notes": "VAT charged at 5.50% instead of the 20.00% rate for FR; amounts are otherwise consistent."
+}
