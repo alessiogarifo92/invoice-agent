@@ -1,0 +1,42 @@
+{
+  "invoice_id": "INV-SEED-019",
+  "file": "INV-SEED-019.pdf",
+  "fields": {
+    "vendor_name": "Dennenberg IT Hardware Synthetica B.V.",
+    "vendor_vat_id": "NL997340048B01",
+    "vendor_country": "NL",
+    "vendor_address": "Aminadreef 0, 1362 AN West-Graftdijk, Netherlands",
+    "invoice_number": "FAC-2026-291",
+    "issue_date": "2026-04-20",
+    "due_date": "2026-05-20",
+    "currency": "EUR",
+    "po_number": "PO-2026-0021",
+    "iban": "NL62ZQZX1698487100",
+    "lines": [
+      {
+        "line_no": 1,
+        "sku": "SKU-020",
+        "description": "Cat6 patch cable 2 m",
+        "quantity": "151",
+        "unit_price": "4.40",
+        "line_total": "664.40"
+      },
+      {
+        "line_no": 2,
+        "sku": "SKU-017",
+        "description": "USB-C docking station",
+        "quantity": "15",
+        "unit_price": "148.72",
+        "line_total": "2230.80"
+      }
+    ],
+    "subtotal": "2895.20",
+    "vat_rate": "21.00",
+    "vat_amount": "607.99",
+    "total": "3503.19"
+  },
+  "anomalies": [],
+  "expected_action": "approve",
+  "duplicate_of": null,
+  "notes": "Clean invoice: matches its PO, the contract prices and the vendor master data."
+}

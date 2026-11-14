@@ -1,0 +1,42 @@
+{
+  "invoice_id": "INV-SEED-046",
+  "file": "INV-SEED-046.pdf",
+  "fields": {
+    "vendor_name": "Martin Office Supplies Synthetica GmbH",
+    "vendor_vat_id": "DE992138761",
+    "vendor_country": "DE",
+    "vendor_address": "Frankestraße 39/21, 77424 Chemnitz, Germany",
+    "invoice_number": "2026/328",
+    "issue_date": "2026-07-28",
+    "due_date": "2026-09-11",
+    "currency": "EUR",
+    "po_number": "PO-2026-0046",
+    "iban": "DE54XZXZ20145237421309",
+    "lines": [
+      {
+        "line_no": 1,
+        "sku": "SKU-005",
+        "description": "A4 copy paper 80 g, 500 sheets",
+        "quantity": "387",
+        "unit_price": "5.66",
+        "line_total": "2190.42"
+      },
+      {
+        "line_no": 2,
+        "sku": "SKU-006",
+        "description": "Toner cartridge, black",
+        "quantity": "16",
+        "unit_price": "90.66",
+        "line_total": "1450.56"
+      }
+    ],
+    "subtotal": "3640.98",
+    "vat_rate": "19.00",
+    "vat_amount": "691.79",
+    "total": "4332.77"
+  },
+  "anomalies": [],
+  "expected_action": "approve",
+  "duplicate_of": null,
+  "notes": "Clean invoice: matches its PO, the contract prices and the vendor master data."
+}

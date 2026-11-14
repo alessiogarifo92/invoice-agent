@@ -1,0 +1,58 @@
+{
+  "invoice_id": "INV-SEED-001",
+  "file": "INV-SEED-001.pdf",
+  "fields": {
+    "vendor_name": "Posada Catering Synthetica S.L.",
+    "vendor_vat_id": "ES997039099",
+    "vendor_country": "ES",
+    "vendor_address": "Cañada Américo Marí 50, 34048 Córdoba, Spain",
+    "invoice_number": "RE-00339",
+    "issue_date": "2026-01-23",
+    "due_date": "2026-02-22",
+    "currency": "EUR",
+    "po_number": "PO-2026-0001",
+    "iban": "ES25ZZZZ7221269179025458",
+    "lines": [
+      {
+        "line_no": 1,
+        "sku": "SKU-034",
+        "description": "Paper cups 200 ml, pack of 100",
+        "quantity": "50",
+        "unit_price": "6.77",
+        "line_total": "338.50"
+      },
+      {
+        "line_no": 2,
+        "sku": "SKU-033",
+        "description": "Coffee beans, 1 kg bag",
+        "quantity": "16",
+        "unit_price": "17.19",
+        "line_total": "275.04"
+      },
+      {
+        "line_no": 3,
+        "sku": "SKU-036",
+        "description": "Tea bags, box of 100",
+        "quantity": "14",
+        "unit_price": "5.69",
+        "line_total": "79.66"
+      },
+      {
+        "line_no": 4,
+        "sku": "SKU-035",
+        "description": "Bottled water 0.5 L, crate of 24",
+        "quantity": "92",
+        "unit_price": "8.06",
+        "line_total": "741.52"
+      }
+    ],
+    "subtotal": "1434.72",
+    "vat_rate": "21.00",
+    "vat_amount": "301.29",
+    "total": "1736.01"
+  },
+  "anomalies": [],
+  "expected_action": "approve",
+  "duplicate_of": null,
+  "notes": "Clean invoice: matches its PO, the contract prices and the vendor master data."
+}

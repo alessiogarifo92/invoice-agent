@@ -1,0 +1,34 @@
+{
+  "invoice_id": "INV-SEED-047",
+  "file": "INV-SEED-047.pdf",
+  "fields": {
+    "vendor_name": "Reynaud Electrical Synthetica SARL",
+    "vendor_vat_id": "FR99996268292",
+    "vendor_country": "FR",
+    "vendor_address": "83, avenue André Dijoux, 38193 Lagarde-sur-Mer, France",
+    "invoice_number": "F-2026-0115",
+    "issue_date": "2026-07-31",
+    "due_date": "2026-09-29",
+    "currency": "EUR",
+    "po_number": "PO-2026-0048",
+    "iban": "FR79QQZX5978002126928647224",
+    "lines": [
+      {
+        "line_no": 1,
+        "sku": "SKU-030",
+        "description": "Installation cable 3G1.5, 100 m",
+        "quantity": "7",
+        "unit_price": "78.18",
+        "line_total": "547.26"
+      }
+    ],
+    "subtotal": "547.26",
+    "vat_rate": "20.00",
+    "vat_amount": "109.45",
+    "total": "656.71"
+  },
+  "anomalies": [],
+  "expected_action": "approve",
+  "duplicate_of": null,
+  "notes": "Clean invoice: matches its PO, the contract prices and the vendor master data."
+}
