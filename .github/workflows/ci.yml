@@ -22,6 +22,25 @@ jobs:
           cache: npm
           cache-dependency-path: frontend/package-lock.json
       - run: make verify
+  compose-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Bring up db and api
+        run: docker compose up -d --build db api
+      - name: /healthz answers 200
+        run: |
+          for i in $(seq 1 30); do
+            if curl -fsS http://localhost:8000/healthz; then exit 0; fi
+            sleep 2
+          done
+          docker compose logs api
+          exit 1
+      - name: Migration applies on Postgres 16
+        run: docker compose exec -T api alembic upgrade head
+      - name: Dump logs on failure
+        if: failure()
+        run: docker compose logs
   # LLM-backed jobs (evals) are added by later tickets. They must carry
   # `if: github.event.pull_request.head.repo.full_name == github.repository`
   # so that PRs from forks never see the CI keys.
