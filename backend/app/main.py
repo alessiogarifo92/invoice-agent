@@ -8,6 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from opentelemetry.sdk.trace import TracerProvider
 
 from app import llm_ping
+from app.api import audit
 from app.config import Settings, get_settings
 from app.observability import build_tracer_provider
 
@@ -58,6 +59,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         # and Render health checks would otherwise wake it up).
         return {"status": "ok", "version": settings.app_version}
 
+    app.include_router(audit.router)
     return app
 
 

@@ -1,4 +1,4 @@
-.PHONY: verify verify-backend verify-frontend up migrate
+.PHONY: verify verify-backend verify-frontend up migrate load-master
 
 verify: verify-backend verify-frontend
 
@@ -20,3 +20,7 @@ up:
 
 migrate:
 	cd backend && uv run alembic upgrade head
+
+# Owner connection (OWNER_DATABASE_URL); optional MASTER=path, default data/seed/master.json.
+load-master:
+	cd backend && uv run python scripts/load_master_data.py $(MASTER)
