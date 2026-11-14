@@ -1,0 +1,42 @@
+{
+  "invoice_id": "INV-SEED-023",
+  "file": "INV-SEED-023.pdf",
+  "fields": {
+    "vendor_name": "Mannoia Packaging Synthetica S.r.l.",
+    "vendor_vat_id": "IT99552853588",
+    "vendor_country": "IT",
+    "vendor_address": "Canale Palombi, 492, 31015 Sant'Eustachio, Italy",
+    "invoice_number": "INV-0081",
+    "issue_date": "2026-05-02",
+    "due_date": "2026-06-16",
+    "currency": "EUR",
+    "po_number": "PO-2026-0024",
+    "iban": "IT60ZQZX8259763297832234114",
+    "lines": [
+      {
+        "line_no": 1,
+        "sku": "SKU-002",
+        "description": "Pallet stretch film 23 micron",
+        "quantity": "29",
+        "unit_price": "22.66",
+        "line_total": "657.14"
+      },
+      {
+        "line_no": 2,
+        "sku": "SKU-004",
+        "description": "Bubble wrap roll 1 m x 100 m",
+        "quantity": "12",
+        "unit_price": "40.87",
+        "line_total": "490.44"
+      }
+    ],
+    "subtotal": "1147.58",
+    "vat_rate": "22.00",
+    "vat_amount": "252.47",
+    "total": "1400.05"
+  },
+  "anomalies": [],
+  "expected_action": "approve",
+  "duplicate_of": null,
+  "notes": "Clean invoice: matches its PO, the contract prices and the vendor master data."
+}

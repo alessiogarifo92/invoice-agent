@@ -1,6 +1,8 @@
-.PHONY: verify verify-backend verify-frontend up migrate load-master
+.PHONY: verify verify-backend verify-frontend verify-synth up migrate seed load-master
 
-verify: verify-backend verify-frontend
+SEED ?= 20261110
+
+verify: verify-backend verify-frontend verify-synth
 
 verify-backend:
 	cd backend && uv sync --frozen
@@ -14,6 +16,17 @@ verify-frontend:
 	cd frontend && npm run lint
 	cd frontend && npm run typecheck
 	cd frontend && npm test
+
+verify-synth:
+	cd synth && uv sync --frozen
+	cd synth && uv run ruff check .
+	cd synth && uv run ruff format --check .
+	cd synth && uv run mypy
+	cd synth && uv run pytest
+
+# Regenerates the committed synthetic dataset; the same SEED gives byte-identical files.
+seed:
+	cd synth && uv run python -m synth --seed $(SEED) --out ../data/seed --force
 
 up:
 	docker compose up --build

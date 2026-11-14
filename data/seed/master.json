@@ -1,0 +1,2648 @@
+{
+  "vendors": [
+    {
+      "id": "V001",
+      "name": "Mannoia Packaging Synthetica S.r.l.",
+      "vat_id": "IT99552853588",
+      "country": "IT",
+      "address": "Canale Palombi, 492, 31015 Sant'Eustachio, Italy"
+    },
+    {
+      "id": "V002",
+      "name": "Martin Office Supplies Synthetica GmbH",
+      "vat_id": "DE992138761",
+      "country": "DE",
+      "address": "Frankestraße 39/21, 77424 Chemnitz, Germany"
+    },
+    {
+      "id": "V003",
+      "name": "Lacroix Fasteners Synthetica SARL",
+      "vat_id": "FR99762737040",
+      "country": "FR",
+      "address": "46, rue de Samson, 31545 Schmitt, France"
+    },
+    {
+      "id": "V004",
+      "name": "Escalona Cleaning Synthetica S.L.",
+      "vat_id": "ES999187932",
+      "country": "ES",
+      "address": "Acceso Zaira Agustí 91, 09683 Almería, Spain"
+    },
+    {
+      "id": "V005",
+      "name": "Dennenberg IT Hardware Synthetica B.V.",
+      "vat_id": "NL997340048B01",
+      "country": "NL",
+      "address": "Aminadreef 0, 1362 AN West-Graftdijk, Netherlands"
+    },
+    {
+      "id": "V006",
+      "name": "Ubaldi Safety Equipment Synthetica S.r.l.",
+      "vat_id": "IT99066209973",
+      "country": "IT",
+      "address": "Vicolo Sagnelli, 93, 24061 Esterzili, Italy"
+    },
+    {
+      "id": "V007",
+      "name": "Stiffel Logistics Synthetica GmbH",
+      "vat_id": "DE990764303",
+      "country": "DE",
+      "address": "Constantin-Schulz-Platz 80, 11563 Hansestadttralsund, Germany"
+    },
+    {
+      "id": "V008",
+      "name": "Reynaud Electrical Synthetica SARL",
+      "vat_id": "FR99996268292",
+      "country": "FR",
+      "address": "83, avenue André Dijoux, 38193 Lagarde-sur-Mer, France"
+    },
+    {
+      "id": "V009",
+      "name": "Posada Catering Synthetica S.L.",
+      "vat_id": "ES997039099",
+      "country": "ES",
+      "address": "Cañada Américo Marí 50, 34048 Córdoba, Spain"
+    },
+    {
+      "id": "V010",
+      "name": "de Grote Lab Supplies Synthetica B.V.",
+      "vat_id": "NL990753560B01",
+      "country": "NL",
+      "address": "Keanohof 2, 8536SX Echt, Netherlands"
+    },
+    {
+      "id": "V011",
+      "name": "Cutuli Printing Synthetica S.r.l.",
+      "vat_id": "IT99148518211",
+      "country": "IT",
+      "address": "Strada Bonolis, 7, 16158 San Miceli, Italy"
+    },
+    {
+      "id": "V012",
+      "name": "Wende Facility Services Synthetica GmbH",
+      "vat_id": "DE995716513",
+      "country": "DE",
+      "address": "Trubinstraße 332, 52773 Strausberg, Germany"
+    }
+  ],
+  "vendor_bank_accounts": [
+    {
+      "vendor_id": "V001",
+      "iban": "IT60ZQZX8259763297832234114",
+      "valid_from": "2024-01-01",
+      "valid_to": null
+    },
+    {
+      "vendor_id": "V002",
+      "iban": "DE54XZXZ20145237421309",
+      "valid_from": "2024-01-01",
+      "valid_to": null
+    },
+    {
+      "vendor_id": "V003",
+      "iban": "FR63QXZQ5628500070216103892",
+      "valid_from": "2024-01-01",
+      "valid_to": "2025-09-30"
+    },
+    {
+      "vendor_id": "V003",
+      "iban": "FR26XZXZ6078323561710186335",
+      "valid_from": "2025-10-01",
+      "valid_to": null
+    },
+    {
+      "vendor_id": "V004",
+      "iban": "ES79ZQZX0268030851557966",
+      "valid_from": "2024-01-01",
+      "valid_to": null
+    },
+    {
+      "vendor_id": "V005",
+      "iban": "NL93QQZX2845431687",
+      "valid_from": "2024-01-01",
+      "valid_to": "2025-09-30"
+    },
+    {
+      "vendor_id": "V005",
+      "iban": "NL62ZQZX1698487100",
+      "valid_from": "2025-10-01",
+      "valid_to": null
+    },
+    {
+      "vendor_id": "V006",
+      "iban": "IT35XQXQ3628142662193893696",
+      "valid_from": "2024-01-01",
+      "valid_to": null
+    },
+    {
+      "vendor_id": "V007",
+      "iban": "DE02QQZX20801573068765",
+      "valid_from": "2024-01-01",
+      "valid_to": null
+    },
+    {
+      "vendor_id": "V008",
+      "iban": "FR76XQXQ5925013886581128354",
+      "valid_from": "2024-01-01",
+      "valid_to": "2025-09-30"
+    },
+    {
+      "vendor_id": "V008",
+      "iban": "FR79QQZX5978002126928647224",
+      "valid_from": "2025-10-01",
+      "valid_to": null
+    },
+    {
+      "vendor_id": "V009",
+      "iban": "ES25ZZZZ7221269179025458",
+      "valid_from": "2024-01-01",
+      "valid_to": null
+    },
+    {
+      "vendor_id": "V010",
+      "iban": "NL91ZQZX1996556229",
+      "valid_from": "2024-01-01",
+      "valid_to": null
+    },
+    {
+      "vendor_id": "V011",
+      "iban": "IT68ZZZZ9125816753294371060",
+      "valid_from": "2024-01-01",
+      "valid_to": "2025-09-30"
+    },
+    {
+      "vendor_id": "V011",
+      "iban": "IT25QXZQ5224359136647091372",
+      "valid_from": "2025-10-01",
+      "valid_to": null
+    },
+    {
+      "vendor_id": "V012",
+      "iban": "DE67XQXQ21067717018757",
+      "valid_from": "2024-01-01",
+      "valid_to": null
+    }
+  ],
+  "purchase_orders": [
+    {
+      "id": "PO-2026-0001",
+      "vendor_id": "V009",
+      "currency": "EUR",
+      "issue_date": "2026-01-08",
+      "total_net": "1434.72",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-034",
+          "description": "Paper cups 200 ml, pack of 100",
+          "quantity": "50",
+          "unit_price": "6.77"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-033",
+          "description": "Coffee beans, 1 kg bag",
+          "quantity": "16",
+          "unit_price": "17.19"
+        },
+        {
+          "line_no": 3,
+          "sku": "SKU-036",
+          "description": "Tea bags, box of 100",
+          "quantity": "14",
+          "unit_price": "5.69"
+        },
+        {
+          "line_no": 4,
+          "sku": "SKU-035",
+          "description": "Bottled water 0.5 L, crate of 24",
+          "quantity": "92",
+          "unit_price": "8.06"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0002",
+      "vendor_id": "V006",
+      "currency": "EUR",
+      "issue_date": "2026-01-13",
+      "total_net": "2151.65",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-022",
+          "description": "High-visibility vest, size L",
+          "quantity": "51",
+          "unit_price": "6.76"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-023",
+          "description": "Safety goggles, anti-fog",
+          "quantity": "77",
+          "unit_price": "9.37"
+        },
+        {
+          "line_no": 3,
+          "sku": "SKU-024",
+          "description": "Ear defenders, 30 dB",
+          "quantity": "30",
+          "unit_price": "22.03"
+        },
+        {
+          "line_no": 4,
+          "sku": "SKU-021",
+          "description": "Safety helmet, white",
+          "quantity": "25",
+          "unit_price": "16.98"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0003",
+      "vendor_id": "V006",
+      "currency": "EUR",
+      "issue_date": "2026-01-20",
+      "total_net": "1069.46",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-022",
+          "description": "High-visibility vest, size L",
+          "quantity": "39",
+          "unit_price": "6.76"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-023",
+          "description": "Safety goggles, anti-fog",
+          "quantity": "86",
+          "unit_price": "9.37"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0004",
+      "vendor_id": "V002",
+      "currency": "EUR",
+      "issue_date": "2026-02-02",
+      "total_net": "154.96",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-008",
+          "description": "Archive box, 80 mm spine",
+          "quantity": "52",
+          "unit_price": "2.98"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0005",
+      "vendor_id": "V004",
+      "currency": "EUR",
+      "issue_date": "2026-02-03",
+      "total_net": "959.00",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-013",
+          "description": "Floor detergent, 10 L can",
+          "quantity": "8",
+          "unit_price": "24.23"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-014",
+          "description": "Nitrile gloves, box of 100",
+          "quantity": "44",
+          "unit_price": "9.40"
+        },
+        {
+          "line_no": 3,
+          "sku": "SKU-016",
+          "description": "Microfibre cloth, pack of 10",
+          "quantity": "22",
+          "unit_price": "15.98"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0006",
+      "vendor_id": "V003",
+      "currency": "EUR",
+      "issue_date": "2026-02-05",
+      "total_net": "1222.66",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-009",
+          "description": "Hex bolt M8 x 40, box of 100",
+          "quantity": "78",
+          "unit_price": "11.87"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-010",
+          "description": "Stainless washer M8, box of 200",
+          "quantity": "40",
+          "unit_price": "7.42"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0007",
+      "vendor_id": "V009",
+      "currency": "EUR",
+      "issue_date": "2026-02-08",
+      "total_net": "1440.47",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-034",
+          "description": "Paper cups 200 ml, pack of 100",
+          "quantity": "65",
+          "unit_price": "6.77"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-035",
+          "description": "Bottled water 0.5 L, crate of 24",
+          "quantity": "86",
+          "unit_price": "8.06"
+        },
+        {
+          "line_no": 3,
+          "sku": "SKU-036",
+          "description": "Tea bags, box of 100",
+          "quantity": "54",
+          "unit_price": "5.69"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0008",
+      "vendor_id": "V003",
+      "currency": "EUR",
+      "issue_date": "2026-02-10",
+      "total_net": "991.00",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-010",
+          "description": "Stainless washer M8, box of 200",
+          "quantity": "64",
+          "unit_price": "7.42"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-009",
+          "description": "Hex bolt M8 x 40, box of 100",
+          "quantity": "33",
+          "unit_price": "11.87"
+        },
+        {
+          "line_no": 3,
+          "sku": "SKU-012",
+          "description": "Threaded rod M10 x 1 m",
+          "quantity": "39",
+          "unit_price": "3.19"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0009",
+      "vendor_id": "V010",
+      "currency": "EUR",
+      "issue_date": "2026-02-12",
+      "total_net": "1459.70",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-040",
+          "description": "Disinfectant spray, 1 L",
+          "quantity": "56",
+          "unit_price": "6.74"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-039",
+          "description": "Lab coat, size M",
+          "quantity": "30",
+          "unit_price": "24.43"
+        },
+        {
+          "line_no": 3,
+          "sku": "SKU-037",
+          "description": "Pipette tips 200 ul, rack of 96",
+          "quantity": "44",
+          "unit_price": "7.94"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0010",
+      "vendor_id": "V005",
+      "currency": "EUR",
+      "issue_date": "2026-02-14",
+      "total_net": "2408.40",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-020",
+          "description": "Cat6 patch cable 2 m",
+          "quantity": "83",
+          "unit_price": "4.40"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-018",
+          "description": "24 inch monitor",
+          "quantity": "10",
+          "unit_price": "204.32"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0011",
+      "vendor_id": "V011",
+      "currency": "EUR",
+      "issue_date": "2026-02-15",
+      "total_net": "357.20",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-042",
+          "description": "Flyers A5, pack of 1000",
+          "quantity": "4",
+          "unit_price": "89.30"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0012",
+      "vendor_id": "V009",
+      "currency": "EUR",
+      "issue_date": "2026-02-18",
+      "total_net": "399.43",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-034",
+          "description": "Paper cups 200 ml, pack of 100",
+          "quantity": "59",
+          "unit_price": "6.77"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0013",
+      "vendor_id": "V011",
+      "currency": "EUR",
+      "issue_date": "2026-03-08",
+      "total_net": "893.00",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-042",
+          "description": "Flyers A5, pack of 1000",
+          "quantity": "10",
+          "unit_price": "89.30"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0014",
+      "vendor_id": "V009",
+      "currency": "EUR",
+      "issue_date": "2026-03-11",
+      "total_net": "1134.54",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-033",
+          "description": "Coffee beans, 1 kg bag",
+          "quantity": "66",
+          "unit_price": "17.19"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0015",
+      "vendor_id": "V007",
+      "currency": "EUR",
+      "issue_date": "2026-03-18",
+      "total_net": "2666.56",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-028",
+          "description": "Handling fee, per order",
+          "quantity": "12",
+          "unit_price": "24.12"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-026",
+          "description": "Warehousing, per pallet-week",
+          "quantity": "126",
+          "unit_price": "8.53"
+        },
+        {
+          "line_no": 3,
+          "sku": "SKU-025",
+          "description": "Pallet transport, per pallet",
+          "quantity": "10",
+          "unit_price": "64.63"
+        },
+        {
+          "line_no": 4,
+          "sku": "SKU-027",
+          "description": "Express parcel, up to 5 kg",
+          "quantity": "44",
+          "unit_price": "14.91"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0016",
+      "vendor_id": "V002",
+      "currency": "EUR",
+      "issue_date": "2026-03-21",
+      "total_net": "419.82",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-008",
+          "description": "Archive box, 80 mm spine",
+          "quantity": "89",
+          "unit_price": "2.98"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-007",
+          "description": "Ballpoint pens, box of 50",
+          "quantity": "10",
+          "unit_price": "15.46"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0017",
+      "vendor_id": "V006",
+      "currency": "EUR",
+      "issue_date": "2026-03-28",
+      "total_net": "1945.70",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-023",
+          "description": "Safety goggles, anti-fog",
+          "quantity": "50",
+          "unit_price": "9.37"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-021",
+          "description": "Safety helmet, white",
+          "quantity": "44",
+          "unit_price": "16.98"
+        },
+        {
+          "line_no": 3,
+          "sku": "SKU-022",
+          "description": "High-visibility vest, size L",
+          "quantity": "108",
+          "unit_price": "6.76"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0018",
+      "vendor_id": "V011",
+      "currency": "EUR",
+      "issue_date": "2026-04-01",
+      "total_net": "89.30",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-042",
+          "description": "Flyers A5, pack of 1000",
+          "quantity": "1",
+          "unit_price": "89.30"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0019",
+      "vendor_id": "V011",
+      "currency": "EUR",
+      "issue_date": "2026-04-02",
+      "total_net": "754.52",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-044",
+          "description": "Letterhead paper, pack of 500",
+          "quantity": "2",
+          "unit_price": "40.92"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-041",
+          "description": "Business cards, box of 500",
+          "quantity": "16",
+          "unit_price": "30.88"
+        },
+        {
+          "line_no": 3,
+          "sku": "SKU-042",
+          "description": "Flyers A5, pack of 1000",
+          "quantity": "2",
+          "unit_price": "89.30"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0020",
+      "vendor_id": "V007",
+      "currency": "EUR",
+      "issue_date": "2026-04-11",
+      "total_net": "4076.80",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-026",
+          "description": "Warehousing, per pallet-week",
+          "quantity": "151",
+          "unit_price": "8.53"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-027",
+          "description": "Express parcel, up to 5 kg",
+          "quantity": "57",
+          "unit_price": "14.91"
+        },
+        {
+          "line_no": 3,
+          "sku": "SKU-025",
+          "description": "Pallet transport, per pallet",
+          "quantity": "30",
+          "unit_price": "64.63"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0021",
+      "vendor_id": "V005",
+      "currency": "EUR",
+      "issue_date": "2026-04-12",
+      "total_net": "2895.20",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-020",
+          "description": "Cat6 patch cable 2 m",
+          "quantity": "151",
+          "unit_price": "4.40"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-017",
+          "description": "USB-C docking station",
+          "quantity": "15",
+          "unit_price": "148.72"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0022",
+      "vendor_id": "V009",
+      "currency": "EUR",
+      "issue_date": "2026-04-14",
+      "total_net": "680.66",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-034",
+          "description": "Paper cups 200 ml, pack of 100",
+          "quantity": "15",
+          "unit_price": "6.77"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-033",
+          "description": "Coffee beans, 1 kg bag",
+          "quantity": "29",
+          "unit_price": "17.19"
+        },
+        {
+          "line_no": 3,
+          "sku": "SKU-035",
+          "description": "Bottled water 0.5 L, crate of 24",
+          "quantity": "10",
+          "unit_price": "8.06"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0023",
+      "vendor_id": "V004",
+      "currency": "EUR",
+      "issue_date": "2026-04-15",
+      "total_net": "1972.19",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-014",
+          "description": "Nitrile gloves, box of 100",
+          "quantity": "52",
+          "unit_price": "9.40"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-016",
+          "description": "Microfibre cloth, pack of 10",
+          "quantity": "7",
+          "unit_price": "15.98"
+        },
+        {
+          "line_no": 3,
+          "sku": "SKU-015",
+          "description": "Paper towel roll, pack of 6",
+          "quantity": "42",
+          "unit_price": "11.31"
+        },
+        {
+          "line_no": 4,
+          "sku": "SKU-013",
+          "description": "Floor detergent, 10 L can",
+          "quantity": "37",
+          "unit_price": "24.23"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0024",
+      "vendor_id": "V001",
+      "currency": "EUR",
+      "issue_date": "2026-04-16",
+      "total_net": "1147.58",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-002",
+          "description": "Pallet stretch film 23 micron",
+          "quantity": "29",
+          "unit_price": "22.66"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-004",
+          "description": "Bubble wrap roll 1 m x 100 m",
+          "quantity": "12",
+          "unit_price": "40.87"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0025",
+      "vendor_id": "V006",
+      "currency": "EUR",
+      "issue_date": "2026-04-27",
+      "total_net": "1303.31",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-021",
+          "description": "Safety helmet, white",
+          "quantity": "17",
+          "unit_price": "16.98"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-022",
+          "description": "High-visibility vest, size L",
+          "quantity": "60",
+          "unit_price": "6.76"
+        },
+        {
+          "line_no": 3,
+          "sku": "SKU-023",
+          "description": "Safety goggles, anti-fog",
+          "quantity": "65",
+          "unit_price": "9.37"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0026",
+      "vendor_id": "V012",
+      "currency": "EUR",
+      "issue_date": "2026-04-29",
+      "total_net": "2201.28",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-047",
+          "description": "HVAC filter replacement",
+          "quantity": "3",
+          "unit_price": "44.92"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-045",
+          "description": "Office cleaning, per visit",
+          "quantity": "12",
+          "unit_price": "172.21"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0027",
+      "vendor_id": "V001",
+      "currency": "EUR",
+      "issue_date": "2026-05-05",
+      "total_net": "3337.46",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-003",
+          "description": "Packing tape 50 mm x 66 m",
+          "quantity": "348",
+          "unit_price": "2.30"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-001",
+          "description": "Corrugated box 40x30x20 cm",
+          "quantity": "800",
+          "unit_price": "2.01"
+        },
+        {
+          "line_no": 3,
+          "sku": "SKU-002",
+          "description": "Pallet stretch film 23 micron",
+          "quantity": "41",
+          "unit_price": "22.66"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0028",
+      "vendor_id": "V003",
+      "currency": "EUR",
+      "issue_date": "2026-05-20",
+      "total_net": "363.30",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-011",
+          "description": "Wall anchor 10 mm, box of 50",
+          "quantity": "14",
+          "unit_price": "10.58"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-010",
+          "description": "Stainless washer M8, box of 200",
+          "quantity": "29",
+          "unit_price": "7.42"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0029",
+      "vendor_id": "V001",
+      "currency": "EUR",
+      "issue_date": "2026-05-21",
+      "total_net": "1935.69",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-002",
+          "description": "Pallet stretch film 23 micron",
+          "quantity": "33",
+          "unit_price": "22.66"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-001",
+          "description": "Corrugated box 40x30x20 cm",
+          "quantity": "591",
+          "unit_price": "2.01"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0030",
+      "vendor_id": "V004",
+      "currency": "EUR",
+      "issue_date": "2026-05-29",
+      "total_net": "266.53",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-013",
+          "description": "Floor detergent, 10 L can",
+          "quantity": "11",
+          "unit_price": "24.23"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0031",
+      "vendor_id": "V010",
+      "currency": "EUR",
+      "issue_date": "2026-05-29",
+      "total_net": "1033.34",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-040",
+          "description": "Disinfectant spray, 1 L",
+          "quantity": "75",
+          "unit_price": "6.74"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-039",
+          "description": "Lab coat, size M",
+          "quantity": "8",
+          "unit_price": "24.43"
+        },
+        {
+          "line_no": 3,
+          "sku": "SKU-038",
+          "description": "Sample tube 15 ml, bag of 50",
+          "quantity": "30",
+          "unit_price": "11.08"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0032",
+      "vendor_id": "V012",
+      "currency": "EUR",
+      "issue_date": "2026-05-30",
+      "total_net": "1601.78",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-048",
+          "description": "Pest control inspection",
+          "quantity": "4",
+          "unit_price": "120.16"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-046",
+          "description": "Window cleaning, per floor",
+          "quantity": "1",
+          "unit_price": "87.88"
+        },
+        {
+          "line_no": 3,
+          "sku": "SKU-045",
+          "description": "Office cleaning, per visit",
+          "quantity": "6",
+          "unit_price": "172.21"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0033",
+      "vendor_id": "V002",
+      "currency": "EUR",
+      "issue_date": "2026-06-04",
+      "total_net": "1556.32",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-008",
+          "description": "Archive box, 80 mm spine",
+          "quantity": "112",
+          "unit_price": "2.98"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-005",
+          "description": "A4 copy paper 80 g, 500 sheets",
+          "quantity": "216",
+          "unit_price": "5.66"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0034",
+      "vendor_id": "V010",
+      "currency": "EUR",
+      "issue_date": "2026-06-06",
+      "total_net": "2186.22",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-039",
+          "description": "Lab coat, size M",
+          "quantity": "26",
+          "unit_price": "24.43"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-038",
+          "description": "Sample tube 15 ml, bag of 50",
+          "quantity": "53",
+          "unit_price": "11.08"
+        },
+        {
+          "line_no": 3,
+          "sku": "SKU-040",
+          "description": "Disinfectant spray, 1 L",
+          "quantity": "57",
+          "unit_price": "6.74"
+        },
+        {
+          "line_no": 4,
+          "sku": "SKU-037",
+          "description": "Pipette tips 200 ul, rack of 96",
+          "quantity": "73",
+          "unit_price": "7.94"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0035",
+      "vendor_id": "V005",
+      "currency": "EUR",
+      "issue_date": "2026-06-07",
+      "total_net": "2650.58",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-017",
+          "description": "USB-C docking station",
+          "quantity": "2",
+          "unit_price": "148.72"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-019",
+          "description": "Wired keyboard, US layout",
+          "quantity": "14",
+          "unit_price": "31.35"
+        },
+        {
+          "line_no": 3,
+          "sku": "SKU-018",
+          "description": "24 inch monitor",
+          "quantity": "7",
+          "unit_price": "204.32"
+        },
+        {
+          "line_no": 4,
+          "sku": "SKU-020",
+          "description": "Cat6 patch cable 2 m",
+          "quantity": "110",
+          "unit_price": "4.40"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0036",
+      "vendor_id": "V008",
+      "currency": "EUR",
+      "issue_date": "2026-06-08",
+      "total_net": "2598.02",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-032",
+          "description": "Cable ties 300 mm, bag of 100",
+          "quantity": "82",
+          "unit_price": "5.46"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-030",
+          "description": "Installation cable 3G1.5, 100 m",
+          "quantity": "6",
+          "unit_price": "78.18"
+        },
+        {
+          "line_no": 3,
+          "sku": "SKU-029",
+          "description": "LED panel 60x60 cm, 36 W",
+          "quantity": "34",
+          "unit_price": "38.61"
+        },
+        {
+          "line_no": 4,
+          "sku": "SKU-031",
+          "description": "Circuit breaker C16, 1 pole",
+          "quantity": "56",
+          "unit_price": "6.58"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0037",
+      "vendor_id": "V002",
+      "currency": "EUR",
+      "issue_date": "2026-06-15",
+      "total_net": "2588.60",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-007",
+          "description": "Ballpoint pens, box of 50",
+          "quantity": "28",
+          "unit_price": "15.46"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-005",
+          "description": "A4 copy paper 80 g, 500 sheets",
+          "quantity": "304",
+          "unit_price": "5.66"
+        },
+        {
+          "line_no": 3,
+          "sku": "SKU-008",
+          "description": "Archive box, 80 mm spine",
+          "quantity": "146",
+          "unit_price": "2.98"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0038",
+      "vendor_id": "V005",
+      "currency": "EUR",
+      "issue_date": "2026-06-23",
+      "total_net": "3752.30",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-020",
+          "description": "Cat6 patch cable 2 m",
+          "quantity": "85",
+          "unit_price": "4.40"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-019",
+          "description": "Wired keyboard, US layout",
+          "quantity": "10",
+          "unit_price": "31.35"
+        },
+        {
+          "line_no": 3,
+          "sku": "SKU-018",
+          "description": "24 inch monitor",
+          "quantity": "15",
+          "unit_price": "204.32"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0039",
+      "vendor_id": "V001",
+      "currency": "EUR",
+      "issue_date": "2026-06-25",
+      "total_net": "2724.16",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-002",
+          "description": "Pallet stretch film 23 micron",
+          "quantity": "32",
+          "unit_price": "22.66"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-003",
+          "description": "Packing tape 50 mm x 66 m",
+          "quantity": "318",
+          "unit_price": "2.30"
+        },
+        {
+          "line_no": 3,
+          "sku": "SKU-004",
+          "description": "Bubble wrap roll 1 m x 100 m",
+          "quantity": "26",
+          "unit_price": "40.87"
+        },
+        {
+          "line_no": 4,
+          "sku": "SKU-001",
+          "description": "Corrugated box 40x30x20 cm",
+          "quantity": "102",
+          "unit_price": "2.01"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0040",
+      "vendor_id": "V012",
+      "currency": "EUR",
+      "issue_date": "2026-06-25",
+      "total_net": "2911.66",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-047",
+          "description": "HVAC filter replacement",
+          "quantity": "6",
+          "unit_price": "44.92"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-045",
+          "description": "Office cleaning, per visit",
+          "quantity": "10",
+          "unit_price": "172.21"
+        },
+        {
+          "line_no": 3,
+          "sku": "SKU-046",
+          "description": "Window cleaning, per floor",
+          "quantity": "5",
+          "unit_price": "87.88"
+        },
+        {
+          "line_no": 4,
+          "sku": "SKU-048",
+          "description": "Pest control inspection",
+          "quantity": "4",
+          "unit_price": "120.16"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0041",
+      "vendor_id": "V001",
+      "currency": "EUR",
+      "issue_date": "2026-06-30",
+      "total_net": "1379.76",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-003",
+          "description": "Packing tape 50 mm x 66 m",
+          "quantity": "393",
+          "unit_price": "2.30"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-002",
+          "description": "Pallet stretch film 23 micron",
+          "quantity": "21",
+          "unit_price": "22.66"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0042",
+      "vendor_id": "V006",
+      "currency": "EUR",
+      "issue_date": "2026-07-01",
+      "total_net": "1632.29",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-024",
+          "description": "Ear defenders, 30 dB",
+          "quantity": "17",
+          "unit_price": "22.03"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-023",
+          "description": "Safety goggles, anti-fog",
+          "quantity": "22",
+          "unit_price": "9.37"
+        },
+        {
+          "line_no": 3,
+          "sku": "SKU-022",
+          "description": "High-visibility vest, size L",
+          "quantity": "35",
+          "unit_price": "6.76"
+        },
+        {
+          "line_no": 4,
+          "sku": "SKU-021",
+          "description": "Safety helmet, white",
+          "quantity": "48",
+          "unit_price": "16.98"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0043",
+      "vendor_id": "V003",
+      "currency": "EUR",
+      "issue_date": "2026-07-02",
+      "total_net": "1659.19",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-009",
+          "description": "Hex bolt M8 x 40, box of 100",
+          "quantity": "73",
+          "unit_price": "11.87"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-010",
+          "description": "Stainless washer M8, box of 200",
+          "quantity": "72",
+          "unit_price": "7.42"
+        },
+        {
+          "line_no": 3,
+          "sku": "SKU-011",
+          "description": "Wall anchor 10 mm, box of 50",
+          "quantity": "19",
+          "unit_price": "10.58"
+        },
+        {
+          "line_no": 4,
+          "sku": "SKU-012",
+          "description": "Threaded rod M10 x 1 m",
+          "quantity": "18",
+          "unit_price": "3.19"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0044",
+      "vendor_id": "V004",
+      "currency": "EUR",
+      "issue_date": "2026-07-04",
+      "total_net": "1471.03",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-016",
+          "description": "Microfibre cloth, pack of 10",
+          "quantity": "17",
+          "unit_price": "15.98"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-015",
+          "description": "Paper towel roll, pack of 6",
+          "quantity": "13",
+          "unit_price": "11.31"
+        },
+        {
+          "line_no": 3,
+          "sku": "SKU-013",
+          "description": "Floor detergent, 10 L can",
+          "quantity": "38",
+          "unit_price": "24.23"
+        },
+        {
+          "line_no": 4,
+          "sku": "SKU-014",
+          "description": "Nitrile gloves, box of 100",
+          "quantity": "14",
+          "unit_price": "9.40"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0045",
+      "vendor_id": "V010",
+      "currency": "EUR",
+      "issue_date": "2026-07-11",
+      "total_net": "1385.53",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-038",
+          "description": "Sample tube 15 ml, bag of 50",
+          "quantity": "15",
+          "unit_price": "11.08"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-037",
+          "description": "Pipette tips 200 ul, rack of 96",
+          "quantity": "62",
+          "unit_price": "7.94"
+        },
+        {
+          "line_no": 3,
+          "sku": "SKU-040",
+          "description": "Disinfectant spray, 1 L",
+          "quantity": "68",
+          "unit_price": "6.74"
+        },
+        {
+          "line_no": 4,
+          "sku": "SKU-039",
+          "description": "Lab coat, size M",
+          "quantity": "11",
+          "unit_price": "24.43"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0046",
+      "vendor_id": "V002",
+      "currency": "EUR",
+      "issue_date": "2026-07-12",
+      "total_net": "3640.98",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-005",
+          "description": "A4 copy paper 80 g, 500 sheets",
+          "quantity": "387",
+          "unit_price": "5.66"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-006",
+          "description": "Toner cartridge, black",
+          "quantity": "16",
+          "unit_price": "90.66"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0047",
+      "vendor_id": "V008",
+      "currency": "EUR",
+      "issue_date": "2026-07-14",
+      "total_net": "3528.38",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-032",
+          "description": "Cable ties 300 mm, bag of 100",
+          "quantity": "50",
+          "unit_price": "5.46"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-030",
+          "description": "Installation cable 3G1.5, 100 m",
+          "quantity": "5",
+          "unit_price": "78.18"
+        },
+        {
+          "line_no": 3,
+          "sku": "SKU-029",
+          "description": "LED panel 60x60 cm, 36 W",
+          "quantity": "58",
+          "unit_price": "38.61"
+        },
+        {
+          "line_no": 4,
+          "sku": "SKU-031",
+          "description": "Circuit breaker C16, 1 pole",
+          "quantity": "95",
+          "unit_price": "6.58"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0048",
+      "vendor_id": "V008",
+      "currency": "EUR",
+      "issue_date": "2026-07-19",
+      "total_net": "547.26",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-030",
+          "description": "Installation cable 3G1.5, 100 m",
+          "quantity": "7",
+          "unit_price": "78.18"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0049",
+      "vendor_id": "V005",
+      "currency": "EUR",
+      "issue_date": "2026-07-21",
+      "total_net": "2277.78",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-019",
+          "description": "Wired keyboard, US layout",
+          "quantity": "14",
+          "unit_price": "31.35"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-018",
+          "description": "24 inch monitor",
+          "quantity": "9",
+          "unit_price": "204.32"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0050",
+      "vendor_id": "V001",
+      "currency": "EUR",
+      "issue_date": "2026-07-29",
+      "total_net": "1198.29",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-003",
+          "description": "Packing tape 50 mm x 66 m",
+          "quantity": "149",
+          "unit_price": "2.30"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-004",
+          "description": "Bubble wrap roll 1 m x 100 m",
+          "quantity": "5",
+          "unit_price": "40.87"
+        },
+        {
+          "line_no": 3,
+          "sku": "SKU-001",
+          "description": "Corrugated box 40x30x20 cm",
+          "quantity": "324",
+          "unit_price": "2.01"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0051",
+      "vendor_id": "V002",
+      "currency": "EUR",
+      "issue_date": "2026-08-11",
+      "total_net": "401.96",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-007",
+          "description": "Ballpoint pens, box of 50",
+          "quantity": "26",
+          "unit_price": "15.46"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0052",
+      "vendor_id": "V010",
+      "currency": "EUR",
+      "issue_date": "2026-08-17",
+      "total_net": "1659.02",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-038",
+          "description": "Sample tube 15 ml, bag of 50",
+          "quantity": "40",
+          "unit_price": "11.08"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-040",
+          "description": "Disinfectant spray, 1 L",
+          "quantity": "19",
+          "unit_price": "6.74"
+        },
+        {
+          "line_no": 3,
+          "sku": "SKU-037",
+          "description": "Pipette tips 200 ul, rack of 96",
+          "quantity": "57",
+          "unit_price": "7.94"
+        },
+        {
+          "line_no": 4,
+          "sku": "SKU-039",
+          "description": "Lab coat, size M",
+          "quantity": "26",
+          "unit_price": "24.43"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0053",
+      "vendor_id": "V003",
+      "currency": "EUR",
+      "issue_date": "2026-08-20",
+      "total_net": "821.89",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-011",
+          "description": "Wall anchor 10 mm, box of 50",
+          "quantity": "21",
+          "unit_price": "10.58"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-010",
+          "description": "Stainless washer M8, box of 200",
+          "quantity": "46",
+          "unit_price": "7.42"
+        },
+        {
+          "line_no": 3,
+          "sku": "SKU-012",
+          "description": "Threaded rod M10 x 1 m",
+          "quantity": "81",
+          "unit_price": "3.19"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0054",
+      "vendor_id": "V008",
+      "currency": "EUR",
+      "issue_date": "2026-09-04",
+      "total_net": "920.08",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-032",
+          "description": "Cable ties 300 mm, bag of 100",
+          "quantity": "95",
+          "unit_price": "5.46"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-031",
+          "description": "Circuit breaker C16, 1 pole",
+          "quantity": "61",
+          "unit_price": "6.58"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0055",
+      "vendor_id": "V011",
+      "currency": "EUR",
+      "issue_date": "2026-09-09",
+      "total_net": "216.16",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-041",
+          "description": "Business cards, box of 500",
+          "quantity": "7",
+          "unit_price": "30.88"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0056",
+      "vendor_id": "V007",
+      "currency": "EUR",
+      "issue_date": "2026-09-09",
+      "total_net": "845.76",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-027",
+          "description": "Express parcel, up to 5 kg",
+          "quantity": "15",
+          "unit_price": "14.91"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-026",
+          "description": "Warehousing, per pallet-week",
+          "quantity": "39",
+          "unit_price": "8.53"
+        },
+        {
+          "line_no": 3,
+          "sku": "SKU-028",
+          "description": "Handling fee, per order",
+          "quantity": "12",
+          "unit_price": "24.12"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0057",
+      "vendor_id": "V004",
+      "currency": "EUR",
+      "issue_date": "2026-09-13",
+      "total_net": "2156.78",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-013",
+          "description": "Floor detergent, 10 L can",
+          "quantity": "12",
+          "unit_price": "24.23"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-015",
+          "description": "Paper towel roll, pack of 6",
+          "quantity": "98",
+          "unit_price": "11.31"
+        },
+        {
+          "line_no": 3,
+          "sku": "SKU-014",
+          "description": "Nitrile gloves, box of 100",
+          "quantity": "33",
+          "unit_price": "9.40"
+        },
+        {
+          "line_no": 4,
+          "sku": "SKU-016",
+          "description": "Microfibre cloth, pack of 10",
+          "quantity": "28",
+          "unit_price": "15.98"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0058",
+      "vendor_id": "V007",
+      "currency": "EUR",
+      "issue_date": "2026-09-16",
+      "total_net": "2002.60",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-025",
+          "description": "Pallet transport, per pallet",
+          "quantity": "28",
+          "unit_price": "64.63"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-028",
+          "description": "Handling fee, per order",
+          "quantity": "8",
+          "unit_price": "24.12"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0059",
+      "vendor_id": "V012",
+      "currency": "EUR",
+      "issue_date": "2026-09-21",
+      "total_net": "2270.07",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-047",
+          "description": "HVAC filter replacement",
+          "quantity": "13",
+          "unit_price": "44.92"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-045",
+          "description": "Office cleaning, per visit",
+          "quantity": "7",
+          "unit_price": "172.21"
+        },
+        {
+          "line_no": 3,
+          "sku": "SKU-048",
+          "description": "Pest control inspection",
+          "quantity": "4",
+          "unit_price": "120.16"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0060",
+      "vendor_id": "V007",
+      "currency": "EUR",
+      "issue_date": "2026-09-21",
+      "total_net": "1411.40",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-026",
+          "description": "Warehousing, per pallet-week",
+          "quantity": "134",
+          "unit_price": "8.53"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-027",
+          "description": "Express parcel, up to 5 kg",
+          "quantity": "18",
+          "unit_price": "14.91"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0061",
+      "vendor_id": "V008",
+      "currency": "EUR",
+      "issue_date": "2026-09-21",
+      "total_net": "136.50",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-032",
+          "description": "Cable ties 300 mm, bag of 100",
+          "quantity": "25",
+          "unit_price": "5.46"
+        }
+      ]
+    },
+    {
+      "id": "PO-2026-0062",
+      "vendor_id": "V012",
+      "currency": "EUR",
+      "issue_date": "2026-09-22",
+      "total_net": "1370.08",
+      "lines": [
+        {
+          "line_no": 1,
+          "sku": "SKU-048",
+          "description": "Pest control inspection",
+          "quantity": "1",
+          "unit_price": "120.16"
+        },
+        {
+          "line_no": 2,
+          "sku": "SKU-047",
+          "description": "HVAC filter replacement",
+          "quantity": "20",
+          "unit_price": "44.92"
+        },
+        {
+          "line_no": 3,
+          "sku": "SKU-046",
+          "description": "Window cleaning, per floor",
+          "quantity": "4",
+          "unit_price": "87.88"
+        }
+      ]
+    }
+  ],
+  "contracts": [
+    {
+      "id": "C001",
+      "vendor_id": "V001",
+      "currency": "EUR",
+      "valid_from": "2025-01-01",
+      "valid_to": "2026-12-31",
+      "prices": [
+        {
+          "sku": "SKU-001",
+          "unit_price": "2.01"
+        },
+        {
+          "sku": "SKU-002",
+          "unit_price": "22.66"
+        },
+        {
+          "sku": "SKU-003",
+          "unit_price": "2.30"
+        },
+        {
+          "sku": "SKU-004",
+          "unit_price": "40.87"
+        }
+      ],
+      "clauses": [
+        {
+          "clause_no": "3.1",
+          "title": "Prices",
+          "text": "Unit prices are those listed in Annex A for each SKU and are fixed for the contract term unless amended under clause 4.2."
+        },
+        {
+          "clause_no": "4.1",
+          "title": "Payment terms",
+          "text": "Payment is due 45 days from the invoice date by bank transfer to the account registered in the buyer's vendor master data."
+        },
+        {
+          "clause_no": "4.2",
+          "title": "Price adjustment",
+          "text": "Prices may be adjusted at most once per calendar year, by no more than 4%, and only by a written amendment signed by both parties 60 days in advance. Invoices at prices above Annex A without such an amendment are disputed."
+        },
+        {
+          "clause_no": "4.3",
+          "title": "Invoicing requirements",
+          "text": "Each invoice must quote the purchase order number and the vendor VAT id. Invoiced amounts may not exceed the purchase order net value by more than 2.00% without prior written approval."
+        },
+        {
+          "clause_no": "5.1",
+          "title": "Change of bank details",
+          "text": "Any change of bank details must be notified in writing and confirmed by a call-back to a known contact before the first payment to the new account. Bank details stated only on an invoice are never sufficient."
+        },
+        {
+          "clause_no": "6.1",
+          "title": "Late delivery penalty",
+          "text": "For each full week of delay beyond the agreed delivery date the vendor owes a penalty of 0.5% of the net value of the late goods, capped at 8%."
+        },
+        {
+          "clause_no": "9.1",
+          "title": "Termination",
+          "text": "Either party may terminate this agreement with 90 days' written notice."
+        }
+      ]
+    },
+    {
+      "id": "C002",
+      "vendor_id": "V002",
+      "currency": "EUR",
+      "valid_from": "2025-01-01",
+      "valid_to": "2026-12-31",
+      "prices": [
+        {
+          "sku": "SKU-005",
+          "unit_price": "5.66"
+        },
+        {
+          "sku": "SKU-006",
+          "unit_price": "90.66"
+        },
+        {
+          "sku": "SKU-007",
+          "unit_price": "15.46"
+        },
+        {
+          "sku": "SKU-008",
+          "unit_price": "2.98"
+        }
+      ],
+      "clauses": [
+        {
+          "clause_no": "3.1",
+          "title": "Prices",
+          "text": "Unit prices are those listed in Annex A for each SKU and are fixed for the contract term unless amended under clause 4.2."
+        },
+        {
+          "clause_no": "4.1",
+          "title": "Payment terms",
+          "text": "Payment is due 45 days from the invoice date by bank transfer to the account registered in the buyer's vendor master data."
+        },
+        {
+          "clause_no": "4.2",
+          "title": "Price adjustment",
+          "text": "Prices may be adjusted at most once per calendar year, by no more than 2%, and only by a written amendment signed by both parties 60 days in advance. Invoices at prices above Annex A without such an amendment are disputed."
+        },
+        {
+          "clause_no": "4.3",
+          "title": "Invoicing requirements",
+          "text": "Each invoice must quote the purchase order number and the vendor VAT id. Invoiced amounts may not exceed the purchase order net value by more than 2.00% without prior written approval."
+        },
+        {
+          "clause_no": "5.1",
+          "title": "Change of bank details",
+          "text": "Any change of bank details must be notified in writing and confirmed by a call-back to a known contact before the first payment to the new account. Bank details stated only on an invoice are never sufficient."
+        },
+        {
+          "clause_no": "6.1",
+          "title": "Late delivery penalty",
+          "text": "For each full week of delay beyond the agreed delivery date the vendor owes a penalty of 0.5% of the net value of the late goods, capped at 10%."
+        },
+        {
+          "clause_no": "9.1",
+          "title": "Termination",
+          "text": "Either party may terminate this agreement with 90 days' written notice."
+        }
+      ]
+    },
+    {
+      "id": "C003",
+      "vendor_id": "V003",
+      "currency": "EUR",
+      "valid_from": "2025-01-01",
+      "valid_to": "2026-12-31",
+      "prices": [
+        {
+          "sku": "SKU-009",
+          "unit_price": "11.87"
+        },
+        {
+          "sku": "SKU-010",
+          "unit_price": "7.42"
+        },
+        {
+          "sku": "SKU-011",
+          "unit_price": "10.58"
+        },
+        {
+          "sku": "SKU-012",
+          "unit_price": "3.19"
+        }
+      ],
+      "clauses": [
+        {
+          "clause_no": "3.1",
+          "title": "Prices",
+          "text": "Unit prices are those listed in Annex A for each SKU and are fixed for the contract term unless amended under clause 4.2."
+        },
+        {
+          "clause_no": "4.1",
+          "title": "Payment terms",
+          "text": "Payment is due 60 days from the invoice date by bank transfer to the account registered in the buyer's vendor master data."
+        },
+        {
+          "clause_no": "4.2",
+          "title": "Price adjustment",
+          "text": "Prices may be adjusted at most once per calendar year, by no more than 2%, and only by a written amendment signed by both parties 60 days in advance. Invoices at prices above Annex A without such an amendment are disputed."
+        },
+        {
+          "clause_no": "4.3",
+          "title": "Invoicing requirements",
+          "text": "Each invoice must quote the purchase order number and the vendor VAT id. Invoiced amounts may not exceed the purchase order net value by more than 2.00% without prior written approval."
+        },
+        {
+          "clause_no": "5.1",
+          "title": "Change of bank details",
+          "text": "Any change of bank details must be notified in writing and confirmed by a call-back to a known contact before the first payment to the new account. Bank details stated only on an invoice are never sufficient."
+        },
+        {
+          "clause_no": "6.1",
+          "title": "Late delivery penalty",
+          "text": "For each full week of delay beyond the agreed delivery date the vendor owes a penalty of 0.5% of the net value of the late goods, capped at 5%."
+        },
+        {
+          "clause_no": "9.1",
+          "title": "Termination",
+          "text": "Either party may terminate this agreement with 90 days' written notice."
+        }
+      ]
+    },
+    {
+      "id": "C004",
+      "vendor_id": "V004",
+      "currency": "EUR",
+      "valid_from": "2025-01-01",
+      "valid_to": "2026-12-31",
+      "prices": [
+        {
+          "sku": "SKU-013",
+          "unit_price": "24.23"
+        },
+        {
+          "sku": "SKU-014",
+          "unit_price": "9.40"
+        },
+        {
+          "sku": "SKU-015",
+          "unit_price": "11.31"
+        },
+        {
+          "sku": "SKU-016",
+          "unit_price": "15.98"
+        }
+      ],
+      "clauses": [
+        {
+          "clause_no": "3.1",
+          "title": "Prices",
+          "text": "Unit prices are those listed in Annex A for each SKU and are fixed for the contract term unless amended under clause 4.2."
+        },
+        {
+          "clause_no": "4.1",
+          "title": "Payment terms",
+          "text": "Payment is due 30 days from the invoice date by bank transfer to the account registered in the buyer's vendor master data."
+        },
+        {
+          "clause_no": "4.2",
+          "title": "Price adjustment",
+          "text": "Prices may be adjusted at most once per calendar year, by no more than 4%, and only by a written amendment signed by both parties 60 days in advance. Invoices at prices above Annex A without such an amendment are disputed."
+        },
+        {
+          "clause_no": "4.3",
+          "title": "Invoicing requirements",
+          "text": "Each invoice must quote the purchase order number and the vendor VAT id. Invoiced amounts may not exceed the purchase order net value by more than 2.00% without prior written approval."
+        },
+        {
+          "clause_no": "5.1",
+          "title": "Change of bank details",
+          "text": "Any change of bank details must be notified in writing and confirmed by a call-back to a known contact before the first payment to the new account. Bank details stated only on an invoice are never sufficient."
+        },
+        {
+          "clause_no": "6.1",
+          "title": "Late delivery penalty",
+          "text": "For each full week of delay beyond the agreed delivery date the vendor owes a penalty of 1.5% of the net value of the late goods, capped at 10%."
+        },
+        {
+          "clause_no": "9.1",
+          "title": "Termination",
+          "text": "Either party may terminate this agreement with 90 days' written notice."
+        }
+      ]
+    },
+    {
+      "id": "C005",
+      "vendor_id": "V005",
+      "currency": "EUR",
+      "valid_from": "2025-01-01",
+      "valid_to": "2026-12-31",
+      "prices": [
+        {
+          "sku": "SKU-017",
+          "unit_price": "148.72"
+        },
+        {
+          "sku": "SKU-018",
+          "unit_price": "204.32"
+        },
+        {
+          "sku": "SKU-019",
+          "unit_price": "31.35"
+        },
+        {
+          "sku": "SKU-020",
+          "unit_price": "4.40"
+        }
+      ],
+      "clauses": [
+        {
+          "clause_no": "3.1",
+          "title": "Prices",
+          "text": "Unit prices are those listed in Annex A for each SKU and are fixed for the contract term unless amended under clause 4.2."
+        },
+        {
+          "clause_no": "4.1",
+          "title": "Payment terms",
+          "text": "Payment is due 30 days from the invoice date by bank transfer to the account registered in the buyer's vendor master data."
+        },
+        {
+          "clause_no": "4.2",
+          "title": "Price adjustment",
+          "text": "Prices may be adjusted at most once per calendar year, by no more than 3%, and only by a written amendment signed by both parties 60 days in advance. Invoices at prices above Annex A without such an amendment are disputed."
+        },
+        {
+          "clause_no": "4.3",
+          "title": "Invoicing requirements",
+          "text": "Each invoice must quote the purchase order number and the vendor VAT id. Invoiced amounts may not exceed the purchase order net value by more than 2.00% without prior written approval."
+        },
+        {
+          "clause_no": "5.1",
+          "title": "Change of bank details",
+          "text": "Any change of bank details must be notified in writing and confirmed by a call-back to a known contact before the first payment to the new account. Bank details stated only on an invoice are never sufficient."
+        },
+        {
+          "clause_no": "6.1",
+          "title": "Late delivery penalty",
+          "text": "For each full week of delay beyond the agreed delivery date the vendor owes a penalty of 1.5% of the net value of the late goods, capped at 10%."
+        },
+        {
+          "clause_no": "9.1",
+          "title": "Termination",
+          "text": "Either party may terminate this agreement with 90 days' written notice."
+        }
+      ]
+    },
+    {
+      "id": "C006",
+      "vendor_id": "V006",
+      "currency": "EUR",
+      "valid_from": "2025-01-01",
+      "valid_to": "2026-12-31",
+      "prices": [
+        {
+          "sku": "SKU-021",
+          "unit_price": "16.98"
+        },
+        {
+          "sku": "SKU-022",
+          "unit_price": "6.76"
+        },
+        {
+          "sku": "SKU-023",
+          "unit_price": "9.37"
+        },
+        {
+          "sku": "SKU-024",
+          "unit_price": "22.03"
+        }
+      ],
+      "clauses": [
+        {
+          "clause_no": "3.1",
+          "title": "Prices",
+          "text": "Unit prices are those listed in Annex A for each SKU and are fixed for the contract term unless amended under clause 4.2."
+        },
+        {
+          "clause_no": "4.1",
+          "title": "Payment terms",
+          "text": "Payment is due 60 days from the invoice date by bank transfer to the account registered in the buyer's vendor master data."
+        },
+        {
+          "clause_no": "4.2",
+          "title": "Price adjustment",
+          "text": "Prices may be adjusted at most once per calendar year, by no more than 4%, and only by a written amendment signed by both parties 60 days in advance. Invoices at prices above Annex A without such an amendment are disputed."
+        },
+        {
+          "clause_no": "4.3",
+          "title": "Invoicing requirements",
+          "text": "Each invoice must quote the purchase order number and the vendor VAT id. Invoiced amounts may not exceed the purchase order net value by more than 2.00% without prior written approval."
+        },
+        {
+          "clause_no": "5.1",
+          "title": "Change of bank details",
+          "text": "Any change of bank details must be notified in writing and confirmed by a call-back to a known contact before the first payment to the new account. Bank details stated only on an invoice are never sufficient."
+        },
+        {
+          "clause_no": "6.1",
+          "title": "Late delivery penalty",
+          "text": "For each full week of delay beyond the agreed delivery date the vendor owes a penalty of 1.0% of the net value of the late goods, capped at 5%."
+        },
+        {
+          "clause_no": "9.1",
+          "title": "Termination",
+          "text": "Either party may terminate this agreement with 90 days' written notice."
+        }
+      ]
+    },
+    {
+      "id": "C007",
+      "vendor_id": "V007",
+      "currency": "EUR",
+      "valid_from": "2025-01-01",
+      "valid_to": "2026-12-31",
+      "prices": [
+        {
+          "sku": "SKU-025",
+          "unit_price": "64.63"
+        },
+        {
+          "sku": "SKU-026",
+          "unit_price": "8.53"
+        },
+        {
+          "sku": "SKU-027",
+          "unit_price": "14.91"
+        },
+        {
+          "sku": "SKU-028",
+          "unit_price": "24.12"
+        }
+      ],
+      "clauses": [
+        {
+          "clause_no": "3.1",
+          "title": "Prices",
+          "text": "Unit prices are those listed in Annex A for each SKU and are fixed for the contract term unless amended under clause 4.2."
+        },
+        {
+          "clause_no": "4.1",
+          "title": "Payment terms",
+          "text": "Payment is due 45 days from the invoice date by bank transfer to the account registered in the buyer's vendor master data."
+        },
+        {
+          "clause_no": "4.2",
+          "title": "Price adjustment",
+          "text": "Prices may be adjusted at most once per calendar year, by no more than 4%, and only by a written amendment signed by both parties 60 days in advance. Invoices at prices above Annex A without such an amendment are disputed."
+        },
+        {
+          "clause_no": "4.3",
+          "title": "Invoicing requirements",
+          "text": "Each invoice must quote the purchase order number and the vendor VAT id. Invoiced amounts may not exceed the purchase order net value by more than 2.00% without prior written approval."
+        },
+        {
+          "clause_no": "5.1",
+          "title": "Change of bank details",
+          "text": "Any change of bank details must be notified in writing and confirmed by a call-back to a known contact before the first payment to the new account. Bank details stated only on an invoice are never sufficient."
+        },
+        {
+          "clause_no": "6.1",
+          "title": "Late delivery penalty",
+          "text": "For each full week of delay beyond the agreed delivery date the vendor owes a penalty of 0.5% of the net value of the late goods, capped at 10%."
+        },
+        {
+          "clause_no": "9.1",
+          "title": "Termination",
+          "text": "Either party may terminate this agreement with 90 days' written notice."
+        }
+      ]
+    },
+    {
+      "id": "C008",
+      "vendor_id": "V008",
+      "currency": "EUR",
+      "valid_from": "2025-01-01",
+      "valid_to": "2026-12-31",
+      "prices": [
+        {
+          "sku": "SKU-029",
+          "unit_price": "38.61"
+        },
+        {
+          "sku": "SKU-030",
+          "unit_price": "78.18"
+        },
+        {
+          "sku": "SKU-031",
+          "unit_price": "6.58"
+        },
+        {
+          "sku": "SKU-032",
+          "unit_price": "5.46"
+        }
+      ],
+      "clauses": [
+        {
+          "clause_no": "3.1",
+          "title": "Prices",
+          "text": "Unit prices are those listed in Annex A for each SKU and are fixed for the contract term unless amended under clause 4.2."
+        },
+        {
+          "clause_no": "4.1",
+          "title": "Payment terms",
+          "text": "Payment is due 60 days from the invoice date by bank transfer to the account registered in the buyer's vendor master data."
+        },
+        {
+          "clause_no": "4.2",
+          "title": "Price adjustment",
+          "text": "Prices may be adjusted at most once per calendar year, by no more than 3%, and only by a written amendment signed by both parties 60 days in advance. Invoices at prices above Annex A without such an amendment are disputed."
+        },
+        {
+          "clause_no": "4.3",
+          "title": "Invoicing requirements",
+          "text": "Each invoice must quote the purchase order number and the vendor VAT id. Invoiced amounts may not exceed the purchase order net value by more than 2.00% without prior written approval."
+        },
+        {
+          "clause_no": "5.1",
+          "title": "Change of bank details",
+          "text": "Any change of bank details must be notified in writing and confirmed by a call-back to a known contact before the first payment to the new account. Bank details stated only on an invoice are never sufficient."
+        },
+        {
+          "clause_no": "6.1",
+          "title": "Late delivery penalty",
+          "text": "For each full week of delay beyond the agreed delivery date the vendor owes a penalty of 1.0% of the net value of the late goods, capped at 8%."
+        },
+        {
+          "clause_no": "9.1",
+          "title": "Termination",
+          "text": "Either party may terminate this agreement with 90 days' written notice."
+        }
+      ]
+    },
+    {
+      "id": "C009",
+      "vendor_id": "V009",
+      "currency": "EUR",
+      "valid_from": "2025-01-01",
+      "valid_to": "2026-12-31",
+      "prices": [
+        {
+          "sku": "SKU-033",
+          "unit_price": "17.19"
+        },
+        {
+          "sku": "SKU-034",
+          "unit_price": "6.77"
+        },
+        {
+          "sku": "SKU-035",
+          "unit_price": "8.06"
+        },
+        {
+          "sku": "SKU-036",
+          "unit_price": "5.69"
+        }
+      ],
+      "clauses": [
+        {
+          "clause_no": "3.1",
+          "title": "Prices",
+          "text": "Unit prices are those listed in Annex A for each SKU and are fixed for the contract term unless amended under clause 4.2."
+        },
+        {
+          "clause_no": "4.1",
+          "title": "Payment terms",
+          "text": "Payment is due 30 days from the invoice date by bank transfer to the account registered in the buyer's vendor master data."
+        },
+        {
+          "clause_no": "4.2",
+          "title": "Price adjustment",
+          "text": "Prices may be adjusted at most once per calendar year, by no more than 2%, and only by a written amendment signed by both parties 60 days in advance. Invoices at prices above Annex A without such an amendment are disputed."
+        },
+        {
+          "clause_no": "4.3",
+          "title": "Invoicing requirements",
+          "text": "Each invoice must quote the purchase order number and the vendor VAT id. Invoiced amounts may not exceed the purchase order net value by more than 2.00% without prior written approval."
+        },
+        {
+          "clause_no": "5.1",
+          "title": "Change of bank details",
+          "text": "Any change of bank details must be notified in writing and confirmed by a call-back to a known contact before the first payment to the new account. Bank details stated only on an invoice are never sufficient."
+        },
+        {
+          "clause_no": "6.1",
+          "title": "Late delivery penalty",
+          "text": "For each full week of delay beyond the agreed delivery date the vendor owes a penalty of 0.5% of the net value of the late goods, capped at 10%."
+        },
+        {
+          "clause_no": "9.1",
+          "title": "Termination",
+          "text": "Either party may terminate this agreement with 90 days' written notice."
+        }
+      ]
+    },
+    {
+      "id": "C010",
+      "vendor_id": "V010",
+      "currency": "EUR",
+      "valid_from": "2025-01-01",
+      "valid_to": "2026-12-31",
+      "prices": [
+        {
+          "sku": "SKU-037",
+          "unit_price": "7.94"
+        },
+        {
+          "sku": "SKU-038",
+          "unit_price": "11.08"
+        },
+        {
+          "sku": "SKU-039",
+          "unit_price": "24.43"
+        },
+        {
+          "sku": "SKU-040",
+          "unit_price": "6.74"
+        }
+      ],
+      "clauses": [
+        {
+          "clause_no": "3.1",
+          "title": "Prices",
+          "text": "Unit prices are those listed in Annex A for each SKU and are fixed for the contract term unless amended under clause 4.2."
+        },
+        {
+          "clause_no": "4.1",
+          "title": "Payment terms",
+          "text": "Payment is due 30 days from the invoice date by bank transfer to the account registered in the buyer's vendor master data."
+        },
+        {
+          "clause_no": "4.2",
+          "title": "Price adjustment",
+          "text": "Prices may be adjusted at most once per calendar year, by no more than 2%, and only by a written amendment signed by both parties 60 days in advance. Invoices at prices above Annex A without such an amendment are disputed."
+        },
+        {
+          "clause_no": "4.3",
+          "title": "Invoicing requirements",
+          "text": "Each invoice must quote the purchase order number and the vendor VAT id. Invoiced amounts may not exceed the purchase order net value by more than 2.00% without prior written approval."
+        },
+        {
+          "clause_no": "5.1",
+          "title": "Change of bank details",
+          "text": "Any change of bank details must be notified in writing and confirmed by a call-back to a known contact before the first payment to the new account. Bank details stated only on an invoice are never sufficient."
+        },
+        {
+          "clause_no": "6.1",
+          "title": "Late delivery penalty",
+          "text": "For each full week of delay beyond the agreed delivery date the vendor owes a penalty of 1.5% of the net value of the late goods, capped at 10%."
+        },
+        {
+          "clause_no": "9.1",
+          "title": "Termination",
+          "text": "Either party may terminate this agreement with 90 days' written notice."
+        }
+      ]
+    },
+    {
+      "id": "C011",
+      "vendor_id": "V011",
+      "currency": "EUR",
+      "valid_from": "2025-01-01",
+      "valid_to": "2026-12-31",
+      "prices": [
+        {
+          "sku": "SKU-041",
+          "unit_price": "30.88"
+        },
+        {
+          "sku": "SKU-042",
+          "unit_price": "89.30"
+        },
+        {
+          "sku": "SKU-043",
+          "unit_price": "79.88"
+        },
+        {
+          "sku": "SKU-044",
+          "unit_price": "40.92"
+        }
+      ],
+      "clauses": [
+        {
+          "clause_no": "3.1",
+          "title": "Prices",
+          "text": "Unit prices are those listed in Annex A for each SKU and are fixed for the contract term unless amended under clause 4.2."
+        },
+        {
+          "clause_no": "4.1",
+          "title": "Payment terms",
+          "text": "Payment is due 30 days from the invoice date by bank transfer to the account registered in the buyer's vendor master data."
+        },
+        {
+          "clause_no": "4.2",
+          "title": "Price adjustment",
+          "text": "Prices may be adjusted at most once per calendar year, by no more than 3%, and only by a written amendment signed by both parties 60 days in advance. Invoices at prices above Annex A without such an amendment are disputed."
+        },
+        {
+          "clause_no": "4.3",
+          "title": "Invoicing requirements",
+          "text": "Each invoice must quote the purchase order number and the vendor VAT id. Invoiced amounts may not exceed the purchase order net value by more than 2.00% without prior written approval."
+        },
+        {
+          "clause_no": "5.1",
+          "title": "Change of bank details",
+          "text": "Any change of bank details must be notified in writing and confirmed by a call-back to a known contact before the first payment to the new account. Bank details stated only on an invoice are never sufficient."
+        },
+        {
+          "clause_no": "6.1",
+          "title": "Late delivery penalty",
+          "text": "For each full week of delay beyond the agreed delivery date the vendor owes a penalty of 0.5% of the net value of the late goods, capped at 5%."
+        },
+        {
+          "clause_no": "9.1",
+          "title": "Termination",
+          "text": "Either party may terminate this agreement with 90 days' written notice."
+        }
+      ]
+    },
+    {
+      "id": "C012",
+      "vendor_id": "V012",
+      "currency": "EUR",
+      "valid_from": "2025-01-01",
+      "valid_to": "2026-12-31",
+      "prices": [
+        {
+          "sku": "SKU-045",
+          "unit_price": "172.21"
+        },
+        {
+          "sku": "SKU-046",
+          "unit_price": "87.88"
+        },
+        {
+          "sku": "SKU-047",
+          "unit_price": "44.92"
+        },
+        {
+          "sku": "SKU-048",
+          "unit_price": "120.16"
+        }
+      ],
+      "clauses": [
+        {
+          "clause_no": "3.1",
+          "title": "Prices",
+          "text": "Unit prices are those listed in Annex A for each SKU and are fixed for the contract term unless amended under clause 4.2."
+        },
+        {
+          "clause_no": "4.1",
+          "title": "Payment terms",
+          "text": "Payment is due 45 days from the invoice date by bank transfer to the account registered in the buyer's vendor master data."
+        },
+        {
+          "clause_no": "4.2",
+          "title": "Price adjustment",
+          "text": "Prices may be adjusted at most once per calendar year, by no more than 4%, and only by a written amendment signed by both parties 60 days in advance. Invoices at prices above Annex A without such an amendment are disputed."
+        },
+        {
+          "clause_no": "4.3",
+          "title": "Invoicing requirements",
+          "text": "Each invoice must quote the purchase order number and the vendor VAT id. Invoiced amounts may not exceed the purchase order net value by more than 2.00% without prior written approval."
+        },
+        {
+          "clause_no": "5.1",
+          "title": "Change of bank details",
+          "text": "Any change of bank details must be notified in writing and confirmed by a call-back to a known contact before the first payment to the new account. Bank details stated only on an invoice are never sufficient."
+        },
+        {
+          "clause_no": "6.1",
+          "title": "Late delivery penalty",
+          "text": "For each full week of delay beyond the agreed delivery date the vendor owes a penalty of 1.5% of the net value of the late goods, capped at 8%."
+        },
+        {
+          "clause_no": "9.1",
+          "title": "Termination",
+          "text": "Either party may terminate this agreement with 90 days' written notice."
+        }
+      ]
+    }
+  ],
+  "vat_rates": {
+    "IT": "22.00",
+    "DE": "19.00",
+    "FR": "20.00",
+    "ES": "21.00",
+    "NL": "21.00"
+  },
+  "po_tolerance_pct": "2.00"
+}

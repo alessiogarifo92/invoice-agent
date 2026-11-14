@@ -181,6 +181,7 @@ The Vue app is static on Cloudflare Pages and calls the API through a CORS allow
 - A ground-truth JSON is written next to each PDF.
 - Mutators: IBAN swap, resend with a reformatted number, amount above tolerance, unknown vendor, wrong VAT, total ≠ sum of lines, price above contract, injection (visible note, white-on-white text, tiny font, metadata).
 - Every PDF carries a "SYNTHETIC" watermark. IBANs pass mod-97 but use made-up bank codes.
+- T1 (2026-11-14): ReportLab chosen over WeasyPrint because it gives byte-identical PDFs with invariant mode and needs no system libraries. The watermark is a horizontal band, not a diagonal: pdfplumber interleaves rotated watermark letters with the invoice text.
 
 **Ticket order.**
 0. Skeleton and CI, plus a **walking-skeleton deploy**: `/healthz` on Render, a migration on Neon, the restricted role, and one traced call.
