@@ -4,11 +4,10 @@ import asyncio
 import hashlib
 import threading
 from collections.abc import Iterator
-from typing import Any
+from typing import Any, Protocol
 
 import pytest
 from fastapi.testclient import TestClient
-from httpx import Response
 from sqlalchemy import Connection, Engine, text
 from starlette.datastructures import UploadFile
 
@@ -23,6 +22,18 @@ from tests.pdf_factory import drawing_only_pdf, text_pdf
 from tests.support import SEED_INVOICES
 
 SEED_PDF = SEED_INVOICES / "INV-SEED-001.pdf"
+
+
+class Response(Protocol):
+    """What the tests read from a TestClient response (httpx or httpx2, whichever is installed)."""
+
+    @property
+    def status_code(self) -> int: ...
+
+    @property
+    def text(self) -> str: ...
+
+    def json(self) -> Any: ...
 
 
 @pytest.fixture
