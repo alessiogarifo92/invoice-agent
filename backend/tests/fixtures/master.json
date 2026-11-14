@@ -1,0 +1,30 @@
+{
+  "vendors": [
+    {"id": "V001", "name": "Synthetic Alpha Forniture S.r.l.", "vat_id": "IT00000000001", "country": "IT", "address": "Via Esempio 1, 00100 Roma (SYNTHETIC)"},
+    {"id": "V002", "name": "Beta Test Supplies GmbH", "vat_id": "DE000000002", "country": "DE", "address": "Musterstrasse 2, 10115 Berlin (SYNTHETIC)"}
+  ],
+  "vendor_bank_accounts": [
+    {"vendor_id": "V001", "iban": "IT60X0542811101000000123456", "valid_from": "2024-01-01", "valid_to": "2025-06-30"},
+    {"vendor_id": "V001", "iban": "IT02A0301503200000003517230", "valid_from": "2025-07-01", "valid_to": null},
+    {"vendor_id": "V002", "iban": "DE89370400440532013000", "valid_from": "2024-01-01", "valid_to": null}
+  ],
+  "purchase_orders": [
+    {"id": "PO-2026-0001", "vendor_id": "V001", "currency": "EUR", "issue_date": "2026-01-10", "total_net": "1250.00", "lines": [
+      {"line_no": 1, "sku": "SKU-001", "description": "Office chair (synthetic)", "quantity": "10", "unit_price": "125.00"}
+    ]},
+    {"id": "PO-2026-0002", "vendor_id": "V002", "currency": "EUR", "issue_date": "2026-02-03", "total_net": "300.50", "lines": [
+      {"line_no": 1, "sku": "SKU-100", "description": "Toner cartridge (synthetic)", "quantity": "2.5", "unit_price": "100.20"},
+      {"line_no": 2, "sku": "SKU-101", "description": "Paper ream (synthetic)", "quantity": "10", "unit_price": "4.99"}
+    ]}
+  ],
+  "contracts": [
+    {"id": "C001", "vendor_id": "V001", "currency": "EUR", "valid_from": "2025-01-01", "valid_to": "2026-12-31",
+     "prices": [{"sku": "SKU-001", "unit_price": "125.00"}],
+     "clauses": [
+       {"clause_no": "4.2", "title": "Late delivery", "text": "Penalties of 1% per week apply when shipments arrive late."},
+       {"clause_no": "7.1", "title": "Bank details", "text": "Any change of bank account must be confirmed in writing by phone call-back."}
+     ]}
+  ],
+  "vat_rates": {"IT": "22.00", "DE": "19.00"},
+  "po_tolerance_pct": "2.00"
+}

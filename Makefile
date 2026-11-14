@@ -1,4 +1,4 @@
-.PHONY: verify verify-backend verify-frontend verify-synth up migrate seed
+.PHONY: verify verify-backend verify-frontend verify-synth up migrate seed load-master
 
 SEED ?= 20261110
 
@@ -33,3 +33,7 @@ up:
 
 migrate:
 	cd backend && uv run alembic upgrade head
+
+# Owner connection (OWNER_DATABASE_URL); optional MASTER=path, default data/seed/master.json.
+load-master:
+	cd backend && uv run python scripts/load_master_data.py $(MASTER)
