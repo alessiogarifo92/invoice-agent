@@ -15,6 +15,8 @@ dependencies = [
     "opentelemetry-exporter-otlp-proto-http>=1.29",
     "anthropic>=2.8",
     "tzdata>=2026.6",
+    "pdfplumber>=0.11.10",
+    "python-multipart>=0.0.33",
 ]
 
 [dependency-groups]
@@ -22,6 +24,7 @@ dev = [
     "pytest>=8.3",
     "ruff>=0.8",
     "mypy>=1.13",
+    "reportlab>=5.1.0",
 ]
 
 [tool.ruff]
@@ -41,6 +44,11 @@ files = ["app", "scripts", "tests"]
 
 [[tool.mypy.overrides]]
 module = ["alembic.*"]
+ignore_missing_imports = true
+
+# ReportLab ships no type information; it is only used by the tests to build PDFs.
+[[tool.mypy.overrides]]
+module = ["reportlab.*"]
 ignore_missing_imports = true
 
 [tool.pytest.ini_options]
