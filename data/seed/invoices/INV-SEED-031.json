@@ -1,0 +1,34 @@
+{
+  "invoice_id": "INV-SEED-031",
+  "file": "INV-SEED-031.pdf",
+  "fields": {
+    "vendor_name": "Escalona Cleaning Synthetica S.L.",
+    "vendor_vat_id": "ES999187932",
+    "vendor_country": "ES",
+    "vendor_address": "Acceso Zaira Agustí 91, 09683 Almería, Spain",
+    "invoice_number": "RE-00247",
+    "issue_date": "2026-06-10",
+    "due_date": "2026-07-10",
+    "currency": "EUR",
+    "po_number": "PO-2026-0030",
+    "iban": "ES79ZQZX0268030851557966",
+    "lines": [
+      {
+        "line_no": 1,
+        "sku": "SKU-013",
+        "description": "Floor detergent, 10 L can",
+        "quantity": "11",
+        "unit_price": "24.23",
+        "line_total": "266.53"
+      }
+    ],
+    "subtotal": "266.53",
+    "vat_rate": "21.00",
+    "vat_amount": "55.97",
+    "total": "322.50"
+  },
+  "anomalies": [],
+  "expected_action": "approve",
+  "duplicate_of": null,
+  "notes": "Clean invoice: matches its PO, the contract prices and the vendor master data."
+}

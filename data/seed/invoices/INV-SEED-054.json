@@ -1,0 +1,42 @@
+{
+  "invoice_id": "INV-SEED-054",
+  "file": "INV-SEED-054.pdf",
+  "fields": {
+    "vendor_name": "Reynaud Electrical Synthetica SARL",
+    "vendor_vat_id": "FR99996268292",
+    "vendor_country": "FR",
+    "vendor_address": "83, avenue André Dijoux, 38193 Lagarde-sur-Mer, France",
+    "invoice_number": "F-2026-0120",
+    "issue_date": "2026-09-16",
+    "due_date": "2026-11-15",
+    "currency": "EUR",
+    "po_number": "PO-2026-0054",
+    "iban": "FR79QQZX5978002126928647224",
+    "lines": [
+      {
+        "line_no": 1,
+        "sku": "SKU-032",
+        "description": "Cable ties 300 mm, bag of 100",
+        "quantity": "95",
+        "unit_price": "5.46",
+        "line_total": "518.70"
+      },
+      {
+        "line_no": 2,
+        "sku": "SKU-031",
+        "description": "Circuit breaker C16, 1 pole",
+        "quantity": "61",
+        "unit_price": "6.58",
+        "line_total": "401.38"
+      }
+    ],
+    "subtotal": "920.08",
+    "vat_rate": "20.00",
+    "vat_amount": "184.02",
+    "total": "1104.10"
+  },
+  "anomalies": [],
+  "expected_action": "approve",
+  "duplicate_of": null,
+  "notes": "Clean invoice: matches its PO, the contract prices and the vendor master data."
+}
