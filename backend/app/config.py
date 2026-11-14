@@ -16,6 +16,10 @@ class Settings(BaseSettings):
     cors_origins: str = "http://localhost:5173"
     app_version: str = "0.1.0"
 
+    # Upload limits (phase 3 flow, step 1): PDF only, at most 2 MB and 5 pages.
+    max_upload_bytes: int = 2_000_000
+    max_pages: int = 5
+
     # LLM (phase 2 amendment: Gemini free tier is the primary provider).
     gemini_api_key: str | None = None
     llm_model_extract: str = "gemini-3.5-flash-lite"
