@@ -10,12 +10,14 @@ dependencies = [
     "sqlalchemy>=2.0",
     "alembic>=1.14",
     "psycopg[binary]>=3.2",
+    "httpx>=0.28",
+    "opentelemetry-sdk>=1.29",
+    "opentelemetry-exporter-otlp-proto-http>=1.29",
 ]
 
 [dependency-groups]
 dev = [
     "pytest>=8.3",
-    "httpx>=0.28",
     "ruff>=0.8",
     "mypy>=1.13",
 ]

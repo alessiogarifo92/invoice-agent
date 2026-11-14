@@ -18,6 +18,7 @@ Run / preview (manual gate):
 - Local, whole stack: `docker compose up --build` (Postgres 16 on :5432, API on http://localhost:8000, Vite on http://localhost:5173). Check `http://localhost:8000/healthz` returns 200 and the page on :5173 loads.
 - Migrations: `make migrate` (uses `OWNER_DATABASE_URL`; the API itself uses the restricted `DATABASE_URL`). Create the restricted role with `backend/scripts/create_app_role.py`.
 - Gate before any push: `make verify` (ruff, mypy, pytest, eslint, vue-tsc, vitest). Needs uv and Node 22+.
+- LLM + tracing smoke (T0): `cd backend && uv run python -m app.llm_ping` with GEMINI_API_KEY and the LANGFUSE_* keys set; on Render set `LLM_PING_ON_STARTUP=true` once, check the trace in Langfuse, then remove it.
 - Per-PR preview: frontend only, Cloudflare Pages preview deploys (enabled once the Pages project is linked); the API has no per-PR preview.
 
 Repo visibility: public (check: `gh api repos/<owner>/<repo> --jq .private`). Private means finite GitHub Actions minutes: `npm run verify` / `make verify` locally is the push gate, and a CI job that never starts follows `test-verification`'s billing fallback.
