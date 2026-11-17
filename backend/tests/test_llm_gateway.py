@@ -20,7 +20,7 @@ from app.llm.errors import (
     SchemaError,
     TransientError,
 )
-from app.llm.gateway import LLMGateway
+from app.llm.gateway import GatewayConfigError, LLMGateway
 from app.llm.ledger import InMemoryLedger, LLMCall
 from app.llm.types import AssistantTurn, Limits, ToolCall, ToolSpec, Usage
 from tests.llm_support import FAKE_KEY, FakeProvider, Invoice
@@ -118,6 +118,17 @@ def test_success_records_one_ok_row_with_tokens_and_the_extract_model() -> None:
     assert row.invoice_id == "0b5c2b7e-0000-4000-8000-000000000001"
     assert row.demo_token_hash == "tok" and row.created_at == NOW
     assert row.latency_ms is not None and row.latency_ms >= 0
+
+
+def test_model_for_names_the_configured_model_without_a_call() -> None:
+    # What processing_runs records when the call failed (e.g. a schema failure).
+    h = Harness(_gemini(), llm_model_extract="override-extract")
+    assert h.gateway.model_for("gemini") == "override-extract"
+    assert h.gateway.model_for("gemini", "agent") == "gemini-3.6-flash"
+    assert h.gateway.model_for("groq") == "openai/gpt-oss-20b"
+    with pytest.raises(GatewayConfigError):
+        h.gateway.model_for("anthropic")
+    assert h.primary.calls == [] and h.rows() == []
 
 
 def test_failed_call_still_writes_a_row_with_the_error_class() -> None:

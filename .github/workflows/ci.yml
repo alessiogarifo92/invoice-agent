@@ -59,6 +59,57 @@ jobs:
       - name: Dump logs on failure
         if: failure()
         run: docker compose logs
-  # LLM-backed jobs (evals) are added by later tickets. They must carry
+  # LLM-backed jobs (evals) must carry
   # `if: github.event.pull_request.head.repo.full_name == github.repository`
   # so that PRs from forks never see the CI keys.
+  llm-changes:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    outputs:
+      extraction: ${{ steps.filter.outputs.extraction }}
+    steps:
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            extraction:
+              - 'backend/app/extraction/**'
+              - 'backend/app/llm/**'
+              - 'backend/app/evals/**'
+  # Layer 2 (phase 3, "Evals"): live extraction of 25 seed invoices with the CI's own free
+  # Gemini key, compared with evals/baseline.json. Exhausted quota passes with a warning.
+  # With no "layer2" baseline yet the job passes: commit the report's `baseline_candidate`
+  # block from the first run's artifact into evals/baseline.json under "layer2".
+  eval-layer2:
+    needs: llm-changes
+    if: >-
+      needs.llm-changes.outputs.extraction == 'true' &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY_CI }}
+      LLM_PROVIDER: gemini
+      LLM_FALLBACK_PROVIDER: none
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          version: "0.13.8"
+      - run: uv sync --frozen
+        working-directory: backend
+      - name: Layer-2 eval
+        working-directory: backend
+        run: >-
+          uv run python -m app.evals.layer2 --seed-dir ../data/seed
+          --baseline ../evals/baseline.json --limit 25
+          --report ../evals/out/layer2-report.json
+      - name: Upload the report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: layer2-report
+          path: evals/out/layer2-report.json
+          if-no-files-found: warn

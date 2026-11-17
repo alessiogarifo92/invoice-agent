@@ -14,7 +14,7 @@ import time
 from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
-from typing import Protocol, TypeVar
+from typing import Literal, Protocol, TypeVar
 from uuid import UUID
 from zoneinfo import ZoneInfo
 
@@ -222,12 +222,17 @@ class LLMGateway:
             return next_pacific_midnight(now)
         return _day_bounds(now)[1]
 
-    def _model(self, provider: Provider, role: str) -> str:
-        extract, agent = self._settings.llm_models(provider.name)
+    def model_for(self, provider: str, role: Literal["extract", "agent"] = "extract") -> str:
+        """The model `provider` uses for `role`, without a call: what processing_runs records
+        when a request failed (a SchemaError carries the provider, not the model)."""
+        extract, agent = self._settings.llm_models(provider)
         model = extract if role == "extract" else agent
         if not model:
-            raise GatewayConfigError(f"no {role} model configured for {provider.name}")
+            raise GatewayConfigError(f"no {role} model configured for {provider}")
         return model
+
+    def _model(self, provider: Provider, role: Literal["extract", "agent"]) -> str:
+        return self.model_for(provider.name, role)
 
     def _check_quota(self, provider: Provider, ctx: _Context) -> None:
         now = self._clock()
