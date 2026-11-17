@@ -37,12 +37,15 @@ def _message(body: dict[str, Any]) -> dict[str, Any]:
     return message if isinstance(message, dict) else {}
 
 
-def _arguments(raw: Any) -> dict[str, Any]:
+def _arguments(raw: Any) -> dict[str, Any] | None:
+    """The arguments object, {} for an empty string, or None when they are not an object."""
+    if isinstance(raw, str) and not raw.strip():
+        return {}
     try:
         parsed = json.loads(raw) if isinstance(raw, str) else raw
     except ValueError:
-        return {}
-    return parsed if isinstance(parsed, dict) else {}
+        return None
+    return parsed if isinstance(parsed, dict) else None
 
 
 class GroqProvider(ToolLoopMixin):
@@ -154,11 +157,13 @@ class GroqProvider(ToolLoopMixin):
             function = call.get("function")
             if not isinstance(function, dict):
                 function = {}
+            arguments = _arguments(function.get("arguments"))
             calls.append(
                 ToolCall(
                     id=str(call.get("id", "")),
                     name=str(function.get("name", "")),
-                    arguments=_arguments(function.get("arguments")),
+                    arguments=arguments or {},
+                    malformed=arguments is None,
                 )
             )
         # Replayed as-is on the next step, minus provider extras such as `reasoning`.

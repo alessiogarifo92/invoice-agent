@@ -17,11 +17,14 @@ import pytest
 from sqlalchemy import Engine, text
 
 from app.agent import AgentDecision, AgentRequest
+from app.agent.tools import PROPOSE, Evidence
+from app.agent.triage import TriageAgent
 from app.audit import verify_chain
 from app.jobs import pipeline, queue
 from app.jobs.worker import Worker, quota_retry_at
 from app.llm.errors import QuotaExhausted, TransientError
 from app.llm.gateway import LLMGateway
+from app.llm.types import AssistantTurn, ToolCall, Usage
 from app.rules.flags import Action
 from tests.extraction_support import seed_fields
 from tests.jobs_support import (
@@ -631,3 +634,219 @@ def test_a_job_at_an_unknown_stage_fails_instead_of_looping(
     job = _job(app_engine, invoice_id)
     assert job.status == "failed" and "unknown stage" in job.last_error
     assert _status(app_engine, invoice_id) == "failed"
+
+
+# --- T8: the triage agent in the pipeline --------------------------------------------------
+
+INJECTION_NOTE = "INV-SEED-033"  # injection_visible_note
+RESEND, ORIGINAL = "INV-SEED-063", "INV-SEED-024"
+
+
+def _turn(*calls: ToolCall) -> AssistantTurn:
+    return AssistantTurn(text="", tool_calls=list(calls), usage=Usage(40, 8))
+
+
+def _lookup(name: str, n: int = 1) -> AssistantTurn:
+    return _turn(ToolCall(f"c{n}", name, {}))
+
+
+def _propose_turn(action: str, *refs: str, rationale: str = "Checked.") -> AssistantTurn:
+    arguments = {"action": action, "rationale": rationale, "evidence_refs": list(refs)}
+    return _turn(ToolCall("p", PROPOSE, arguments))
+
+
+def _agent_worker(engine: Engine, provider: FakeProvider) -> Worker:
+    gateway = sql_gateway(engine, provider)
+    return _worker(engine, gateway, agent=TriageAgent(engine, gateway, ref_tag="t1"))
+
+
+def test_the_agent_reviews_a_flagged_invoice_and_its_evidence_is_kept(
+    seeded: ScratchDatabase, app_engine: Engine
+) -> None:
+    invoice_id = upload_seed(app_engine, IBAN_SWAP)
+    provider = FakeProvider(
+        "gemini",
+        _reply(IBAN_SWAP),
+        _lookup("get_vendor"),
+        _propose_turn("block", "ev-t1-1", rationale="New IBAN\x00 never on file.\n\n\n\nBlock."),
+    )
+    worker = _agent_worker(app_engine, provider)
+
+    assert worker.run_once() is True
+
+    proposal = _proposal(app_engine, invoice_id)
+    assert (proposal.rule_floor, proposal.agent_action, proposal.final_action) == (
+        "clarify",
+        "block",
+        "block",
+    )
+    assert proposal.evidence_refs == ["ev-t1-1"]
+    assert proposal.rationale == "New IBAN never on file.\n\nBlock."
+    assert llm_calls(app_engine, invoice_id) == 3  # one extraction, two agent steps
+    # The agent saw the document's visible text inside the untrusted block.
+    assert "2026/326" in provider.calls[1]["user"].split("<untrusted_invoice_text>")[1]
+    (completed,) = rows(
+        app_engine, "SELECT payload FROM audit_events WHERE event_type = 'agent.completed'"
+    )
+    payload = completed.payload
+    assert payload["action"] == "block" and payload["proposed_action"] == "block"
+    assert payload["stop_reason"] == "completed" and payload["evidence_refs"] == ["ev-t1-1"]
+    assert payload["evidence"] == [{"ref": "ev-t1-1", "tool": "get_vendor", "records": ["V002"]}]
+    assert payload["tool_calls"] == ["get_vendor", PROPOSE]
+    assert payload["prompt_version"] == "agent-v1"
+    # Refs and record ids in the chain; the attacker-influenced prose stays out of it.
+    assert "rationale" not in payload and "New IBAN" not in json.dumps(payload)
+    agent_output = _job(app_engine, invoice_id).stage_outputs["agent"]
+    assert agent_output["evidence"][0]["output"]["invoice_iban_status"] == "never_seen"
+    (created,) = rows(
+        app_engine, "SELECT payload FROM audit_events WHERE event_type = 'proposal.created'"
+    )
+    assert created.payload["evidence_refs"] == ["ev-t1-1"]
+    assert (
+        scalar(
+            app_engine,
+            "SELECT agent_model FROM processing_runs WHERE invoice_id = :id",
+            id=invoice_id,
+        )
+        == "gemini-3.6-flash"
+    )
+    assert _chain_ok(app_engine)
+
+
+@pytest.mark.parametrize("seed_id", [IBAN_SWAP, INJECTION_NOTE])
+def test_an_agent_that_approves_an_iban_change_or_an_injection_still_clarifies(
+    seeded: ScratchDatabase, app_engine: Engine, seed_id: str
+) -> None:
+    invoice_id = upload_seed(app_engine, seed_id)
+    provider = FakeProvider(
+        "gemini", _reply(seed_id), _lookup("get_vendor"), _propose_turn("approve", "ev-t1-1")
+    )
+    assert _agent_worker(app_engine, provider).run_once() is True
+
+    proposal = _proposal(app_engine, invoice_id)
+    assert (proposal.agent_action, proposal.final_action) == ("approve", "clarify")
+
+
+def test_an_agent_that_approves_a_confirmed_duplicate_is_still_blocked(
+    seeded: ScratchDatabase, app_engine: Engine
+) -> None:
+    upload_seed(app_engine, ORIGINAL)
+    resend = upload_seed(app_engine, RESEND)
+    provider = FakeProvider(
+        "gemini",
+        _reply(ORIGINAL),
+        _reply(RESEND),
+        _lookup("find_similar_invoices"),
+        _propose_turn("approve", "ev-t1-1", rationale="Probably a credit note."),
+    )
+    worker = _agent_worker(app_engine, provider)
+    assert worker.run_once() is True and worker.run_once() is True
+
+    proposal = _proposal(app_engine, resend)
+    assert (proposal.rule_floor, proposal.agent_action, proposal.final_action) == (
+        "block",
+        "approve",
+        "block",
+    )
+
+
+def test_a_forged_evidence_ref_from_any_agent_is_clarify_at_the_gate(
+    seeded: ScratchDatabase, app_engine: Engine
+) -> None:
+    # An agent that skips its own vetting: the pipeline's gate checks the refs again. The
+    # agent only runs on a flagged invoice, so the floor is already clarify: a forged ref
+    # shows where the agent asks for more, a block resting on evidence nobody returned.
+    invoice_id = upload_seed(app_engine, CLEAN)
+    decision = AgentDecision(
+        action="block",
+        rationale="Fraud.",
+        evidence_refs=("ev-x-1", "ev-x-9"),
+        evidence=(Evidence("ev-x-1", "get_vendor", ("V001",), {"found": True}),),
+    )
+    worker = _worker(
+        app_engine,
+        FakeProvider("gemini", _reply(CLEAN, total="1.00")),
+        agent=RecordingAgent(decision),
+    )
+    assert worker.run_once() is True
+
+    proposal = _proposal(app_engine, invoice_id)
+    assert (proposal.rule_floor, proposal.agent_action, proposal.final_action) == (
+        "clarify",
+        "block",
+        "clarify",
+    )
+    # Only refs the run's tools returned are kept on the proposal.
+    assert proposal.evidence_refs == ["ev-x-1"]
+
+
+def test_an_agent_that_stops_without_a_proposal_clarifies(
+    seeded: ScratchDatabase, app_engine: Engine
+) -> None:
+    invoice_id = upload_seed(app_engine, CLEAN)
+    provider = FakeProvider(
+        "gemini", _reply(CLEAN, total="1.00"), _turn(), *[_lookup("check_vat", n) for n in range(8)]
+    )
+    assert _agent_worker(app_engine, provider).run_once() is True
+
+    proposal = _proposal(app_engine, invoice_id)
+    # total_mismatch has floor clarify; the agent ended with text only.
+    assert (proposal.agent_action, proposal.final_action) == ("clarify", "clarify")
+    assert proposal.evidence_refs == []
+    (completed,) = rows(
+        app_engine, "SELECT payload FROM audit_events WHERE event_type = 'agent.completed'"
+    )
+    assert completed.payload["stop_reason"] == "no_proposal"
+
+
+def test_quota_exhausted_during_the_agent_parks_the_invoice_at_the_agent_stage(
+    seeded: ScratchDatabase, app_engine: Engine
+) -> None:
+    invoice_id = upload_seed(app_engine, IBAN_SWAP)
+    provider = FakeProvider(
+        "gemini",
+        _reply(IBAN_SWAP),
+        _lookup("get_vendor"),
+        QuotaExhausted("gemini", status=429, period="day", reset_in_s=600),
+    )
+    worker = _agent_worker(app_engine, provider)
+
+    assert worker.run_once() is True
+
+    assert _status(app_engine, invoice_id) == "awaiting_quota"
+    job = _job(app_engine, invoice_id)
+    assert (job.status, job.stage, job.attempts) == ("queued", "agent", 0)
+    assert "agent.completed" not in event_types(app_engine, invoice_id)
+
+    with app_engine.begin() as conn:
+        conn.execute(text("UPDATE budget_state SET exhausted_until = now() - interval '1s'"))
+        conn.execute(text("UPDATE jobs SET run_after = now() - interval '1s'"))
+    provider.script += [_lookup("get_vendor"), _propose_turn("clarify", "ev-t1-1")]
+    assert worker.run_once() is True
+
+    assert _status(app_engine, invoice_id) == "pending_approval"
+    assert _proposal(app_engine, invoice_id).evidence_refs == ["ev-t1-1"]
+    # The extraction was not paid for again: 1 extraction + 2 refused-run steps + 2 steps.
+    assert llm_calls(app_engine, invoice_id) == 5
+
+
+def test_the_agent_request_carries_the_visible_text_only(
+    seeded: ScratchDatabase, app_engine: Engine
+) -> None:
+    upload_seed(app_engine, "INV-SEED-058")  # injection_white_text
+    agent = RecordingAgent(None)
+    worker = _worker(app_engine, FakeProvider("gemini", _reply("INV-SEED-058")), agent=agent)
+    assert worker.run_once() is True
+
+    (request,) = agent.requests
+    assert seed_fields("INV-SEED-058")["invoice_number"] in request.invoice_text
+    hidden = rows(
+        app_engine,
+        "SELECT evidence FROM flags WHERE code = 'injection_suspected'",
+    )
+    assert hidden
+    for flag_row in hidden:
+        snippet = flag_row.evidence["details"].get("snippet")
+        if snippet:
+            # White-on-white text never reaches the agent as document text.
+            assert snippet not in request.invoice_text

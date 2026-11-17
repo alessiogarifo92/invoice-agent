@@ -146,12 +146,14 @@ class GeminiProvider(ToolLoopMixin):
             call = part.get("functionCall")
             if not isinstance(call, dict):
                 continue
-            args = call.get("args")
+            # No `args` at all is a call without arguments; anything but an object is malformed.
+            args = call.get("args", {})
             calls.append(
                 ToolCall(
                     id=str(call.get("id") or f"{_LOCAL_ID_PREFIX}{index}"),
                     name=str(call.get("name", "")),
                     arguments=args if isinstance(args, dict) else {},
+                    malformed=not isinstance(args, dict),
                 )
             )
         return AssistantTurn(text=_text(parts), tool_calls=calls, usage=_usage(reply), raw=parts)

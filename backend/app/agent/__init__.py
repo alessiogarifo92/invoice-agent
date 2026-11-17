@@ -1,6 +1,6 @@
-"""The triage agent (T8; a stub in T7) and the policy gate that bounds what it can decide."""
+"""The triage agent (T8), its tools, and the policy gate that bounds what it can decide."""
 
-from app.agent.policy import policy_gate
+from app.agent.policy import forged_refs, policy_gate
 from app.agent.triage import Agent, AgentDecision, AgentRequest, triage
 
-__all__ = ["Agent", "AgentDecision", "AgentRequest", "policy_gate", "triage"]
+__all__ = ["Agent", "AgentDecision", "AgentRequest", "forged_refs", "policy_gate", "triage"]

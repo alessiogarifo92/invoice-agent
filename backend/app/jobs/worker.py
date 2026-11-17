@@ -27,6 +27,7 @@ from uuid import UUID
 from sqlalchemy import Connection, Engine, create_engine, text
 
 from app.agent import Agent, triage
+from app.agent.triage import TriageAgent
 from app.audit import append_event
 from app.config import Settings
 from app.db import normalize_url
@@ -35,6 +36,7 @@ from app.jobs.pipeline import Stopping, run_pipeline
 from app.llm.errors import QuotaUnavailable
 from app.llm.gateway import LLMGateway, build_gateway, mark_awaiting_quota
 from app.llm.ledger import SqlLedger
+from app.llm.types import Limits
 
 ACTOR = queue.ACTOR
 
@@ -114,6 +116,7 @@ class Worker:
         gateway: LLMGateway,
         *,
         owner: str | None = None,
+        # The no-op agent unless one is given: build_worker passes the TriageAgent.
         agent: Agent = triage,
         lease_s: float = 60.0,
         heartbeat_s: float = 15.0,
@@ -285,7 +288,8 @@ class Worker:
 
 
 def build_worker(settings: Settings) -> Worker:
-    """A worker on its own engine for settings.database_url (the restricted app role).
+    """A worker on its own engine for settings.database_url (the restricted app role), with
+    the triage agent on the same gateway and the agent limits from the settings.
 
     Raises GatewayConfigError when no LLM provider can be built (e.g. the key is missing).
     """
@@ -295,9 +299,13 @@ def build_worker(settings: Settings) -> Worker:
     except Exception:
         engine.dispose()
         raise
+    limits = Limits(
+        max_tool_calls=settings.agent_max_tool_calls, timeout_s=settings.agent_timeout_s
+    )
     return Worker(
         engine,
         gateway,
+        agent=TriageAgent(engine, gateway, limits),
         lease_s=settings.worker_lease_s,
         heartbeat_s=settings.worker_heartbeat_s,
         poll_s=settings.worker_poll_interval_s,

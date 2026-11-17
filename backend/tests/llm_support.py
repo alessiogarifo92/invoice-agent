@@ -80,5 +80,7 @@ class FakeProvider(ToolLoopMixin):
         tools: Sequence[ToolSpec],
         model: str,
     ) -> AssistantTurn:
-        turn: AssistantTurn = self._next(op="chat", model=model, history=list(history))
+        turn: AssistantTurn = self._next(
+            op="chat", model=model, history=list(history), system=system, user=user, tools=tools
+        )
         return turn

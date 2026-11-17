@@ -1,4 +1,4 @@
-.PHONY: verify verify-backend verify-frontend verify-synth eval-l1 up migrate seed load-master
+.PHONY: verify verify-backend verify-frontend verify-synth eval-l1 eval-l3 up migrate seed load-master
 
 SEED ?= 20261110
 
@@ -29,6 +29,13 @@ verify-synth:
 # deliberately with: cd backend && uv run python -m app.evals.layer1 ... --write-baseline
 eval-l1:
 	cd backend && uv run python -m app.evals.layer1 --seed-dir ../data/seed --baseline ../evals/baseline.json
+
+# Layer-3 eval (live LLM, on demand, spends free-tier quota): the full pipeline on the seed's
+# flagged cases in a throwaway database it creates and drops. Needs EVAL_ADMIN_DATABASE_URL (a
+# Postgres URL allowed to CREATE DATABASE) and the LLM_PROVIDER's key, e.g. GEMINI_API_KEY.
+# Exit 1 if a fraud or injection case is approved; exhausted quota passes with a warning.
+eval-l3:
+	cd backend && uv run python -m app.evals.layer3 --seed-dir ../data/seed --report ../evals/out/layer3-report.json
 
 # Regenerates the committed synthetic dataset; the same SEED gives byte-identical files.
 seed:

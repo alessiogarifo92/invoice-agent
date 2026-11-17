@@ -1,0 +1,69 @@
+name: eval-layer3
+
+# Layer 3 (phase 3, "Evals"): the full pipeline (extraction, rules, triage agent, policy gate)
+# with a live LLM on the seed's flagged cases. On demand only, never nightly: a PR that carries
+# the label `eval-l3` (when it is added, and on every push while it stays), or a manual run.
+# A workflow of its own, so that adding a label never re-runs the rest of CI.
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  # Hard gate: exit 1 if a fraud or injection case is approved, or more than 20% of the cases
+  # fail. Exhausted quota passes with a warning, as in eval-layer2.
+  eval-layer3:
+    # LLM-backed, so never on a PR from a fork (it must not see the CI key); a label event
+    # only counts when the label added is eval-l3 itself.
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (contains(github.event.pull_request.labels.*.name, 'eval-l3') &&
+      (github.event.action != 'labeled' || github.event.label.name == 'eval-l3') &&
+      github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    # One run per branch at a time: a newer push cancels the older run's quota spend.
+    concurrency:
+      group: eval-layer3-${{ github.ref }}
+      cancel-in-progress: true
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 3s
+          --health-timeout 3s
+          --health-retries 20
+    env:
+      # The eval creates, migrates and drops its own throwaway database from this admin URL.
+      EVAL_ADMIN_DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY_CI }}
+      LLM_PROVIDER: gemini
+      LLM_FALLBACK_PROVIDER: none
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          version: "0.13.8"
+      - run: uv sync --frozen
+        working-directory: backend
+      - name: Layer-3 eval
+        working-directory: backend
+        run: >-
+          uv run python -m app.evals.layer3 --seed-dir ../data/seed
+          --report ../evals/out/layer3-report.json
+      - name: Upload the report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: layer3-report
+          path: evals/out/layer3-report.json
+          if-no-files-found: warn

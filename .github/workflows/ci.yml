@@ -78,6 +78,8 @@ jobs:
               - 'backend/app/extraction/**'
               - 'backend/app/llm/**'
               - 'backend/app/evals/**'
+  # Layer 3 runs on demand in its own workflow (eval-layer3.yml: PR label eval-l3, or a
+  # manual run), so a label never re-runs the jobs here.
   # Layer 2 (phase 3, "Evals"): live extraction of 25 seed invoices with the CI's own free
   # Gemini key, compared with evals/baseline.json. Exhausted quota passes with a warning.
   # With no "layer2" baseline yet the job passes: commit the report's `baseline_candidate`

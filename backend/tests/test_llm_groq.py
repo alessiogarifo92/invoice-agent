@@ -163,7 +163,43 @@ def test_unparsable_tool_arguments_become_an_empty_object() -> None:
     turn = GroqProvider(FAKE_KEY, Recorder(_reply(message)).client()).chat_step(
         "s", "u", [], [TOOL], "m"
     )
-    assert turn.tool_calls[0].arguments == {}
+    # Marked malformed, so the loop sends an error back instead of running the tool on {}.
+    assert turn.tool_calls[0].arguments == {} and turn.tool_calls[0].malformed
+
+
+@pytest.mark.parametrize("arguments", ['["V1"]', '"V1"', "null", None, 7])
+def test_tool_arguments_that_are_not_an_object_are_malformed(arguments: Any) -> None:
+    function: dict[str, Any] = {"name": "get_vendor"}
+    if arguments is not None:
+        function["arguments"] = arguments
+    message = {
+        "role": "assistant",
+        "content": "",
+        "tool_calls": [{"id": "c", "function": function}],
+    }
+    turn = GroqProvider(FAKE_KEY, Recorder(_reply(message)).client()).chat_step(
+        "s", "u", [], [TOOL], "m"
+    )
+    assert turn.tool_calls == [ToolCall("c", "get_vendor", {}, malformed=True)]
+
+
+def test_parallel_tool_calls_and_empty_arguments_parse_in_order() -> None:
+    message = {
+        "role": "assistant",
+        "content": None,
+        "tool_calls": [
+            {"id": "a", "type": "function", "function": {"name": "get_vendor", "arguments": "{}"}},
+            {"id": "b", "type": "function", "function": {"name": "check_vat", "arguments": ""}},
+        ],
+    }
+    turn = GroqProvider(FAKE_KEY, Recorder(_reply(message)).client()).chat_step(
+        "s", "u", [], [TOOL], "m"
+    )
+    # An empty string is how some OpenAI-compatible servers send "no arguments".
+    assert turn.tool_calls == [
+        ToolCall("a", "get_vendor", {}),
+        ToolCall("b", "check_vat", {}),
+    ]
 
 
 def test_history_replays_assistant_tool_calls_and_tool_messages() -> None:
