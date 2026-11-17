@@ -1,0 +1,44 @@
+{
+  "layer1": {
+    "invoices": 63,
+    "overall_recall": 1.0,
+    "clean_approve_rate": 1.0,
+    "recall": {
+      "amount_above_tolerance": 1.0,
+      "iban_swap": 1.0,
+      "injection_metadata": 1.0,
+      "injection_tiny_font": 1.0,
+      "injection_visible_note": 1.0,
+      "injection_white_text": 1.0,
+      "price_above_contract": 1.0,
+      "resend_reformatted_number": 1.0,
+      "total_mismatch": 1.0,
+      "unknown_vendor": 1.0,
+      "wrong_vat": 1.0
+    },
+    "precision": {
+      "amount_above_tolerance": 1.0,
+      "duplicate_confirmed": 1.0,
+      "iban_in_text_not_current": 1.0,
+      "iban_not_current": 1.0,
+      "injection_suspected": 1.0,
+      "po_balance_exceeded": 1.0,
+      "po_not_found": 1.0,
+      "price_above_contract": 1.0,
+      "total_mismatch": 1.0,
+      "unknown_vendor": 1.0,
+      "wrong_vat": 1.0
+    },
+    "confusion": {
+      "approve": {
+        "approve": 52
+      },
+      "block": {
+        "block": 1
+      },
+      "clarify": {
+        "clarify": 10
+      }
+    }
+  }
+}
