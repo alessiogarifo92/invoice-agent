@@ -1,0 +1,234 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.55;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: 40px;
+  line-height: 1.1;
+}
+
+h2 {
+  font-size: 22px;
+  line-height: 1.25;
+}
+
+h3 {
+  font-size: 18px;
+  line-height: 1.3;
+}
+
+p {
+  margin: 0;
+  text-wrap: pretty;
+}
+
+a {
+  color: var(--accent);
+  text-underline-offset: 3px;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0;
+  font-variant-ligatures: none;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.small {
+  font-size: 14px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  transition: outline-offset var(--dur-fast) var(--ease-out);
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Buttons: every target is at least 44px tall (decision buttons 48px). */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-8);
+  min-height: var(--target);
+  min-width: var(--target);
+  padding: 0 var(--space-16);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--ground);
+  color: var(--ink);
+  font: 500 15px/1.2 var(--font-body);
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  touch-action: manipulation;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.btn:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover:not(:disabled) {
+    border-color: var(--muted);
+  }
+  .btn-primary:hover:not(:disabled) {
+    background: #2a2d3a;
+    border-color: #2a2d3a;
+  }
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.btn-primary {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--ground);
+}
+
+.btn-quiet {
+  border-color: transparent;
+  background: transparent;
+  padding: 0 var(--space-12);
+  color: var(--accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn:active:not(:disabled) {
+    transform: none;
+  }
+}
+
+/* Inputs: 16px text, so iOS never zooms the page on focus. */
+.field {
+  display: grid;
+  gap: var(--space-8);
+}
+
+.field-label {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.field-hint {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.input {
+  min-height: var(--target);
+  width: 100%;
+  padding: var(--space-8) var(--space-12);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--ground);
+  color: var(--ink);
+  font: 400 16px/1.4 var(--font-body);
+  transition: border-color var(--dur-fast) var(--ease-out);
+}
+
+.input:focus-visible {
+  outline-offset: 0;
+  border-color: var(--accent);
+}
+
+.input[aria-invalid="true"] {
+  border-color: var(--block);
+}
+
+.field-error {
+  color: var(--block);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Status banners (waking up, demo budget): first-class states, never animated. */
+.banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-12) var(--space-16);
+  padding: var(--space-12) var(--space-16);
+  border-radius: var(--radius);
+  background: var(--clarify-bg);
+  color: var(--clarify-text);
+  font-size: 15px;
+}
+
+.banner strong {
+  font-weight: 600;
+}
+
+.banner-text {
+  flex: 1 1 280px;
+}
+
+.banner .btn {
+  border-color: rgba(94, 47, 0, 0.3);
+  background: transparent;
+  color: var(--clarify-text);
+}
+
+.banner-block {
+  background: var(--block-bg);
+  color: #7a160f;
+}
+
+.skeleton {
+  background: var(--tint);
+  border-radius: var(--radius);
+}

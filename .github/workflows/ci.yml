@@ -39,6 +39,10 @@ jobs:
           node-version: 22
           cache: npm
           cache-dependency-path: frontend/package-lock.json
+      # The Playwright pass in verify-frontend needs Chromium at the version @playwright/test pins.
+      - name: Install Chromium for Playwright
+        working-directory: frontend
+        run: npm ci && npx playwright install --with-deps chromium
       - run: make verify
   compose-smoke:
     runs-on: ubuntu-latest

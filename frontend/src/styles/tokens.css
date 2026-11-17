@@ -1,0 +1,53 @@
+/* DESIGN.md, direction C "Case File": the only source of these values. */
+:root {
+  --ground: #ffffff;
+  --tint: #f4f5f9;
+  --ink: #14161f;
+  --muted: #545a6d;
+  --rule: #e2e4ec;
+  --accent: #3346d3;
+  --approve: #2450c8;
+  --approve-bg: #e7ecfb;
+  --clarify: #9a4d00;
+  --clarify-bg: #fbebd9;
+  --clarify-text: #5e2f00;
+  --block: #b42318;
+  --block-bg: #fbe4e1;
+
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Public Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-24: 24px;
+  --space-32: 32px;
+  --space-48: 48px;
+  --space-72: 72px;
+
+  --radius: 12px;
+  --radius-pill: 999px;
+  --measure: 760px;
+  --inbox-width: 1040px;
+  --target: 44px;
+  --target-decision: 48px;
+
+  --dur-fast: 120ms;
+  --dur-base: 180ms;
+  --dur-slow: 260ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  /* Movement only (drawer slide, a new audit stamp): reduced motion drops these to 0,
+     colour transitions keep --dur-fast / --dur-base. */
+  --dur-move: var(--dur-base);
+  --dur-enter: var(--dur-slow);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-move: 0ms;
+    --dur-enter: 0ms;
+  }
+}
