@@ -8,7 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from opentelemetry.sdk.trace import TracerProvider
 
 from app import llm_ping
-from app.api import audit
+from app.api import audit, invoices
 from app.config import Settings, get_settings
 from app.observability import build_tracer_provider
 
@@ -46,6 +46,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             provider.shutdown()
 
     app = FastAPI(title="invoice-agent", version=settings.app_version, lifespan=lifespan)
+    # Routers read the settings this app was built with (tests pass their own).
+    app.state.settings = settings
     app.add_middleware(
         CORSMiddleware,
         allow_origins=settings.cors_origin_list,
@@ -60,6 +62,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         return {"status": "ok", "version": settings.app_version}
 
     app.include_router(audit.router)
+    app.include_router(invoices.router)
     return app
 
 

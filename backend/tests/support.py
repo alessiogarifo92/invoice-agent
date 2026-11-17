@@ -50,3 +50,7 @@ class ScratchDatabase:
     @property
     def app_sqlalchemy_url(self) -> str:
         return normalize_url(self.app_url)
+
+
+SEED_DIR = BACKEND.parent / "data" / "seed"
+SEED_INVOICES = SEED_DIR / "invoices"
