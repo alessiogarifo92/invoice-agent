@@ -1,3 +1,4 @@
+import re
 from functools import lru_cache
 from typing import Literal
 
@@ -7,6 +8,11 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 # A key copied from a file saved by Windows Notepad can start with a byte-order mark,
 # which HTTP headers cannot carry (seen on the first live CI eval).
 _STRIP_CHARS = "\ufeff \t\r\n"
+_SHA256_HEX = re.compile(r"^[0-9a-f]{64}$")
+
+
+def _csv(value: str) -> list[str]:
+    return [item.strip(_STRIP_CHARS) for item in value.split(",") if item.strip(_STRIP_CHARS)]
 
 
 class Settings(BaseSettings):
@@ -19,7 +25,12 @@ class Settings(BaseSettings):
     # Owner role, used only by migrations. Never used by the API process.
     owner_database_url: str | None = None
     # Comma-separated list of allowed browser origins (Cloudflare Pages URL, dev server).
+    # Exact origins only: a wildcard is refused at startup.
     cors_origins: str = "http://localhost:5173"
+    # Demo token (phase 3, "Public exposure"): comma-separated sha256 hex digests of the
+    # tokens that may upload and decide. Only the hashes live in the environment; the raw
+    # token is handed to the demo user. Empty: no token is valid (uploads and decisions 401).
+    demo_token_hashes: str = ""
     app_version: str = "0.1.0"
 
     # Upload limits (phase 3 flow, step 1): PDF only, at most 2 MB and 5 pages.
@@ -87,6 +98,7 @@ class Settings(BaseSettings):
         "langfuse_public_key",
         "langfuse_secret_key",
         "langfuse_host",
+        "demo_token_hashes",
         mode="before",
     )
     @classmethod
@@ -94,6 +106,22 @@ class Settings(BaseSettings):
         """Drop a byte-order mark and surrounding whitespace from pasted secrets and URLs."""
         if isinstance(value, str):
             return value.strip(_STRIP_CHARS)
+        return value
+
+    @field_validator("cors_origins")
+    @classmethod
+    def _exact_origins(cls, value: str) -> str:
+        if any("*" in origin for origin in _csv(value)):
+            raise ValueError("CORS_ORIGINS takes exact origins only, never a wildcard")
+        return value
+
+    @field_validator("demo_token_hashes")
+    @classmethod
+    def _sha256_hashes(cls, value: str) -> str:
+        if any(not _SHA256_HEX.fullmatch(h.lower()) for h in _csv(value)):
+            raise ValueError(
+                "DEMO_TOKEN_HASHES takes sha256 hex digests of the tokens, never the tokens"
+            )
         return value
 
     def llm_models(self, provider: str) -> tuple[str | None, str | None]:
@@ -111,7 +139,12 @@ class Settings(BaseSettings):
 
     @property
     def cors_origin_list(self) -> list[str]:
-        return [o.strip() for o in self.cors_origins.split(",") if o.strip()]
+        # A browser's Origin never ends with "/"; a pasted Pages URL often does.
+        return [o.rstrip("/") for o in _csv(self.cors_origins)]
+
+    @property
+    def demo_token_hash_list(self) -> tuple[str, ...]:
+        return tuple(h.lower() for h in _csv(self.demo_token_hashes))
 
 
 @lru_cache
