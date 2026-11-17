@@ -55,6 +55,15 @@ def get_invoice(conn: Connection, invoice_id: UUID) -> InvoiceRecord | None:
     return None if row is None else _record(row)
 
 
+def get_pdf(conn: Connection, invoice_id: UUID) -> tuple[bytes, str] | None:
+    """The stored PDF bytes and filename, or None for an unknown invoice."""
+    with conn.begin():
+        row = conn.execute(
+            text("SELECT pdf, filename FROM invoices WHERE id = :id"), {"id": invoice_id}
+        ).one_or_none()
+    return None if row is None else (bytes(row.pdf), row.filename)
+
+
 def store_invoice(
     conn: Connection, pdf: bytes, sha256: str, filename: str, page_count: int
 ) -> tuple[InvoiceRecord, bool]:

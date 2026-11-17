@@ -3,5 +3,6 @@ import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   plugins: [vue()],
-  test: { environment: "jsdom" },
+  // Unit tests only; the Playwright specs in e2e/ run with `npm run e2e`.
+  test: { environment: "jsdom", include: ["src/**/*.test.ts"] },
 });

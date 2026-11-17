@@ -1,6 +1,8 @@
 import hashlib
+import re
 from datetime import datetime
 from typing import Annotated
+from urllib.parse import quote
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, Query, Response, UploadFile
@@ -28,6 +30,8 @@ router = APIRouter(prefix="/invoices", tags=["invoices"])
 
 FILENAME_MAX = 255
 DEFAULT_FILENAME = "upload.pdf"
+# The client chose the stored name: only these characters reach the header's plain form.
+_HEADER_UNSAFE = re.compile(r"[^A-Za-z0-9._-]")
 
 
 class InvoiceAccepted(BaseModel):
@@ -85,6 +89,13 @@ def _base_name(filename: str | None) -> str:
     # Only the last path segment of the client's name is kept, whatever its separators.
     name = (filename or "").replace("\\", "/").rsplit("/", 1)[-1].strip()
     return name[:FILENAME_MAX] or DEFAULT_FILENAME
+
+
+def _content_disposition(filename: str) -> str:
+    """`inline` with the stored name: an ASCII-only fallback, plus the exact name encoded per
+    RFC 6266/5987, so no quote, separator or line break of the client's name is sent raw."""
+    fallback = _HEADER_UNSAFE.sub("_", filename)
+    return f"inline; filename=\"{fallback}\"; filename*=UTF-8''{quote(filename, safe='')}"
 
 
 def _accepted(record: store.InvoiceRecord) -> InvoiceAccepted:
@@ -198,4 +209,31 @@ def get_invoice(
             status=job.status, stage=job.stage, attempts=job.attempts, run_after=job.run_after
         ),
         proposal_id=current_proposal_id(conn, invoice_id),
+    )
+
+
+@router.get(
+    "/{invoice_id}/pdf",
+    response_class=Response,
+    responses={
+        200: {"content": {"application/pdf": {}}, "description": "The uploaded PDF"},
+        404: {"model": ErrorResponse},
+    },
+)
+def get_invoice_pdf(
+    invoice_id: UUID, conn: Annotated[Connection, Depends(get_connection)]
+) -> Response:
+    """The stored PDF, for the review screen's drawer. Public like every read (the gallery
+    is synthetic); its size was bounded at upload (MAX_UPLOAD_BYTES)."""
+    stored = store.get_pdf(conn, invoice_id)
+    if stored is None:
+        return error_response(404, "not_found", f"invoice {invoice_id} does not exist")
+    data, filename = stored
+    return Response(
+        content=data,
+        media_type="application/pdf",
+        headers={
+            "Content-Disposition": _content_disposition(filename),
+            "X-Content-Type-Options": "nosniff",
+        },
     )

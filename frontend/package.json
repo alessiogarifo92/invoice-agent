@@ -8,12 +8,15 @@
     "build": "vue-tsc --noEmit && vite build",
     "typecheck": "vue-tsc --noEmit",
     "lint": "eslint src",
-    "test": "vitest run"
+    "test": "vitest run",
+    "e2e": "playwright test --trace off"
   },
   "dependencies": {
-    "vue": "^3.5.0"
+    "vue": "^3.5.0",
+    "vue-router": "^4.6.5"
   },
   "devDependencies": {
+    "@playwright/test": "1.63.0",
     "@vitejs/plugin-vue": "^5.2.0",
     "@vue/test-utils": "^2.4.6",
     "eslint": "^9.15.0",

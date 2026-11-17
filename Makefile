@@ -1,4 +1,4 @@
-.PHONY: verify verify-backend verify-frontend verify-synth eval-l1 eval-l3 up migrate seed load-master
+.PHONY: verify verify-backend verify-frontend e2e verify-synth eval-l1 eval-l3 up migrate seed load-master
 
 SEED ?= 20261110
 
@@ -16,6 +16,12 @@ verify-frontend:
 	cd frontend && npm run lint
 	cd frontend && npm run typecheck
 	cd frontend && npm test
+	cd frontend && npm run e2e
+
+# Playwright (desktop 1280x800 + Pixel 7) against a mocked API, no backend needed; ~35 s, so it is
+# part of verify-frontend. Needs Chromium: `npx playwright install chromium` once (CI does it).
+e2e:
+	cd frontend && npm run e2e
 
 verify-synth:
 	cd synth && uv sync --frozen

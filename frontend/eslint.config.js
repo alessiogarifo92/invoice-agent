@@ -7,5 +7,9 @@ export default [
   {
     files: ["**/*.vue"],
     languageOptions: { parserOptions: { parser: tseslint.parser } },
+    rules: {
+      // Agent prose and every other API string are attacker-influenced: text only (phase 3).
+      "vue/no-v-html": "error",
+    },
   },
 ];

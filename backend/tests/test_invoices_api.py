@@ -1,5 +1,5 @@
-"""POST /invoices, GET /invoices and GET /invoices/{id} against a scratch database, as the app
-role. The upload needs the demo token (T9); the reads are public."""
+"""POST /invoices, GET /invoices, GET /invoices/{id} and its /pdf against a scratch database,
+as the app role. The upload needs the demo token (T9); the reads are public."""
 
 import asyncio
 import hashlib
@@ -424,3 +424,54 @@ def test_get_with_an_invalid_uuid_is_422(client: TestClient) -> None:
 )
 def test_base_name(raw: str | None, stored: str) -> None:
     assert invoices_api._base_name(raw) == stored
+
+
+# --- GET /invoices/{id}/pdf (the review screen's drawer) -----------------------------------
+
+
+def test_pdf_returns_the_stored_bytes_inline(client: TestClient, anon: TestClient) -> None:
+    data = SEED_PDF.read_bytes()
+    created = _upload(client, data, filename="INV-SEED-001.pdf").json()
+    # Public, like every read: the gallery's PDFs are synthetic.
+    response = anon.get(f"/invoices/{created['id']}/pdf")
+    assert response.status_code == 200
+    assert response.content == data
+    assert response.headers["content-type"] == "application/pdf"
+    assert response.headers["content-disposition"] == (
+        "inline; filename=\"INV-SEED-001.pdf\"; filename*=UTF-8''INV-SEED-001.pdf"
+    )
+    assert response.headers["x-content-type-options"] == "nosniff"
+    assert response.headers["content-length"] == str(len(data))
+
+
+def test_pdf_of_an_unknown_invoice_is_404(anon: TestClient) -> None:
+    _assert_error(anon.get("/invoices/00000000-0000-0000-0000-000000000000/pdf"), 404, "not_found")
+
+
+def test_pdf_with_an_invalid_uuid_is_422(anon: TestClient) -> None:
+    assert anon.get("/invoices/not-a-uuid/pdf").status_code == 422
+
+
+@pytest.mark.parametrize(
+    ("stored", "header"),
+    [
+        ("inv.pdf", "inline; filename=\"inv.pdf\"; filename*=UTF-8''inv.pdf"),
+        # The stored name comes from the client: quotes, separators and line breaks never
+        # reach the header raw, and non-ASCII survives only in the encoded form.
+        (
+            'a"b;c.pdf',
+            "inline; filename=\"a_b_c.pdf\"; filename*=UTF-8''a%22b%3Bc.pdf",
+        ),
+        (
+            "x\r\nSet-Cookie: y.pdf",
+            'inline; filename="x__Set-Cookie__y.pdf"; '
+            "filename*=UTF-8''x%0D%0ASet-Cookie%3A%20y.pdf",
+        ),
+        (
+            "Rechnung März.pdf",
+            "inline; filename=\"Rechnung_M_rz.pdf\"; filename*=UTF-8''Rechnung%20M%C3%A4rz.pdf",
+        ),
+    ],
+)
+def test_content_disposition_is_header_safe(stored: str, header: str) -> None:
+    assert invoices_api._content_disposition(stored) == header
