@@ -21,6 +21,8 @@ services:
       OWNER_DATABASE_URL: postgresql+psycopg://owner:owner@db:5432/invoice_agent
       DATABASE_URL: postgresql+psycopg://owner:owner@db:5432/invoice_agent
       CORS_ORIGINS: http://localhost:5173
+      # From .env (git-ignored); empty means uploads and decisions are 401.
+      DEMO_TOKEN_HASHES: ${DEMO_TOKEN_HASHES:-}
     ports:
       - "8000:8000"
     depends_on:

@@ -1,4 +1,5 @@
-"""POST /invoices and GET /invoices/{id} against a scratch database, as the app role."""
+"""POST /invoices, GET /invoices and GET /invoices/{id} against a scratch database, as the app
+role. The upload needs the demo token (T9); the reads are public."""
 
 import asyncio
 import hashlib
@@ -8,17 +9,16 @@ from typing import Any, Protocol
 
 import pytest
 from fastapi.testclient import TestClient
-from sqlalchemy import Connection, Engine, text
+from sqlalchemy import Engine, text
 from starlette.datastructures import UploadFile
 
 from app.api import invoices as invoices_api
 from app.audit import verify_chain
 from app.config import Settings
-from app.db import get_connection
 from app.ingestion import store
 from app.ingestion.upload import inspect_pdf
 from app.jobs import queue as jobs_queue
-from app.main import create_app
+from tests.api_support import AUTH, TOKEN, api_client
 from tests.pdf_factory import drawing_only_pdf, text_pdf
 from tests.support import SEED_INVOICES
 
@@ -39,14 +39,14 @@ class Response(Protocol):
 
 @pytest.fixture
 def client(app_engine: Engine) -> Iterator[TestClient]:
-    # The API runs as the restricted app role, like in production.
-    def override() -> Iterator[Connection]:
-        with app_engine.connect() as conn:
-            yield conn
+    # The API runs as the restricted app role, like in production; uploads carry the token.
+    with api_client(app_engine, headers=AUTH) as test_client:
+        yield test_client
 
-    app = create_app(Settings())
-    app.dependency_overrides[get_connection] = override
-    with TestClient(app) as test_client:
+
+@pytest.fixture
+def anon(app_engine: Engine) -> Iterator[TestClient]:
+    with api_client(app_engine) as test_client:
         yield test_client
 
 
@@ -78,6 +78,46 @@ def _assert_error(response: Response, status: int, code: str) -> None:
     assert isinstance(body["message"], str) and body["message"]
 
 
+# --- the demo token --------------------------------------------------------------------------
+
+
+@pytest.mark.parametrize(
+    "headers",
+    [
+        {},
+        {"Authorization": "Bearer wrong-token"},
+        {"Authorization": f"Bearer {TOKEN}x"},
+        {"Authorization": f"Basic {TOKEN}"},
+    ],
+)
+def test_upload_without_a_valid_token_is_401(
+    anon: TestClient, owner_engine: Engine, headers: dict[str, str]
+) -> None:
+    response: Response = anon.post(
+        "/invoices",
+        files={"file": ("invoice.pdf", SEED_PDF.read_bytes(), "application/pdf")},
+        headers=headers,
+    )
+    _assert_error(response, 401, "unauthorized")
+    assert _counts(owner_engine) == {"invoices": 0, "jobs": 0, "received": 0}
+
+
+def test_upload_with_no_configured_token_hash_is_401(
+    app_engine: Engine, owner_engine: Engine
+) -> None:
+    # Fail closed: a deploy without DEMO_TOKEN_HASHES accepts no upload at all.
+    with api_client(app_engine, headers=AUTH, demo_token_hashes="") as c:
+        _assert_error(_upload(c, text_pdf()), 401, "unauthorized")
+    assert _counts(owner_engine)["invoices"] == 0
+
+
+def test_reads_need_no_token(client: TestClient, anon: TestClient) -> None:
+    created = _upload(client, text_pdf()).json()
+    assert anon.get(f"/invoices/{created['id']}").status_code == 200
+    assert anon.get("/invoices").status_code == 200
+    assert anon.get("/audit/verify").status_code == 200
+
+
 # --- validation --------------------------------------------------------------------------
 
 
@@ -99,14 +139,7 @@ def test_upload_over_two_megabytes_is_413(client: TestClient, owner_engine: Engi
 
 def test_upload_exactly_at_the_limit_is_not_413(app_engine: Engine) -> None:
     pdf = text_pdf()
-    app = create_app(Settings(max_upload_bytes=len(pdf)))
-
-    def override() -> Iterator[Connection]:
-        with app_engine.connect() as conn:
-            yield conn
-
-    app.dependency_overrides[get_connection] = override
-    with TestClient(app) as c:
+    with api_client(app_engine, headers=AUTH, max_upload_bytes=len(pdf)) as c:
         assert _upload(c, pdf).status_code == 202
         _assert_error(_upload(c, pdf + b"\n"), 413, "too_large")
 
@@ -280,7 +313,16 @@ def test_get_invoice_returns_its_summary(client: TestClient) -> None:
     response = client.get(f"/invoices/{created['id']}")
     assert response.status_code == 200
     body = response.json()
-    assert set(body) == {"id", "status", "sha256", "filename", "page_count", "created_at", "job"}
+    assert set(body) == {
+        "id",
+        "status",
+        "sha256",
+        "filename",
+        "page_count",
+        "created_at",
+        "job",
+        "proposal_id",
+    }
     assert body["id"] == created["id"]
     assert body["sha256"] == created["sha256"]
     assert (body["status"], body["filename"], body["page_count"]) == (
@@ -289,6 +331,8 @@ def test_get_invoice_returns_its_summary(client: TestClient) -> None:
         1,
     )
     assert body["created_at"]
+    # No proposal before the rules stage has run.
+    assert body["proposal_id"] is None
 
 
 def test_get_exposes_the_job_for_polling(client: TestClient, app_engine: Engine) -> None:
@@ -319,6 +363,43 @@ def test_get_an_invoice_without_a_job_has_job_null(
         ).scalar_one()
     body = client.get(f"/invoices/{invoice_id}").json()
     assert body["job"] is None and body["status"] == "received"
+
+
+# --- GET /invoices (the gallery) -----------------------------------------------------------
+
+
+def test_list_is_empty_on_an_empty_database(anon: TestClient) -> None:
+    assert anon.get("/invoices").json() == {"items": [], "total": 0, "limit": 20, "offset": 0}
+
+
+def test_list_pages_newest_first(client: TestClient) -> None:
+    ids = [_upload(client, text_pdf(text=f"Invoice {n}")).json()["id"] for n in range(3)]
+    first = client.get("/invoices", params={"limit": 2}).json()
+    assert (first["total"], first["limit"], first["offset"]) == (3, 2, 0)
+    assert [item["id"] for item in first["items"]] == [ids[2], ids[1]]
+    rest = client.get("/invoices", params={"limit": 2, "offset": 2}).json()
+    assert [item["id"] for item in rest["items"]] == [ids[0]]
+    item = rest["items"][0]
+    assert set(item) == {
+        "id",
+        "status",
+        "filename",
+        "created_at",
+        "proposal_id",
+        "final_action",
+        "vendor_name",
+        "invoice_number",
+        "total",
+        "currency",
+    }
+    # Nothing is known about an invoice the worker has not processed yet.
+    assert item["status"] == "received"
+    assert all(item[k] is None for k in ("proposal_id", "final_action", "vendor_name", "total"))
+
+
+@pytest.mark.parametrize("params", [{"limit": 0}, {"limit": 101}, {"offset": -1}])
+def test_list_rejects_out_of_range_paging(anon: TestClient, params: dict[str, int]) -> None:
+    assert anon.get("/invoices", params=params).status_code == 422
 
 
 def test_get_unknown_invoice_is_404(client: TestClient) -> None:

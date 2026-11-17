@@ -4,16 +4,26 @@ from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 
 import httpx
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from opentelemetry.sdk.trace import TracerProvider
 
 from app import llm_ping
-from app.api import audit, invoices
+from app.api import audit, invoices, proposals
+from app.api.auth import DemoTokenRejected
+from app.api.common import error_response
 from app.config import Settings, get_settings
 from app.jobs.worker import Worker, build_worker
 from app.llm.gateway import GatewayConfigError
 from app.observability import build_tracer_provider
+
+# CORS (phase 3: the Pages app calls the API cross-origin). Exact origins from CORS_ORIGINS,
+# no credentials (the demo token travels in Authorization, never in a cookie), only the
+# methods and request headers the app uses, and the ETag readable by the decision screen.
+CORS_METHODS = ["GET", "POST"]
+CORS_HEADERS = ["Authorization", "Content-Type", "If-Match"]
+CORS_EXPOSE = ["ETag"]
 
 
 def run_startup_ping(settings: Settings, provider: TracerProvider) -> llm_ping.PingResult:
@@ -76,9 +86,20 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.add_middleware(
         CORSMiddleware,
         allow_origins=settings.cors_origin_list,
-        allow_methods=["GET", "POST"],
-        allow_headers=["*"],
+        allow_methods=CORS_METHODS,
+        allow_headers=CORS_HEADERS,
+        expose_headers=CORS_EXPOSE,
+        allow_credentials=False,
     )
+
+    @app.exception_handler(DemoTokenRejected)
+    def demo_token_rejected(request: Request, exc: DemoTokenRejected) -> JSONResponse:
+        return error_response(
+            401,
+            "unauthorized",
+            "a valid demo token is required (Authorization: Bearer <token>)",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
 
     @app.get("/healthz")
     def healthz() -> dict[str, str]:
@@ -88,6 +109,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
     app.include_router(audit.router)
     app.include_router(invoices.router)
+    app.include_router(proposals.router)
     return app
 
 

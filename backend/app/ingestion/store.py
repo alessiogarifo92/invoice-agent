@@ -103,3 +103,57 @@ def store_invoice(
             },
         )
     return record, True
+
+
+@dataclass(frozen=True)
+class InvoiceListItem:
+    """One gallery card: the invoice, its newest proposal's action and the printed values of
+    its newest extraction (all None until the worker has got that far)."""
+
+    id: UUID
+    status: str
+    filename: str
+    created_at: datetime
+    proposal_id: UUID | None
+    final_action: str | None
+    vendor_name: str | None
+    invoice_number: str | None
+    total: str | None
+    currency: str | None
+
+
+def list_invoices(conn: Connection, limit: int, offset: int) -> tuple[list[InvoiceListItem], int]:
+    """A page of invoices, newest first, and the total count, in one short transaction."""
+    with conn.begin():
+        total: int = conn.execute(text("SELECT count(*) FROM invoices")).scalar_one()
+        page = conn.execute(
+            text(
+                "SELECT i.id, i.status, i.filename, i.created_at, p.id AS proposal_id, "
+                "p.final_action, e.fields ->> 'vendor_name' AS vendor_name, "
+                "e.fields ->> 'invoice_number' AS invoice_number, "
+                "e.fields ->> 'total' AS total, e.fields ->> 'currency' AS currency "
+                "FROM invoices i "
+                "LEFT JOIN LATERAL (SELECT id, final_action FROM proposals "
+                "WHERE invoice_id = i.id ORDER BY created_at DESC, id DESC LIMIT 1) p ON true "
+                "LEFT JOIN LATERAL (SELECT fields FROM extractions "
+                "WHERE invoice_id = i.id ORDER BY created_at DESC, id DESC LIMIT 1) e ON true "
+                "ORDER BY i.created_at DESC, i.id DESC LIMIT :limit OFFSET :offset"
+            ),
+            {"limit": limit, "offset": offset},
+        ).all()
+    items = [
+        InvoiceListItem(
+            id=row.id,
+            status=row.status,
+            filename=row.filename,
+            created_at=row.created_at,
+            proposal_id=row.proposal_id,
+            final_action=row.final_action,
+            vendor_name=row.vendor_name,
+            invoice_number=row.invoice_number,
+            total=row.total,
+            currency=row.currency,
+        )
+        for row in page
+    ]
+    return items, total
