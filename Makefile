@@ -1,8 +1,8 @@
-.PHONY: verify verify-backend verify-frontend verify-synth up migrate seed load-master
+.PHONY: verify verify-backend verify-frontend verify-synth eval-l1 up migrate seed load-master
 
 SEED ?= 20261110
 
-verify: verify-backend verify-frontend verify-synth
+verify: verify-backend verify-frontend verify-synth eval-l1
 
 verify-backend:
 	cd backend && uv sync --frozen
@@ -23,6 +23,12 @@ verify-synth:
 	cd synth && uv run ruff format --check .
 	cd synth && uv run mypy
 	cd synth && uv run pytest
+
+# Layer-1 eval ($0, no DB): rules + matching on the seed's ground truth. Exit 1 if a fraud or
+# injection case is approved or recall falls below evals/baseline.json; refresh the baseline
+# deliberately with: cd backend && uv run python -m app.evals.layer1 ... --write-baseline
+eval-l1:
+	cd backend && uv run python -m app.evals.layer1 --seed-dir ../data/seed --baseline ../evals/baseline.json
 
 # Regenerates the committed synthetic dataset; the same SEED gives byte-identical files.
 seed:

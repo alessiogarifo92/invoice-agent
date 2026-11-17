@@ -124,6 +124,11 @@ The Vue app is static on Cloudflare Pages and calls the API through a CORS allow
 - Checks: totals vs the sum of lines, VAT rate by country, amount vs PO within tolerance, the PO belongs to this vendor, cumulative billing vs the remaining PO balance, currency mismatch, price vs contract per SKU, IBAN not the vendor's current one, unknown vendor, duplicate candidates, hidden or instruction-like text.
 - Rules check **every** IBAN, invoice number and total that a regex finds in the PDF text, hidden text included, not only the values Haiku extracted.
 - A missing or unparsable field, or an exception inside a rule, raises a flag. It never counts as a pass.
+- T4 (2026-11-17): flag severity, the value of `flags.severity` (left open by T2), is what a reviewer reads first; the action floor is what the policy gate enforces, and the two are separate:
+  - `critical`: a fraud or manipulation signal. `iban_not_current`, `iban_in_text_not_current`, `unknown_vendor`, `injection_suspected` (floor `clarify`); `duplicate_confirmed` (floor `block`).
+  - `warning`: an amount, VAT, PO, contract or data problem a clarification can settle: `total_mismatch`, `wrong_vat`, `po_not_found`, `po_vendor_mismatch`, `amount_above_tolerance`, `po_balance_exceeded`, `currency_mismatch`, `price_above_contract`, `conflicting_values_in_text`, `duplicate_suspected`, plus the fail-closed `missing_field` and `rule_error` (all floor `clarify`).
+  - `info`: reserved for notes that change no action; no rule raises it yet.
+  - `flags` has no message or floor column: a row's `evidence` is `{"message", "action_floor", "details"}`.
 
 **Agent.**
 - Tools: `get_purchase_order`, `get_vendor`, `find_similar_invoices`, `check_vat`, `search_contract_clauses` (added to the phase 1 list), and the terminal `propose_payment`.
