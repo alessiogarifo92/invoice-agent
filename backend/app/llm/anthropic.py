@@ -125,7 +125,12 @@ class AnthropicProvider(ToolLoopMixin):
             tool_choice={"type": "auto"},
         )
         calls = [
-            ToolCall(id=block.id, name=block.name, arguments=dict(block.input))
+            ToolCall(
+                id=block.id,
+                name=block.name,
+                arguments=dict(block.input) if isinstance(block.input, dict) else {},
+                malformed=not isinstance(block.input, dict),
+            )
             for block in message.content
             if isinstance(block, ToolUseBlock)
         ]

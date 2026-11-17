@@ -8,7 +8,9 @@ from pydantic import BaseModel
 
 T = TypeVar("T", bound=BaseModel)
 
-StopReason = Literal["completed", "max_tool_calls", "timeout", "no_proposal", "error"]
+StopReason = Literal[
+    "completed", "max_tool_calls", "timeout", "no_proposal", "invalid_arguments", "error"
+]
 
 # A tool handler gets the parsed arguments and returns a JSON-serialisable result.
 ToolHandler = Callable[[dict[str, Any]], Any]
@@ -54,6 +56,9 @@ class ToolCall:
     id: str
     name: str
     arguments: dict[str, Any]
+    # The provider sent arguments that are not a JSON object (e.g. Groq's arguments string
+    # did not parse): `arguments` is then {} and the call is never executed.
+    malformed: bool = False
 
 
 @dataclass(frozen=True)
@@ -91,10 +96,15 @@ Turn = AssistantTurn | ToolResultsTurn
 
 @dataclass(frozen=True)
 class Limits:
-    """Agent loop limits (phase 3, "Agent"): reaching either one ends the loop."""
+    """Agent loop limits (phase 3, "Agent"): reaching any one ends the loop.
+
+    `max_invalid_arguments` is the retry budget for tool calls whose arguments fail
+    validation: each one is sent back to the model as an error, and one more ends the loop.
+    """
 
     max_tool_calls: int = 8
     timeout_s: float = 120.0
+    max_invalid_arguments: int = 1
 
 
 @dataclass(frozen=True)

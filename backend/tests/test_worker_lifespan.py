@@ -4,8 +4,10 @@ import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import Engine, create_engine
 
+from app.agent.triage import TriageAgent
 from app.jobs.worker import Worker, build_worker
 from app.llm.gateway import GatewayConfigError
+from app.llm.types import Limits
 from app.main import create_app
 from tests.jobs_support import make_settings, scalar, sql_gateway
 from tests.llm_support import FAKE_KEY, FakeProvider
@@ -52,6 +54,22 @@ def test_build_worker_takes_its_timings_from_the_settings() -> None:
         assert (worker.max_attempts, worker.retry_backoff_s) == (4, 12)
     finally:
         worker.engine.dispose()
+
+
+def test_build_worker_wires_the_triage_agent_with_its_limits() -> None:
+    worker = build_worker(
+        make_settings(gemini_api_key=FAKE_KEY, agent_max_tool_calls=5, agent_timeout_s=42)
+    )
+    try:
+        assert isinstance(worker.agent, TriageAgent)
+        assert worker.agent.limits == Limits(max_tool_calls=5, timeout_s=42)
+    finally:
+        worker.engine.dispose()
+
+
+def test_the_agent_limits_default_to_phase_3() -> None:
+    settings = make_settings()
+    assert (settings.agent_max_tool_calls, settings.agent_timeout_s) == (8, 120.0)
 
 
 def test_the_lifespan_starts_and_stops_the_worker(

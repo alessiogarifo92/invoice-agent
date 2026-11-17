@@ -1,7 +1,7 @@
 """The invoice pipeline, one committed stage at a time (phase 3, "Flow", step 2).
 
     extract (LLM call + grounding) -> rules (matching + rules + rule floor)
-        -> agent (T8; a stub in T7) -> propose (policy gate, proposal, pending_approval)
+        -> agent (tool loop, flagged invoices only) -> propose (policy gate, pending_approval)
 
 Each stage commits, in one transaction taken after `lock_owned`: its writes, its output in
 jobs.stage_outputs, the next stage, and one audit event. A restarted job resumes at the stage
@@ -23,6 +23,7 @@ from uuid import UUID
 from sqlalchemy import Connection, Engine, bindparam, text
 
 from app.agent import Agent, AgentDecision, AgentRequest, policy_gate
+from app.agent.prompt import AGENT_PROMPT_VERSION
 from app.audit import append_event
 from app.extraction.service import (
     FLAG_POLICY,
@@ -34,6 +35,7 @@ from app.extraction.service import (
     persist_extraction,
 )
 from app.ingestion import ExtractedDocument, extract_document
+from app.ingestion.hidden import visible_text
 from app.jobs import queue
 from app.llm.gateway import LLMGateway
 from app.matching.context import build_context, document_signals
@@ -191,6 +193,7 @@ def _rules(run: _Run) -> str:
 
 
 def _agent_output(decision: AgentDecision | None, skipped: str | None) -> dict[str, Any]:
+    """The agent stage's stored output: the decision and every tool result it may cite."""
     if decision is None:
         return {"action": None, "skipped": skipped}
     return {
@@ -198,7 +201,40 @@ def _agent_output(decision: AgentDecision | None, skipped: str | None) -> dict[s
         "rationale": decision.rationale,
         "evidence_refs": list(decision.evidence_refs),
         "model": decision.model,
+        "provider": decision.provider,
+        "prompt_version": AGENT_PROMPT_VERSION,
+        "stop_reason": decision.stop_reason,
+        "proposed_action": decision.proposed_action,
+        "forged_refs": list(decision.forged_refs),
+        "tool_calls": list(decision.tool_calls),
+        "evidence": [
+            {"ref": e.ref, "tool": e.tool, "records": list(e.records), "output": e.output}
+            for e in decision.evidence
+        ],
         "skipped": None,
+    }
+
+
+def _completed_payload(output: dict[str, Any]) -> dict[str, Any]:
+    """agent.completed: the action, the refs and the record ids they stand for. The prose
+    (attacker-influenced) and the tool outputs stay out of the chain, in the stage output."""
+    keys = (
+        "action",
+        "proposed_action",
+        "stop_reason",
+        "model",
+        "provider",
+        "prompt_version",
+        "evidence_refs",
+        "forged_refs",
+        "tool_calls",
+    )
+    return {
+        **{key: output[key] for key in keys},
+        "evidence": [
+            {"ref": e["ref"], "tool": e["tool"], "records": e["records"]}
+            for e in output["evidence"]
+        ],
     }
 
 
@@ -209,6 +245,7 @@ def _agent(run: _Run) -> str:
     # Phase 3: the agent runs only on a flagged invoice.
     skipped = "no_flags"
     if flag_codes:
+        # The tool loop's LLM calls; QuotaUnavailable propagates from here.
         decision = run.agent(
             AgentRequest(
                 invoice_id=run.invoice_id,
@@ -216,6 +253,7 @@ def _agent(run: _Run) -> str:
                 proposal_id=UUID(rules["proposal_id"]),
                 rule_floor=rules["rule_floor"],
                 flag_codes=flag_codes,
+                invoice_text=visible_text(run.document()),
             )
         )
         skipped = "no_decision"
@@ -225,7 +263,7 @@ def _agent(run: _Run) -> str:
         if decision is None:
             run.commit(conn, "agent", output, "propose", "agent.skipped", {"reason": skipped})
         else:
-            payload = {"action": decision.action, "model": decision.model}
+            payload = _completed_payload(output)
             run.commit(conn, "agent", output, "propose", "agent.completed", payload)
     return "propose"
 
@@ -235,7 +273,12 @@ def _propose(run: _Run) -> None:
     agent = run.outputs["agent"]
     floor: Action = rules["rule_floor"]
     agent_action: Action | None = agent["action"]
-    final = policy_gate(floor, agent_action)
+    # The gate checks the citations again, whatever agent produced them: only refs that
+    # this run's tools returned are kept, and any other one makes the agent's action clarify.
+    returned = {e["ref"] for e in agent.get("evidence", [])}
+    cited: list[str] = agent.get("evidence_refs", [])
+    final = policy_gate(floor, agent_action, cited, returned)
+    refs = [ref for ref in cited if ref in returned]
     with run.engine.begin() as conn:
         queue.lock_owned(conn, run.job.id, run.owner)
         conn.execute(
@@ -249,7 +292,7 @@ def _propose(run: _Run) -> None:
                 "agent_action": agent_action,
                 "final": final,
                 "rationale": agent.get("rationale"),
-                "refs": json.dumps(agent.get("evidence_refs", [])),
+                "refs": json.dumps(refs),
             },
         )
         conn.execute(
@@ -265,6 +308,7 @@ def _propose(run: _Run) -> None:
             "rule_floor": floor,
             "agent_action": agent_action,
             "final_action": final,
+            "evidence_refs": refs,
         }
         run.commit(conn, "propose", {"final_action": final}, None, "proposal.created", payload)
 

@@ -105,6 +105,18 @@ class ToolLoopMixin:
         )
 
 
+class InvalidToolArguments(Exception):
+    """Raised by a tool handler whose arguments fail validation.
+
+    `problems` is sent back to the model: field locations and error types only, never the
+    offending values (they come from the model, which may have copied them from the invoice).
+    """
+
+    def __init__(self, problems: Sequence[Mapping[str, Any]] = ()):
+        super().__init__("invalid tool arguments")
+        self.problems = [dict(p) for p in problems]
+
+
 def parse_structured(provider: str, schema: type[T], text: str, usage: Usage) -> T:
     """Validate the model's JSON against the caller's schema, or raise SchemaError."""
     try:
@@ -137,6 +149,11 @@ def drive_tool_loop(
     and a timeout; reaching either, or ending without the terminal tool, is not a proposal.
     Quota errors propagate, so the gateway can fall through to the fallback provider; any
     other classified error ends the loop with stop_reason "error".
+
+    A handler for `terminal_tool`, when given, validates the proposal: its return value is
+    the proposal. Arguments that fail validation (InvalidToolArguments, or a call the
+    provider marked malformed) go back to the model as an error result; beyond
+    `limits.max_invalid_arguments` of them the loop stops with "invalid_arguments".
     """
     if terminal_tool not in {tool.name for tool in tools}:
         raise ValueError(f"terminal tool {terminal_tool!r} is not among the offered tools")
@@ -144,6 +161,7 @@ def drive_tool_loop(
     history: list[Turn] = []
     records: list[ToolCallRecord] = []
     usage = Usage()
+    invalid = 0
 
     def result(stop_reason: Any, **kw: Any) -> ToolLoopResult:
         return ToolLoopResult(
@@ -173,24 +191,49 @@ def drive_tool_loop(
         for call in turn.tool_calls:
             if len(records) >= limits.max_tool_calls:
                 return result("max_tool_calls")
-            if call.name == terminal_tool:
-                records.append(ToolCallRecord(call, output=None))
-                return result("completed", proposal=call.arguments, final_text=turn.text)
-            if clock() >= deadline:
-                return result("timeout")
-            record = _execute(call, tool_handlers)
+            if call.name == terminal_tool and not call.malformed:
+                if terminal_tool not in tool_handlers:
+                    records.append(ToolCallRecord(call, output=None))
+                    return result("completed", proposal=call.arguments, final_text=turn.text)
+                record = _execute(call, tool_handlers)
+                if not record.is_error:
+                    records.append(ToolCallRecord(call, output=None))
+                    return result("completed", proposal=record.output, final_text=turn.text)
+            else:
+                if clock() >= deadline:
+                    return result("timeout")
+                record = _execute(call, tool_handlers)
             records.append(record)
             results.append(record)
+            if _is_invalid(record):
+                invalid += 1
+                if invalid > limits.max_invalid_arguments:
+                    return result("invalid_arguments")
         history.append(ToolResultsTurn(results))
+
+
+def _is_invalid(record: ToolCallRecord) -> bool:
+    return (
+        record.is_error
+        and isinstance(record.output, dict)
+        and record.output.get("error") == "invalid_arguments"
+    )
 
 
 def _execute(call: ToolCall, handlers: Mapping[str, ToolHandler]) -> ToolCallRecord:
     handler = handlers.get(call.name)
+    if call.malformed:
+        return ToolCallRecord(
+            call, output={"error": "invalid_arguments", "problems": []}, is_error=True
+        )
     if handler is None:
         # Sent back to the model as an error result; still counts toward the limit.
         return ToolCallRecord(call, output={"error": "unknown_tool"}, is_error=True)
     try:
         return ToolCallRecord(call, output=handler(call.arguments))
+    except InvalidToolArguments as exc:
+        output = {"error": "invalid_arguments", "problems": exc.problems}
+        return ToolCallRecord(call, output=output, is_error=True)
     except Exception as exc:  # noqa: BLE001 - any handler failure becomes an error result
         return ToolCallRecord(
             call, output={"error": "tool_failed", "type": type(exc).__name__}, is_error=True

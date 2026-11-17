@@ -6,7 +6,7 @@ from typing import Any
 import pytest
 
 from app.llm.errors import InvalidRequest, QuotaExhausted
-from app.llm.provider import drive_tool_loop
+from app.llm.provider import InvalidToolArguments, drive_tool_loop
 from app.llm.types import (
     AssistantTurn,
     Limits,
@@ -23,6 +23,16 @@ PROPOSE = ToolSpec("propose_payment", "Final proposal", {"type": "object", "prop
 
 def _call(name: str, n: int = 0, **arguments: Any) -> ToolCall:
     return ToolCall(id=f"c{n}", name=name, arguments=arguments)
+
+
+def _malformed(name: str, n: int = 0) -> ToolCall:
+    return ToolCall(id=f"c{n}", name=name, arguments={}, malformed=True)
+
+
+def _strict(args: dict[str, Any]) -> Any:
+    if args:
+        raise InvalidToolArguments([{"loc": next(iter(args)), "type": "extra_forbidden"}])
+    return {"name": "Acme"}
 
 
 def _turn(*calls: ToolCall, text: str = "") -> AssistantTurn:
@@ -193,3 +203,91 @@ def test_terminal_tool_must_be_offered() -> None:
             provider="fake",
             model="m",
         )
+
+
+# --- invalid arguments: one retry, then the loop stops ------------------------------------
+
+
+def test_invalid_arguments_are_sent_back_once_for_a_retry() -> None:
+    model = ScriptedModel(
+        _turn(_call("get_vendor", 1, vendor_id="V-OTHER")),
+        _turn(_call("get_vendor", 2)),
+        _turn(_call("propose_payment", 3, action="clarify")),
+    )
+    result = _run(model, {"get_vendor": _strict})
+
+    assert result.stop_reason == "completed"
+    first, second, _ = result.tool_calls
+    assert first.is_error
+    assert first.output == {
+        "error": "invalid_arguments",
+        "problems": [{"loc": "vendor_id", "type": "extra_forbidden"}],
+    }
+    assert not second.is_error and second.output == {"name": "Acme"}
+    sent_back = model.histories[1][1]
+    assert isinstance(sent_back, ToolResultsTurn) and sent_back.results[0].is_error
+
+
+def test_a_second_invalid_call_ends_the_loop_without_a_proposal() -> None:
+    model = ScriptedModel(
+        _turn(_call("get_vendor", 1, vendor_id="V-OTHER")),
+        _turn(_call("get_vendor", 2, invoice_id="INV-OTHER")),
+        _turn(_call("propose_payment", 3, action="approve")),
+    )
+    result = _run(model, {"get_vendor": _strict})
+
+    assert result.stop_reason == "invalid_arguments" and result.proposal is None
+    assert len(result.tool_calls) == 2 and len(model.histories) == 2
+
+
+def test_the_invalid_argument_budget_is_a_limit() -> None:
+    model = ScriptedModel(_turn(_call("get_vendor", 1, x=1)))
+    result = _run(model, {"get_vendor": _strict}, limits=Limits(max_invalid_arguments=0))
+    assert result.stop_reason == "invalid_arguments"
+
+
+def test_malformed_arguments_never_reach_the_handler() -> None:
+    seen: list[dict[str, Any]] = []
+    model = ScriptedModel(
+        _turn(_malformed("get_vendor", 1)), _turn(_call("propose_payment", 2, action="clarify"))
+    )
+    result = _run(model, {"get_vendor": _recording(seen, "ok")})
+
+    assert seen == []
+    assert result.tool_calls[0].is_error
+    assert result.tool_calls[0].output == {"error": "invalid_arguments", "problems": []}
+    assert result.stop_reason == "completed"
+
+
+def test_a_terminal_handler_validates_the_proposal() -> None:
+    def validate(args: dict[str, Any]) -> dict[str, Any]:
+        if args.get("action") not in ("approve", "clarify", "block"):
+            raise InvalidToolArguments([{"loc": "action", "type": "literal_error"}])
+        return {"action": args["action"], "normalised": True}
+
+    model = ScriptedModel(
+        _turn(_call("propose_payment", 1, action="pay_now")),
+        _turn(_call("propose_payment", 2, action="block")),
+    )
+    result = _run(model, {"propose_payment": validate})
+
+    assert result.stop_reason == "completed"
+    assert result.proposal == {"action": "block", "normalised": True}
+    assert result.tool_calls[0].is_error and len(result.tool_calls) == 2
+
+
+def test_a_malformed_terminal_call_is_not_a_proposal() -> None:
+    model = ScriptedModel(_turn(_malformed("propose_payment", 1)), _turn(text="giving up"))
+    result = _run(model, {})
+    assert result.stop_reason == "no_proposal" and result.proposal is None
+    assert result.tool_calls[0].is_error
+
+
+def test_a_terminal_handler_that_fails_is_an_error_result() -> None:
+    def broken(args: dict[str, Any]) -> dict[str, Any]:
+        raise RuntimeError("boom")
+
+    model = ScriptedModel(_turn(_call("propose_payment", 1, action="approve")), _turn(text="ok"))
+    result = _run(model, {"propose_payment": broken})
+    assert result.stop_reason == "no_proposal"
+    assert result.tool_calls[0].output == {"error": "tool_failed", "type": "RuntimeError"}

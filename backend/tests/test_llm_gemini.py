@@ -189,6 +189,31 @@ def test_history_echoes_model_parts_verbatim_and_returns_function_responses() ->
     }
 
 
+def test_parallel_function_calls_parse_in_order_with_local_ids() -> None:
+    recorder = Recorder(
+        _reply(
+            {"functionCall": {"name": "get_vendor"}},
+            {"functionCall": {"name": "check_vat", "args": {}}},
+            {"functionCall": {"id": "fc-9", "name": "get_vendor", "args": ["V1"]}},
+        )
+    )
+    turn = _provider(recorder).chat_step("s", "u", [], [TOOL], "g")
+    assert turn.tool_calls == [
+        # No args at all is a call without arguments, not a malformed one.
+        ToolCall("local-0", "get_vendor", {}),
+        ToolCall("local-1", "check_vat", {}),
+        ToolCall("fc-9", "get_vendor", {}, malformed=True),
+    ]
+
+
+def test_a_reply_blocked_by_safety_has_no_tool_calls() -> None:
+    blocked = httpx.Response(
+        200, json={"candidates": [{"finishReason": "SAFETY"}], "usageMetadata": USAGE}
+    )
+    turn = _provider(Recorder(blocked)).chat_step("s", "u", [], [TOOL], "g")
+    assert turn.tool_calls == [] and turn.text == ""
+
+
 def test_run_tools_drives_the_shared_loop() -> None:
     propose = ToolSpec("propose_payment", "Propose", {"type": "object", "properties": {}})
     recorder = Recorder(

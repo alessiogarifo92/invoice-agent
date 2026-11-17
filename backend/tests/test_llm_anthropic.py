@@ -145,6 +145,36 @@ def test_chat_step_sends_strict_tools_and_parses_tool_use() -> None:
     assert turn.usage == Usage(70, 9)
 
 
+def test_parallel_tool_use_blocks_parse_in_order() -> None:
+    fake = FakeClient(
+        _message(
+            {"type": "tool_use", "id": "tu_1", "name": "get_vendor", "input": {}},
+            {"type": "tool_use", "id": "tu_2", "name": "check_vat", "input": {"x": 1}},
+            stop_reason="tool_use",
+        )
+    )
+    turn = _provider(fake).chat_step("s", "u", [], [TOOL], "m")
+    assert turn.tool_calls == [
+        ToolCall("tu_1", "get_vendor", {}),
+        ToolCall("tu_2", "check_vat", {"x": 1}),
+    ]
+
+
+def test_a_refusal_has_no_tool_calls() -> None:
+    fake = FakeClient(_message({"type": "text", "text": "I can't help."}, stop_reason="refusal"))
+    turn = _provider(fake).chat_step("s", "u", [], [TOOL], "m")
+    assert turn.tool_calls == [] and turn.text == "I can't help."
+
+
+def test_tool_input_that_is_not_an_object_is_malformed() -> None:
+    block = {"type": "tool_use", "id": "tu_1", "name": "get_vendor", "input": {}}
+    message = _message(block, stop_reason="tool_use")
+    # The SDK does not validate replies strictly: a non-object input must not crash dict().
+    object.__setattr__(message.content[0], "input", ["V"])
+    turn = _provider(FakeClient(message)).chat_step("s", "u", [], [TOOL], "m")
+    assert turn.tool_calls == [ToolCall("tu_1", "get_vendor", {}, malformed=True)]
+
+
 def test_history_replays_content_blocks_and_tool_results() -> None:
     first_reply = _message(
         {"type": "thinking", "thinking": "", "signature": "sig"},

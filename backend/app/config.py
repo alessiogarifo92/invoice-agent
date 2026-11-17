@@ -67,6 +67,12 @@ class Settings(BaseSettings):
     # Retry n waits n times this long (quota waits use the reset time instead).
     worker_retry_backoff_s: float = 30.0
 
+    # Triage agent limits (phase 3, "Agent"): tool calls per run, the terminal one included,
+    # and a wall-clock budget checked before every model request and every tool call.
+    # Reaching either makes the agent's action clarify.
+    agent_max_tool_calls: int = 8
+    agent_timeout_s: float = 120.0
+
     # Langfuse, reached over OTLP/HTTP. Tracing is off when either key is missing.
     langfuse_public_key: str | None = None
     langfuse_secret_key: str | None = None
