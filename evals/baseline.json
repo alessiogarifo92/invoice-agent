@@ -40,5 +40,29 @@
         "clarify": 10
       }
     }
+  },
+  "layer2": {
+    "overall": 0.9573,
+    "fields": {
+      "vendor_name": 0.92,
+      "vendor_vat_id": 0.96,
+      "vendor_country": 0.96,
+      "vendor_address": 0.96,
+      "invoice_number": 0.96,
+      "issue_date": 0.96,
+      "due_date": 0.96,
+      "currency": 0.96,
+      "po_number": 0.96,
+      "iban": 0.96,
+      "lines": 0.96,
+      "subtotal": 0.96,
+      "vat_rate": 0.96,
+      "vat_amount": 0.96,
+      "total": 0.96
+    },
+    "invoices": 25,
+    "provider": "gemini",
+    "model": "gemini-3.5-flash-lite",
+    "prompt_version": "extract-v1"
   }
 }

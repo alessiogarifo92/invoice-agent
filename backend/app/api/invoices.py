@@ -19,6 +19,7 @@ from app.ingestion.upload import (
     check_size,
     inspect_pdf,
 )
+from app.jobs import queue
 
 router = APIRouter(prefix="/invoices", tags=["invoices"])
 
@@ -37,6 +38,16 @@ class InvoiceAccepted(BaseModel):
     sha256: str
 
 
+class JobState(BaseModel):
+    """The invoice's newest job, for polling. `run_after`: when a queued job is due (a retry
+    backoff, or the quota reset for an invoice in awaiting_quota)."""
+
+    status: str
+    stage: str
+    attempts: int
+    run_after: datetime
+
+
 class InvoiceSummary(BaseModel):
     id: UUID
     status: str
@@ -44,6 +55,7 @@ class InvoiceSummary(BaseModel):
     filename: str
     page_count: int
     created_at: datetime
+    job: JobState | None
 
 
 def get_app_settings(request: Request) -> Settings:
@@ -122,9 +134,11 @@ async def upload_invoice(
 def get_invoice(
     invoice_id: UUID, conn: Annotated[Connection, Depends(get_connection)]
 ) -> InvoiceSummary | JSONResponse:
+    """The invoice and its job's progress; the UI polls this while the worker runs."""
     record = store.get_invoice(conn, invoice_id)
     if record is None:
         return _error(404, "not_found", f"invoice {invoice_id} does not exist")
+    job = queue.latest_job(conn, invoice_id)
     return InvoiceSummary(
         id=record.id,
         status=record.status,
@@ -132,4 +146,9 @@ def get_invoice(
         filename=record.filename,
         page_count=record.page_count,
         created_at=record.created_at,
+        job=None
+        if job is None
+        else JobState(
+            status=job.status, stage=job.stage, attempts=job.attempts, run_after=job.run_after
+        ),
     )

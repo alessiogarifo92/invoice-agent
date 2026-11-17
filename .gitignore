@@ -20,3 +20,6 @@ dist/
 # Generated synthetic data
 data/generated/
 .claude/worktrees/
+
+# Eval reports (CI artifacts)
+evals/out/

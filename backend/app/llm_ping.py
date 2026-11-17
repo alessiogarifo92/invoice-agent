@@ -1,6 +1,6 @@
 """Walking-skeleton LLM call: one Gemini request, traced as a GenAI span.
 
-Throwaway by design (T0). The provider-agnostic gateway arrives in T5.
+Throwaway by design (T0), kept as a gateway-free smoke check; real calls go through app.llm.
 Run by hand with: uv run python -m app.llm_ping
 """
 
@@ -45,7 +45,7 @@ def _usage(body: dict[str, object]) -> tuple[int | None, int | None]:
 
 def ping(settings: Settings, client: httpx.Client, tracer: Tracer) -> PingResult:
     """Make one Gemini call inside a GenAI span. Never raises; errors go in the result."""
-    model = settings.llm_model_extract
+    model = settings.llm_models("gemini")[0] or settings.llm_model_extract_gemini
     with tracer.start_as_current_span("llm.ping") as span:
         span.set_attribute("gen_ai.system", "gemini")
         span.set_attribute("gen_ai.operation.name", "generate_content")

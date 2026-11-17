@@ -92,6 +92,17 @@ The Vue app is static on Cloudflare Pages and calls the API through a CORS allow
 - pdfplumber and other CPU-bound work runs in a thread or process pool, never on the event loop.
 - `/healthz` does not touch the DB. The startup sweep runs lazily. Connections use `pool_pre_ping`.
 - Rejected: A1 `BackgroundTasks` (work silently lost on spin-down); A3 synchronous requests (browser timeouts, no recovery).
+- T7 (2026-11-17), how A2 was built:
+  - Stages `extract` → `rules` (matching + rules) → `agent` → `propose` (policy gate). Each one commits, after locking the job row as its lease owner: its writes, its `stage_outputs`, the next stage, and one audit event (`extraction.completed`, `rules.evaluated`, `agent.skipped`/`agent.completed`, `proposal.created`). The LLM call runs outside any transaction. A worker that lost its lease writes nothing more.
+  - Migration 0003 adds `jobs.run_after` (NOT NULL, default `now()`). A job waiting for quota or a retry backoff stays `queued`, but cannot be claimed before that time. 0002 had no column for this, and the lease columns describe a running job.
+  - Quota: the invoice goes to `awaiting_quota`; the job is due again when the first of its providers is back: `budget_state.exhausted_until`, else the next 00:00 UTC (soft cap, demo-token cap, an unconfirmed quota error). The wait does not use up an attempt.
+  - Retries: 3 attempts in all, with a linear backoff (30 s × attempt), for every other error (an auth error too: the spec draws no line there). Then the job and the invoice are `failed`. A lease that expired counts as an attempt, so a job that kills its worker each time also ends `failed`.
+  - Lease 60 s, heartbeat 15 s. The sweep runs on the worker's first loop and then every 60 s. On shutdown, a job between two stages goes back to the queue at once.
+  - A new job for an invoice reuses the newest stored run with the current `PROMPT_VERSION` (a schema failure included), so it never pays twice. Re-extracting needs a prompt version bump.
+  - Extraction flags (`schema_failure`, `grounding_failure`) count toward `proposals.rule_floor`. The agent runs when any flag was raised, a rule's or the extraction's. The T7 agent is a stub: it returns no decision, so `agent_action` stays NULL.
+  - The worker is off unless `WORKER_ENABLED=true`. Without an LLM key it is not started, and the app logs it.
+  - Audit payloads name the error class only. The text stays in `jobs.last_error`, which `GET /invoices/{id}` does not return. That endpoint adds `job: {status, stage, attempts, run_after}` for polling.
+  - `normalize_invoice_number` now lives only in `app.rules.numbers`. `persist_extraction` stores the searchable columns through `extraction_record` (the VAT id compacted). Before this, a VAT id copied with spaces would have hidden a duplicate from the SQL search.
 
 **Retrieval: B1, no vectors in v1.**
 - Duplicates: exact match on (vendor, normalised number), then fuzzy on amount ± a date window plus trigram on the number.

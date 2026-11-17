@@ -1,1 +1,1 @@
-"""Offline evals of the rules and matching (Layer 1); later layers add LLM evals."""
+"""Evals (phase 3, "Evals"): Layer 1 offline rules/matching, Layer 2 live extraction."""
