@@ -4,17 +4,18 @@ from alembic import context
 from sqlalchemy import create_engine, pool
 
 from app.config import get_settings
+from app.db import normalize_url
 
 config = context.config
 
 
 def _url() -> str:
-    settings = get_settings()
-    url = settings.owner_database_url or settings.database_url
-    # Neon hands out postgresql://...; SQLAlchemy needs the psycopg (v3) driver name.
-    if url.startswith("postgresql://"):
-        url = url.replace("postgresql://", "postgresql+psycopg://", 1)
-    return url
+    # Programmatic callers (the test suite) pass their own database in config.attributes.
+    url: str | None = config.attributes.get("database_url")
+    if url is None:
+        settings = get_settings()
+        url = settings.owner_database_url or settings.database_url
+    return normalize_url(url)
 
 
 def run_migrations_online() -> None:
