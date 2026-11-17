@@ -5,6 +5,10 @@ Runs in the caller's transaction (the worker commits it with the stage output), 
 `evidence` holds `{"message", "action_floor", "details"}`, `details` being the rule's own
 evidence. The proposal starts with `final_action = rule_floor` and no agent action: the
 agent, when it runs, can only raise it (`final = max(rule_floor, agent_action)`).
+
+`extraction_flags` are the run's extraction flags (schema or grounding failure), already
+written by `persist_extraction`: they count toward the floor and the rationale, so a value
+the model invented can never be approved, but they are not inserted a second time.
 """
 
 import json
@@ -24,16 +28,25 @@ class PersistedRules:
     rule_floor: Action
 
 
-def _rationale(flags: Sequence[Flag]) -> str:
-    if not flags:
-        return "No rule raised a flag."
+def _raised(source: str, flags: Sequence[Flag]) -> str:
     codes = ", ".join(dict.fromkeys(f.code for f in flags))
     noun = "flag" if len(flags) == 1 else "flags"
-    return f"Rules raised {len(flags)} {noun}: {codes}."
+    return f"{source} raised {len(flags)} {noun}: {codes}."
+
+
+def _rationale(flags: Sequence[Flag], extraction_flags: Sequence[Flag] = ()) -> str:
+    text = _raised("Rules", flags) if flags else "No rule raised a flag."
+    if extraction_flags:
+        text += " " + _raised("Extraction", extraction_flags)
+    return text
 
 
 def persist_rule_results(
-    conn: Connection, invoice_id: UUID | str, run_id: UUID | str, flags: Sequence[Flag]
+    conn: Connection,
+    invoice_id: UUID | str,
+    run_id: UUID | str,
+    flags: Sequence[Flag],
+    extraction_flags: Sequence[Flag] = (),
 ) -> PersistedRules:
     flag_ids = tuple(
         conn.execute(
@@ -54,7 +67,7 @@ def persist_rule_results(
         ).scalar_one()
         for f in flags
     )
-    floor = rule_floor(flags)
+    floor = rule_floor([*flags, *extraction_flags])
     proposal_id = conn.execute(
         text(
             "INSERT INTO proposals (invoice_id, run_id, rule_floor, final_action, rationale) "
@@ -64,7 +77,7 @@ def persist_rule_results(
             "invoice_id": invoice_id,
             "run_id": run_id,
             "floor": floor,
-            "rationale": _rationale(flags),
+            "rationale": _rationale(flags, extraction_flags),
         },
     ).scalar_one()
     return PersistedRules(proposal_id=proposal_id, flag_ids=flag_ids, rule_floor=floor)

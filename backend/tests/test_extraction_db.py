@@ -9,7 +9,12 @@ from typing import Any
 from sqlalchemy import Engine, text
 
 from app.extraction.prompt import PROMPT_VERSION
-from app.extraction.service import extract_invoice, persist_extraction
+from app.extraction.service import (
+    extract_invoice,
+    find_stored_extraction,
+    load_stored_extraction,
+    persist_extraction,
+)
 from tests.extraction_support import EXTRACT_MODEL, fake_gateway, seed_document, seed_fields
 from tests.llm_support import FakeProvider
 
@@ -64,6 +69,64 @@ def test_a_clean_extraction_writes_the_run_and_the_indexed_columns(
     assert row["total"] == Decimal(fields["total"])
     assert row["issue_date"] == date.fromisoformat(fields["issue_date"])
     assert _rows(app_engine, "SELECT * FROM flags WHERE invoice_id = :id", invoice_id) == []
+
+
+def test_the_searchable_columns_are_stored_as_the_duplicate_search_compares_them(
+    app_engine: Engine, owner_engine: Engine
+) -> None:
+    # The duplicate search joins on the master-data VAT id, which is compacted.
+    invoice_id = _insert_invoice(owner_engine)
+    fields = seed_fields("INV-SEED-001")
+    spaced = " ".join(fields["vendor_vat_id"][i : i + 4] for i in range(0, 13, 4)).strip()
+    outcome = _outcome(json.dumps({**fields, "vendor_vat_id": spaced}), invoice_id=invoice_id)
+    assert outcome.extraction.vendor_vat_id == spaced
+    with app_engine.begin() as conn:
+        persist_extraction(conn, invoice_id, outcome)
+
+    (row,) = _rows(app_engine, "SELECT * FROM extractions WHERE invoice_id = :id", invoice_id)
+    assert row["vendor_vat_id"] == fields["vendor_vat_id"]
+    assert row["fields"]["vendor_vat_id"] == spaced
+
+
+def test_a_stored_extraction_is_found_by_invoice_and_prompt_version(
+    app_engine: Engine, owner_engine: Engine
+) -> None:
+    invoice_id = _insert_invoice(owner_engine)
+    fields = {**seed_fields("INV-SEED-001"), "iban": "NL67XZXZ3387385475"}
+    outcome = _outcome(json.dumps(fields), invoice_id=invoice_id)
+    with app_engine.begin() as conn:
+        assert find_stored_extraction(conn, invoice_id, PROMPT_VERSION) is None
+        run_id = persist_extraction(conn, invoice_id, outcome)
+    with app_engine.connect() as conn:
+        stored = find_stored_extraction(conn, invoice_id, PROMPT_VERSION)
+        assert find_stored_extraction(conn, invoice_id, "extract-v0") is None
+        assert stored == load_stored_extraction(conn, run_id)
+    assert stored is not None
+    assert (stored.run_id, stored.provider, stored.model) == (run_id, "gemini", EXTRACT_MODEL)
+    assert stored.fields == fields
+    assert [(f.code, f.severity, f.action_floor) for f in stored.flags] == [
+        ("grounding_failure", "warning", "clarify")
+    ]
+    assert stored.action_floor == "clarify"
+
+
+def test_a_stored_schema_failure_has_no_fields(app_engine: Engine, owner_engine: Engine) -> None:
+    invoice_id = _insert_invoice(owner_engine)
+    with app_engine.begin() as conn:
+        run_id = persist_extraction(conn, invoice_id, _outcome("nope", invoice_id=invoice_id))
+        stored = load_stored_extraction(conn, run_id)
+    assert stored.fields is None
+    assert [f.code for f in stored.flags] == ["schema_failure"]
+
+
+def test_a_clean_stored_extraction_floors_at_approve(
+    app_engine: Engine, owner_engine: Engine
+) -> None:
+    invoice_id = _insert_invoice(owner_engine)
+    outcome = _outcome(json.dumps(seed_fields("INV-SEED-001")), invoice_id=invoice_id)
+    with app_engine.begin() as conn:
+        stored = load_stored_extraction(conn, persist_extraction(conn, invoice_id, outcome))
+    assert stored.flags == () and stored.action_floor == "approve"
 
 
 def test_grounding_failures_become_flag_rows_of_the_run(

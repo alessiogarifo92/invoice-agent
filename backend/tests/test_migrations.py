@@ -68,6 +68,39 @@ def test_upgrade_downgrade_upgrade_on_an_empty_database(empty_db_url: str) -> No
     assert _tables(empty_db_url) == SCHEMA_0002 | {"skeleton_probe", "alembic_version"}
 
 
+def _jobs_columns(url: str) -> dict[str, tuple[str, str | None]]:
+    with psycopg.connect(url) as conn:
+        rows = conn.execute(
+            "SELECT column_name, is_nullable, column_default FROM information_schema.columns "
+            "WHERE table_name = 'jobs'"
+        ).fetchall()
+    return {r[0]: (r[1], r[2]) for r in rows}
+
+
+def _index_def(url: str, name: str) -> str:
+    with psycopg.connect(url) as conn:
+        row = conn.execute(
+            "SELECT indexdef FROM pg_indexes WHERE indexname = %s", (name,)
+        ).fetchone()
+    assert row is not None
+    return str(row[0])
+
+
+def test_0003_adds_run_after_to_jobs_and_downgrades_cleanly(empty_db_url: str) -> None:
+    cfg = alembic_config(empty_db_url)
+    command.upgrade(cfg, "head")
+    assert _jobs_columns(empty_db_url)["run_after"] == ("NO", "now()")
+    assert "(run_after, created_at) WHERE (status = 'queued'::text)" in _index_def(
+        empty_db_url, "jobs_queued_idx"
+    )
+
+    command.downgrade(cfg, "0002")
+    assert "run_after" not in _jobs_columns(empty_db_url)
+    assert "(created_at) WHERE (status = 'queued'::text)" in _index_def(
+        empty_db_url, "jobs_queued_idx"
+    )
+
+
 def test_downgrade_to_0001_keeps_the_skeleton(empty_db_url: str) -> None:
     cfg = alembic_config(empty_db_url)
     command.upgrade(cfg, "head")

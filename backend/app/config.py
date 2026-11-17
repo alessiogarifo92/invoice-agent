@@ -56,6 +56,17 @@ class Settings(BaseSettings):
     # set it once on the deployed service, check the Langfuse trace, then unset it.
     llm_ping_on_startup: bool = False
 
+    # Background worker (phase 3, A2): a thread in the web process that runs the pipeline.
+    # Off by default, so tests and local API runs never start it; the deployed service sets
+    # WORKER_ENABLED=true. The heartbeat must be shorter than the lease.
+    worker_enabled: bool = False
+    worker_poll_interval_s: float = 2.0
+    worker_lease_s: float = 60.0
+    worker_heartbeat_s: float = 15.0
+    worker_max_attempts: int = 3
+    # Retry n waits n times this long (quota waits use the reset time instead).
+    worker_retry_backoff_s: float = 30.0
+
     # Langfuse, reached over OTLP/HTTP. Tracing is off when either key is missing.
     langfuse_public_key: str | None = None
     langfuse_secret_key: str | None = None

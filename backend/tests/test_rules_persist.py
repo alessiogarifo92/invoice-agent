@@ -8,6 +8,7 @@ import pytest
 from sqlalchemy import Connection, Engine, text
 
 from app.rules.checks import flag
+from app.rules.flags import Flag
 from app.rules.persist import persist_rule_results
 from tests.support import insert_extraction
 from tests.test_matching import fields
@@ -81,3 +82,31 @@ def test_writes_join_the_callers_transaction(conn: Connection, run_id: str) -> N
     conn.rollback()
     assert conn.execute(text("SELECT count(*) FROM flags")).scalar_one() == 0
     assert conn.execute(text("SELECT count(*) FROM proposals")).scalar_one() == 0
+
+
+def test_extraction_flags_raise_the_floor_without_being_inserted_again(
+    conn: Connection, run_id: str
+) -> None:
+    # persist_extraction already wrote the grounding_failure row; the floor must still see it.
+    stored = [Flag("grounding_failure", "warning", "clarify", "Not printed.")]
+    saved = persist_rule_results(conn, INVOICE, run_id, [], extraction_flags=stored)
+    assert saved.rule_floor == "clarify" and saved.flag_ids == ()
+    assert conn.execute(text("SELECT count(*) FROM flags")).scalar_one() == 0
+    proposal = conn.execute(text("SELECT * FROM proposals")).one()
+    assert (proposal.rule_floor, proposal.final_action) == ("clarify", "clarify")
+    assert proposal.rationale == (
+        "No rule raised a flag. Extraction raised 1 flag: grounding_failure."
+    )
+
+
+def test_rule_and_extraction_flags_are_both_named(conn: Connection, run_id: str) -> None:
+    stored = [
+        Flag("grounding_failure", "warning", "clarify", "a"),
+        Flag("grounding_failure", "warning", "clarify", "b"),
+    ]
+    rule_flags = [flag("duplicate_confirmed", "Same invoice.", invoice_id="x")]
+    saved = persist_rule_results(conn, INVOICE, run_id, rule_flags, extraction_flags=stored)
+    assert saved.rule_floor == "block"
+    assert conn.execute(text("SELECT rationale FROM proposals")).scalar_one() == (
+        "Rules raised 1 flag: duplicate_confirmed. Extraction raised 2 flags: grounding_failure."
+    )

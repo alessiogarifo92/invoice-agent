@@ -1,10 +1,11 @@
-"""Normalisation helpers, including the copy of synth's invoice-number key."""
+"""Normalisation helpers, and the one invoice-number key (app.rules.numbers) synth shares."""
 
 from decimal import Decimal
 
 import pytest
 
-from app.extraction.normalize import compact, normalize_invoice_number, normalize_text, to_decimal
+from app.extraction.normalize import compact, normalize_text, to_decimal
+from app.rules.numbers import normalize_invoice_number
 
 
 @pytest.mark.parametrize(

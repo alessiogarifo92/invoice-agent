@@ -17,6 +17,7 @@ from app.config import Settings
 from app.db import get_connection
 from app.ingestion import store
 from app.ingestion.upload import inspect_pdf
+from app.jobs import queue as jobs_queue
 from app.main import create_app
 from tests.pdf_factory import drawing_only_pdf, text_pdf
 from tests.support import SEED_INVOICES
@@ -279,7 +280,7 @@ def test_get_invoice_returns_its_summary(client: TestClient) -> None:
     response = client.get(f"/invoices/{created['id']}")
     assert response.status_code == 200
     body = response.json()
-    assert set(body) == {"id", "status", "sha256", "filename", "page_count", "created_at"}
+    assert set(body) == {"id", "status", "sha256", "filename", "page_count", "created_at", "job"}
     assert body["id"] == created["id"]
     assert body["sha256"] == created["sha256"]
     assert (body["status"], body["filename"], body["page_count"]) == (
@@ -288,6 +289,36 @@ def test_get_invoice_returns_its_summary(client: TestClient) -> None:
         1,
     )
     assert body["created_at"]
+
+
+def test_get_exposes_the_job_for_polling(client: TestClient, app_engine: Engine) -> None:
+    created = _upload(client, SEED_PDF.read_bytes()).json()
+    job = client.get(f"/invoices/{created['id']}").json()["job"]
+    # last_error stays server-side: exception text is not for the browser.
+    assert set(job) == {"status", "stage", "attempts", "run_after"}
+    assert (job["status"], job["stage"], job["attempts"]) == ("queued", "extract", 0)
+    assert job["run_after"]
+
+    with app_engine.begin() as conn:
+        assert jobs_queue.claim(conn, "w1", 60) is not None
+    body = client.get(f"/invoices/{created['id']}").json()
+    assert body["status"] == "processing"
+    assert (body["job"]["status"], body["job"]["attempts"]) == ("running", 1)
+
+
+def test_get_an_invoice_without_a_job_has_job_null(
+    client: TestClient, owner_engine: Engine
+) -> None:
+    with owner_engine.begin() as conn:
+        invoice_id = conn.execute(
+            text(
+                "INSERT INTO invoices (sha256, filename, pdf, size_bytes, page_count) "
+                "VALUES (:sha, 'x.pdf', :pdf, 4, 1) RETURNING id"
+            ),
+            {"sha": "0" * 64, "pdf": b"%PDF"},
+        ).scalar_one()
+    body = client.get(f"/invoices/{invoice_id}").json()
+    assert body["job"] is None and body["status"] == "received"
 
 
 def test_get_unknown_invoice_is_404(client: TestClient) -> None:

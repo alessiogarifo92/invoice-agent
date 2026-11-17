@@ -1,20 +1,14 @@
-"""Normalisation shared by the grounding check, persistence and the Layer-2 eval."""
+"""Normalisation shared by the grounding check and the Layer-2 eval.
+
+The invoice-number key lives in app.rules.numbers only: the rules, the duplicate search and
+the extraction writer all use that one function.
+"""
 
 import re
 import unicodedata
 from decimal import Decimal, InvalidOperation
 
 _WHITESPACE = re.compile(r"\s+")
-
-
-def normalize_invoice_number(number: str) -> str:
-    """Comparison key: uppercase alphanumeric groups, numeric groups without leading zeros.
-
-    A copy of synth.invoices.normalize_invoice_number (the backend does not import synth),
-    so "RE-00356" and "RE 356" share the key the duplicate search indexes.
-    """
-    groups = re.findall(r"[A-Za-z]+|\d+", number)
-    return "".join(str(int(g)) if g.isdigit() else g.upper() for g in groups)
 
 
 def normalize_text(value: str) -> str:
