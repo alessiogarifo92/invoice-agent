@@ -1,7 +1,12 @@
 from functools import lru_cache
 from typing import Literal
 
+from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+# A key copied from a file saved by Windows Notepad can start with a byte-order mark,
+# which HTTP headers cannot carry (seen on the first live CI eval).
+_STRIP_CHARS = "\ufeff \t\r\n"
 
 
 class Settings(BaseSettings):
@@ -55,6 +60,24 @@ class Settings(BaseSettings):
     langfuse_public_key: str | None = None
     langfuse_secret_key: str | None = None
     langfuse_host: str = "https://cloud.langfuse.com"
+
+    @field_validator(
+        "database_url",
+        "owner_database_url",
+        "gemini_api_key",
+        "groq_api_key",
+        "anthropic_api_key",
+        "langfuse_public_key",
+        "langfuse_secret_key",
+        "langfuse_host",
+        mode="before",
+    )
+    @classmethod
+    def _strip_pasted_noise(cls, value: object) -> object:
+        """Drop a byte-order mark and surrounding whitespace from pasted secrets and URLs."""
+        if isinstance(value, str):
+            return value.strip(_STRIP_CHARS)
+        return value
 
     def llm_models(self, provider: str) -> tuple[str | None, str | None]:
         """(extract model, agent model) for a provider; the overrides apply to the primary."""
