@@ -1,0 +1,34 @@
+{
+  "invoice_id": "INV-SEED-056",
+  "file": "INV-SEED-056.pdf",
+  "fields": {
+    "vendor_name": "Cutuli Printing Synthetica S.r.l.",
+    "vendor_vat_id": "IT99148518211",
+    "vendor_country": "IT",
+    "vendor_address": "Strada Bonolis, 7, 16158 San Miceli, Italy",
+    "invoice_number": "INV-0298",
+    "issue_date": "2026-10-01",
+    "due_date": "2026-10-31",
+    "currency": "EUR",
+    "po_number": "PO-2026-0055",
+    "iban": "IT25QXZQ5224359136647091372",
+    "lines": [
+      {
+        "line_no": 1,
+        "sku": "SKU-041",
+        "description": "Business cards, box of 500",
+        "quantity": "7",
+        "unit_price": "30.88",
+        "line_total": "216.16"
+      }
+    ],
+    "subtotal": "216.16",
+    "vat_rate": "22.00",
+    "vat_amount": "47.56",
+    "total": "263.72"
+  },
+  "anomalies": [],
+  "expected_action": "approve",
+  "duplicate_of": null,
+  "notes": "Clean invoice: matches its PO, the contract prices and the vendor master data."
+}

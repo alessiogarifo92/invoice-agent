@@ -1,0 +1,50 @@
+{
+  "invoice_id": "INV-SEED-010",
+  "file": "INV-SEED-010.pdf",
+  "fields": {
+    "vendor_name": "Lacroix Fasteners Synthetica SARL",
+    "vendor_vat_id": "FR99762737040",
+    "vendor_country": "FR",
+    "vendor_address": "46, rue de Samson, 31545 Schmitt, France",
+    "invoice_number": "F-2026-0298",
+    "issue_date": "2026-03-04",
+    "due_date": "2026-05-03",
+    "currency": "EUR",
+    "po_number": "PO-2026-0008",
+    "iban": "FR26XZXZ6078323561710186335",
+    "lines": [
+      {
+        "line_no": 1,
+        "sku": "SKU-010",
+        "description": "Stainless washer M8, box of 200",
+        "quantity": "64",
+        "unit_price": "7.42",
+        "line_total": "474.88"
+      },
+      {
+        "line_no": 2,
+        "sku": "SKU-009",
+        "description": "Hex bolt M8 x 40, box of 100",
+        "quantity": "33",
+        "unit_price": "11.87",
+        "line_total": "391.71"
+      },
+      {
+        "line_no": 3,
+        "sku": "SKU-012",
+        "description": "Threaded rod M10 x 1 m",
+        "quantity": "39",
+        "unit_price": "3.19",
+        "line_total": "124.41"
+      }
+    ],
+    "subtotal": "991.00",
+    "vat_rate": "20.00",
+    "vat_amount": "198.20",
+    "total": "1189.20"
+  },
+  "anomalies": [],
+  "expected_action": "approve",
+  "duplicate_of": null,
+  "notes": "Clean invoice: matches its PO, the contract prices and the vendor master data."
+}

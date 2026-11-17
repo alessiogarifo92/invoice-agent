@@ -1,0 +1,44 @@
+{
+  "invoice_id": "INV-SEED-037",
+  "file": "INV-SEED-037.pdf",
+  "fields": {
+    "vendor_name": "Martin Office Supplies Synthetica GmbH",
+    "vendor_vat_id": "DE992138761",
+    "vendor_country": "DE",
+    "vendor_address": "Frankestraße 39/21, 77424 Chemnitz, Germany",
+    "invoice_number": "2026/326",
+    "issue_date": "2026-06-25",
+    "due_date": "2026-08-09",
+    "currency": "EUR",
+    "po_number": "PO-2026-0033",
+    "iban": "DE84ZZZZ26304761683594",
+    "lines": [
+      {
+        "line_no": 1,
+        "sku": "SKU-008",
+        "description": "Archive box, 80 mm spine",
+        "quantity": "112",
+        "unit_price": "2.98",
+        "line_total": "333.76"
+      },
+      {
+        "line_no": 2,
+        "sku": "SKU-005",
+        "description": "A4 copy paper 80 g, 500 sheets",
+        "quantity": "216",
+        "unit_price": "5.66",
+        "line_total": "1222.56"
+      }
+    ],
+    "subtotal": "1556.32",
+    "vat_rate": "19.00",
+    "vat_amount": "295.70",
+    "total": "1852.02"
+  },
+  "anomalies": [
+    "iban_swap"
+  ],
+  "expected_action": "clarify",
+  "duplicate_of": null,
+  "notes": "BEC pattern: everything matches the PO except the IBAN, which is an IBAN never registered for this vendor."
+}

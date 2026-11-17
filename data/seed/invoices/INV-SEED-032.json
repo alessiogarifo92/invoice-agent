@@ -1,0 +1,42 @@
+{
+  "invoice_id": "INV-SEED-032",
+  "file": "INV-SEED-032.pdf",
+  "fields": {
+    "vendor_name": "Lacroix Fasteners Synthetica SARL",
+    "vendor_vat_id": "FR99762737040",
+    "vendor_country": "FR",
+    "vendor_address": "46, rue de Samson, 31545 Schmitt, France",
+    "invoice_number": "F-2026-0301",
+    "issue_date": "2026-06-11",
+    "due_date": "2026-08-10",
+    "currency": "EUR",
+    "po_number": "PO-2026-0028",
+    "iban": "FR26XZXZ6078323561710186335",
+    "lines": [
+      {
+        "line_no": 1,
+        "sku": "SKU-011",
+        "description": "Wall anchor 10 mm, box of 50",
+        "quantity": "14",
+        "unit_price": "10.58",
+        "line_total": "148.12"
+      },
+      {
+        "line_no": 2,
+        "sku": "SKU-010",
+        "description": "Stainless washer M8, box of 200",
+        "quantity": "29",
+        "unit_price": "7.42",
+        "line_total": "215.18"
+      }
+    ],
+    "subtotal": "363.30",
+    "vat_rate": "20.00",
+    "vat_amount": "72.66",
+    "total": "435.96"
+  },
+  "anomalies": [],
+  "expected_action": "approve",
+  "duplicate_of": null,
+  "notes": "Clean invoice: matches its PO, the contract prices and the vendor master data."
+}

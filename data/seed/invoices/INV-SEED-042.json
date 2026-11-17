@@ -1,0 +1,60 @@
+{
+  "invoice_id": "INV-SEED-042",
+  "file": "INV-SEED-042.pdf",
+  "fields": {
+    "vendor_name": "de Grote Lab Supplies Synthetica B.V.",
+    "vendor_vat_id": "NL990753560B01",
+    "vendor_country": "NL",
+    "vendor_address": "Keanohof 2, 8536SX Echt, Netherlands",
+    "invoice_number": "FAC-2026-312",
+    "issue_date": "2026-07-17",
+    "due_date": "2026-08-16",
+    "currency": "EUR",
+    "po_number": "PO-2026-0045",
+    "iban": "NL91ZQZX1996556229",
+    "lines": [
+      {
+        "line_no": 1,
+        "sku": "SKU-038",
+        "description": "Sample tube 15 ml, bag of 50",
+        "quantity": "15",
+        "unit_price": "11.08",
+        "line_total": "166.20"
+      },
+      {
+        "line_no": 2,
+        "sku": "SKU-037",
+        "description": "Pipette tips 200 ul, rack of 96",
+        "quantity": "62",
+        "unit_price": "7.94",
+        "line_total": "492.28"
+      },
+      {
+        "line_no": 3,
+        "sku": "SKU-040",
+        "description": "Disinfectant spray, 1 L",
+        "quantity": "68",
+        "unit_price": "6.74",
+        "line_total": "458.32"
+      },
+      {
+        "line_no": 4,
+        "sku": "SKU-039",
+        "description": "Lab coat, size M",
+        "quantity": "11",
+        "unit_price": "24.43",
+        "line_total": "268.73"
+      }
+    ],
+    "subtotal": "1385.53",
+    "vat_rate": "21.00",
+    "vat_amount": "290.96",
+    "total": "1797.07"
+  },
+  "anomalies": [
+    "total_mismatch"
+  ],
+  "expected_action": "clarify",
+  "duplicate_of": null,
+  "notes": "Printed total 1797.07 is 120.58 more than subtotal 1385.53 plus VAT 290.96."
+}

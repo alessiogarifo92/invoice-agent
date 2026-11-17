@@ -1,0 +1,50 @@
+{
+  "invoice_id": "INV-SEED-038",
+  "file": "INV-SEED-038.pdf",
+  "fields": {
+    "vendor_name": "Dennenberg IT Hardware Synthetica B.V.",
+    "vendor_vat_id": "NL997340048B01",
+    "vendor_country": "NL",
+    "vendor_address": "Aminadreef 0, 1362 AN West-Graftdijk, Netherlands",
+    "invoice_number": "FAC-2026-297",
+    "issue_date": "2026-06-29",
+    "due_date": "2026-07-29",
+    "currency": "EUR",
+    "po_number": "PO-2026-0038",
+    "iban": "NL62ZQZX1698487100",
+    "lines": [
+      {
+        "line_no": 1,
+        "sku": "SKU-020",
+        "description": "Cat6 patch cable 2 m",
+        "quantity": "85",
+        "unit_price": "4.40",
+        "line_total": "374.00"
+      },
+      {
+        "line_no": 2,
+        "sku": "SKU-019",
+        "description": "Wired keyboard, US layout",
+        "quantity": "10",
+        "unit_price": "31.35",
+        "line_total": "313.50"
+      },
+      {
+        "line_no": 3,
+        "sku": "SKU-018",
+        "description": "24 inch monitor",
+        "quantity": "15",
+        "unit_price": "204.32",
+        "line_total": "3064.80"
+      }
+    ],
+    "subtotal": "3752.30",
+    "vat_rate": "21.00",
+    "vat_amount": "787.98",
+    "total": "4540.28"
+  },
+  "anomalies": [],
+  "expected_action": "approve",
+  "duplicate_of": null,
+  "notes": "Clean invoice: matches its PO, the contract prices and the vendor master data."
+}

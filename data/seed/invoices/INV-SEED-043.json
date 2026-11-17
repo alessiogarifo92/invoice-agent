@@ -1,0 +1,58 @@
+{
+  "invoice_id": "INV-SEED-043",
+  "file": "INV-SEED-043.pdf",
+  "fields": {
+    "vendor_name": "Escalona Cleaning Synthetica S.L.",
+    "vendor_vat_id": "ES999187932",
+    "vendor_country": "ES",
+    "vendor_address": "Acceso Zaira Agustí 91, 09683 Almería, Spain",
+    "invoice_number": "RE-00252",
+    "issue_date": "2026-07-20",
+    "due_date": "2026-08-19",
+    "currency": "EUR",
+    "po_number": "PO-2026-0044",
+    "iban": "ES79ZQZX0268030851557966",
+    "lines": [
+      {
+        "line_no": 1,
+        "sku": "SKU-016",
+        "description": "Microfibre cloth, pack of 10",
+        "quantity": "17",
+        "unit_price": "15.98",
+        "line_total": "271.66"
+      },
+      {
+        "line_no": 2,
+        "sku": "SKU-015",
+        "description": "Paper towel roll, pack of 6",
+        "quantity": "13",
+        "unit_price": "11.31",
+        "line_total": "147.03"
+      },
+      {
+        "line_no": 3,
+        "sku": "SKU-013",
+        "description": "Floor detergent, 10 L can",
+        "quantity": "38",
+        "unit_price": "24.23",
+        "line_total": "920.74"
+      },
+      {
+        "line_no": 4,
+        "sku": "SKU-014",
+        "description": "Nitrile gloves, box of 100",
+        "quantity": "14",
+        "unit_price": "9.40",
+        "line_total": "131.60"
+      }
+    ],
+    "subtotal": "1471.03",
+    "vat_rate": "21.00",
+    "vat_amount": "308.92",
+    "total": "1779.95"
+  },
+  "anomalies": [],
+  "expected_action": "approve",
+  "duplicate_of": null,
+  "notes": "Clean invoice: matches its PO, the contract prices and the vendor master data."
+}

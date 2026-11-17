@@ -1,0 +1,34 @@
+{
+  "invoice_id": "INV-SEED-012",
+  "file": "INV-SEED-012.pdf",
+  "fields": {
+    "vendor_name": "Posada Catering Synthetica S.L.",
+    "vendor_vat_id": "ES997039099",
+    "vendor_country": "ES",
+    "vendor_address": "Cañada Américo Marí 50, 34048 Córdoba, Spain",
+    "invoice_number": "RE-00347",
+    "issue_date": "2026-03-10",
+    "due_date": "2026-04-09",
+    "currency": "EUR",
+    "po_number": "PO-2026-0012",
+    "iban": "ES25ZZZZ7221269179025458",
+    "lines": [
+      {
+        "line_no": 1,
+        "sku": "SKU-034",
+        "description": "Paper cups 200 ml, pack of 100",
+        "quantity": "59",
+        "unit_price": "6.77",
+        "line_total": "399.43"
+      }
+    ],
+    "subtotal": "399.43",
+    "vat_rate": "21.00",
+    "vat_amount": "83.88",
+    "total": "483.31"
+  },
+  "anomalies": [],
+  "expected_action": "approve",
+  "duplicate_of": null,
+  "notes": "Clean invoice: matches its PO, the contract prices and the vendor master data."
+}

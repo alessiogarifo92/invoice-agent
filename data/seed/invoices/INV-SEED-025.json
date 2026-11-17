@@ -1,0 +1,42 @@
+{
+  "invoice_id": "INV-SEED-025",
+  "file": "INV-SEED-025.pdf",
+  "fields": {
+    "vendor_name": "Wende Facility Services Synthetica GmbH",
+    "vendor_vat_id": "DE995716513",
+    "vendor_country": "DE",
+    "vendor_address": "Trubinstraße 332, 52773 Strausberg, Germany",
+    "invoice_number": "2026/112",
+    "issue_date": "2026-05-07",
+    "due_date": "2026-06-21",
+    "currency": "EUR",
+    "po_number": "PO-2026-0026",
+    "iban": "DE67XQXQ21067717018757",
+    "lines": [
+      {
+        "line_no": 1,
+        "sku": "SKU-047",
+        "description": "HVAC filter replacement",
+        "quantity": "3",
+        "unit_price": "44.92",
+        "line_total": "134.76"
+      },
+      {
+        "line_no": 2,
+        "sku": "SKU-045",
+        "description": "Office cleaning, per visit",
+        "quantity": "12",
+        "unit_price": "172.21",
+        "line_total": "2066.52"
+      }
+    ],
+    "subtotal": "2201.28",
+    "vat_rate": "19.00",
+    "vat_amount": "418.24",
+    "total": "2619.52"
+  },
+  "anomalies": [],
+  "expected_action": "approve",
+  "duplicate_of": null,
+  "notes": "Clean invoice: matches its PO, the contract prices and the vendor master data."
+}

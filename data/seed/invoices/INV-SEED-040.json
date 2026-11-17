@@ -1,0 +1,60 @@
+{
+  "invoice_id": "INV-SEED-040",
+  "file": "INV-SEED-040.pdf",
+  "fields": {
+    "vendor_name": "Maillot Trading Synthetica SARL",
+    "vendor_vat_id": "FR99937338362",
+    "vendor_country": "FR",
+    "vendor_address": "chemin Fontaine, 91376 Guilletboeuf, France",
+    "invoice_number": "2026/122",
+    "issue_date": "2026-07-06",
+    "due_date": "2026-08-20",
+    "currency": "EUR",
+    "po_number": "PO-2026-9004",
+    "iban": "FR48XZXZ6905540782415042489",
+    "lines": [
+      {
+        "line_no": 1,
+        "sku": "ART-7986",
+        "description": "HVAC filter replacement",
+        "quantity": "6",
+        "unit_price": "44.92",
+        "line_total": "269.52"
+      },
+      {
+        "line_no": 2,
+        "sku": "ART-7447",
+        "description": "Office cleaning, per visit",
+        "quantity": "10",
+        "unit_price": "172.21",
+        "line_total": "1722.10"
+      },
+      {
+        "line_no": 3,
+        "sku": "ART-3945",
+        "description": "Window cleaning, per floor",
+        "quantity": "5",
+        "unit_price": "87.88",
+        "line_total": "439.40"
+      },
+      {
+        "line_no": 4,
+        "sku": "ART-4034",
+        "description": "Pest control inspection",
+        "quantity": "4",
+        "unit_price": "120.16",
+        "line_total": "480.64"
+      }
+    ],
+    "subtotal": "2911.66",
+    "vat_rate": "20.00",
+    "vat_amount": "582.33",
+    "total": "3493.99"
+  },
+  "anomalies": [
+    "unknown_vendor"
+  ],
+  "expected_action": "clarify",
+  "duplicate_of": null,
+  "notes": "Vendor, VAT id, IBAN and PO PO-2026-9004 are not in master data."
+}

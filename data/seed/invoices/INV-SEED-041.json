@@ -1,0 +1,58 @@
+{
+  "invoice_id": "INV-SEED-041",
+  "file": "INV-SEED-041.pdf",
+  "fields": {
+    "vendor_name": "Ubaldi Safety Equipment Synthetica S.r.l.",
+    "vendor_vat_id": "IT99066209973",
+    "vendor_country": "IT",
+    "vendor_address": "Vicolo Sagnelli, 93, 24061 Esterzili, Italy",
+    "invoice_number": "INV-0152",
+    "issue_date": "2026-07-13",
+    "due_date": "2026-09-11",
+    "currency": "EUR",
+    "po_number": "PO-2026-0042",
+    "iban": "IT35XQXQ3628142662193893696",
+    "lines": [
+      {
+        "line_no": 1,
+        "sku": "SKU-024",
+        "description": "Ear defenders, 30 dB",
+        "quantity": "17",
+        "unit_price": "22.03",
+        "line_total": "374.51"
+      },
+      {
+        "line_no": 2,
+        "sku": "SKU-023",
+        "description": "Safety goggles, anti-fog",
+        "quantity": "22",
+        "unit_price": "9.37",
+        "line_total": "206.14"
+      },
+      {
+        "line_no": 3,
+        "sku": "SKU-022",
+        "description": "High-visibility vest, size L",
+        "quantity": "35",
+        "unit_price": "6.76",
+        "line_total": "236.60"
+      },
+      {
+        "line_no": 4,
+        "sku": "SKU-021",
+        "description": "Safety helmet, white",
+        "quantity": "48",
+        "unit_price": "16.98",
+        "line_total": "815.04"
+      }
+    ],
+    "subtotal": "1632.29",
+    "vat_rate": "22.00",
+    "vat_amount": "359.10",
+    "total": "1991.39"
+  },
+  "anomalies": [],
+  "expected_action": "approve",
+  "duplicate_of": null,
+  "notes": "Clean invoice: matches its PO, the contract prices and the vendor master data."
+}

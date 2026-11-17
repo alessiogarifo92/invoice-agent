@@ -1,0 +1,58 @@
+{
+  "invoice_id": "INV-SEED-013",
+  "file": "INV-SEED-013.pdf",
+  "fields": {
+    "vendor_name": "Stiffel Logistics Synthetica GmbH",
+    "vendor_vat_id": "DE990764303",
+    "vendor_country": "DE",
+    "vendor_address": "Constantin-Schulz-Platz 80, 11563 Hansestadttralsund, Germany",
+    "invoice_number": "2026/114",
+    "issue_date": "2026-03-24",
+    "due_date": "2026-05-08",
+    "currency": "EUR",
+    "po_number": "PO-2026-0015",
+    "iban": "DE02QQZX20801573068765",
+    "lines": [
+      {
+        "line_no": 1,
+        "sku": "SKU-028",
+        "description": "Handling fee, per order",
+        "quantity": "12",
+        "unit_price": "24.12",
+        "line_total": "289.44"
+      },
+      {
+        "line_no": 2,
+        "sku": "SKU-026",
+        "description": "Warehousing, per pallet-week",
+        "quantity": "126",
+        "unit_price": "8.53",
+        "line_total": "1074.78"
+      },
+      {
+        "line_no": 3,
+        "sku": "SKU-025",
+        "description": "Pallet transport, per pallet",
+        "quantity": "10",
+        "unit_price": "64.63",
+        "line_total": "646.30"
+      },
+      {
+        "line_no": 4,
+        "sku": "SKU-027",
+        "description": "Express parcel, up to 5 kg",
+        "quantity": "44",
+        "unit_price": "14.91",
+        "line_total": "656.04"
+      }
+    ],
+    "subtotal": "2666.56",
+    "vat_rate": "19.00",
+    "vat_amount": "506.65",
+    "total": "3173.21"
+  },
+  "anomalies": [],
+  "expected_action": "approve",
+  "duplicate_of": null,
+  "notes": "Clean invoice: matches its PO, the contract prices and the vendor master data."
+}

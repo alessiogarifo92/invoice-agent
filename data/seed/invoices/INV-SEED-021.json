@@ -1,0 +1,52 @@
+{
+  "invoice_id": "INV-SEED-021",
+  "file": "INV-SEED-021.pdf",
+  "fields": {
+    "vendor_name": "Cutuli Printing Synthetica S.r.l.",
+    "vendor_vat_id": "IT99148518211",
+    "vendor_country": "IT",
+    "vendor_address": "Strada Bonolis, 7, 16158 San Miceli, Italy",
+    "invoice_number": "INV-0292",
+    "issue_date": "2026-04-24",
+    "due_date": "2026-05-24",
+    "currency": "EUR",
+    "po_number": "PO-2026-0019",
+    "iban": "IT25QXZQ5224359136647091372",
+    "lines": [
+      {
+        "line_no": 1,
+        "sku": "SKU-044",
+        "description": "Letterhead paper, pack of 500",
+        "quantity": "2",
+        "unit_price": "44.19",
+        "line_total": "88.38"
+      },
+      {
+        "line_no": 2,
+        "sku": "SKU-041",
+        "description": "Business cards, box of 500",
+        "quantity": "16",
+        "unit_price": "30.88",
+        "line_total": "494.08"
+      },
+      {
+        "line_no": 3,
+        "sku": "SKU-042",
+        "description": "Flyers A5, pack of 1000",
+        "quantity": "2",
+        "unit_price": "89.30",
+        "line_total": "178.60"
+      }
+    ],
+    "subtotal": "761.06",
+    "vat_rate": "22.00",
+    "vat_amount": "167.43",
+    "total": "928.49"
+  },
+  "anomalies": [
+    "price_above_contract"
+  ],
+  "expected_action": "clarify",
+  "duplicate_of": null,
+  "notes": "SKU-044 billed at 44.19 against the contract price 40.92 (C011); total still within PO tolerance."
+}
